@@ -2,15 +2,18 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  Icon,
+  Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import { FiChevronRight } from "react-icons/fi";
 
 export function HeaderBreadcrumb() {
+  const separatorColor = useColorModeValue("gray.400", "gray.600");
+
   return (
     <Breadcrumb
-      spacing="2"
-      separator={<Icon as={FiChevronRight} color="gray.500" />}
+      spacing="3"
+      separator={<Text color={separatorColor}>/</Text>}
+      fontSize="xs"
       sx={{ "li > span": { display: "flex" } }}
     >
       <BreadcrumbItem>

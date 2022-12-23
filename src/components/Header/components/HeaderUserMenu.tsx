@@ -39,7 +39,9 @@ export function HeaderUserMenu() {
             ml="2"
           >
             <Text fontSize="xs">Luiz Pegnolatto</Text>
-            <Text fontSize="2xs">lhpegnolatto@gmail.com</Text>
+            <Text fontSize="2xs" fontWeight="light">
+              lhpegnolatto@gmail.com
+            </Text>
           </Flex>
         </Flex>
       </MenuButton>
