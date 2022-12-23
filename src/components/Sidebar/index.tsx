@@ -46,7 +46,7 @@ export function Sidebar() {
       px="2"
       py="4"
     >
-      <PluttoIcon boxSize="8" />
+      <PluttoIcon color="brand.600" boxSize="8" />
 
       <Divider />
 
