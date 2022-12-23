@@ -5,8 +5,6 @@ import {
   Divider,
   Flex,
   Icon,
-  IconButton,
-  Tooltip,
   useColorMode,
   useColorModeValue,
   VStack,
@@ -20,6 +18,7 @@ import {
 } from "react-icons/fi";
 
 import { PluttoIcon } from "components/icons";
+import { SidebarIconButton } from "./components/SidebarIconButton";
 
 const pages = [
   {
@@ -48,10 +47,6 @@ export function Sidebar() {
     "blackAlpha.100",
     "whiteAlpha.100"
   );
-  const buttonsHoverBg = useColorModeValue("gray.100", "whiteAlpha.200");
-  const buttonsActiveBg = useColorModeValue("gray.50", "whiteAlpha.400");
-  const tooltipBg = useColorModeValue("gray.200", "gray.700");
-  const tooltipColor = useColorModeValue("black", "white");
 
   return (
     <Flex
@@ -72,21 +67,12 @@ export function Sidebar() {
           <VStack as="ul" listStyleType="none">
             {pages.map(({ title, path, icon }) => (
               <li key={path}>
-                <Tooltip
-                  label={title}
-                  placement="right"
-                  hasArrow
-                  bg={tooltipBg}
-                  color={tooltipColor}
-                >
-                  <IconButton
-                    aria-label={`${title} page`}
-                    icon={icon}
-                    variant={asPath === path ? "solid" : "shadow"}
-                    _hover={{ bg: buttonsHoverBg }}
-                    _active={{ bg: buttonsActiveBg }}
-                  />
-                </Tooltip>
+                <SidebarIconButton
+                  title={title}
+                  icon={icon}
+                  aria-label={`${title} page`}
+                  variant={asPath === path ? "solid" : "shadow"}
+                />
               </li>
             ))}
           </VStack>
@@ -96,27 +82,14 @@ export function Sidebar() {
       <VStack spacing="4" mt="4">
         <VStack as="ul" listStyleType="none">
           <li>
-            <Tooltip
-              label="Toggle theme"
-              placement="right"
-              hasArrow
-              bg={tooltipBg}
-              color={tooltipColor}
-            >
-              <IconButton
-                aria-label="Toggle theme"
-                icon={
-                  <Icon
-                    as={colorMode === "light" ? FiMoon : FiSun}
-                    boxSize="5"
-                  />
-                }
-                variant="shadow"
-                _hover={{ bg: buttonsHoverBg }}
-                _active={{ bg: buttonsActiveBg }}
-                onClick={toggleColorMode}
-              />
-            </Tooltip>
+            <SidebarIconButton
+              title="Toggle theme"
+              icon={
+                <Icon as={colorMode === "light" ? FiMoon : FiSun} boxSize="5" />
+              }
+              aria-label="Toggle theme"
+              onClick={toggleColorMode}
+            />
           </li>
         </VStack>
 
