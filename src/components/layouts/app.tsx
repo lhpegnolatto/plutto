@@ -1,4 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
+import { Header } from "components/Header";
 
 import { Sidebar } from "components/Sidebar";
 
@@ -10,9 +11,12 @@ export function AppLayout({ children }: AppLayoutProps) {
   return (
     <Flex h="100vh">
       <Sidebar />
-      <Box w="full" maxH="100vh" overflow="auto" p="10">
-        {children}
-      </Box>
+      <Flex flexDirection="column" h="100vh" w="full">
+        <Header></Header>
+        <Box w="full" h="full" overflow="auto" p="10">
+          {children}
+        </Box>
+      </Flex>
     </Flex>
   );
 }
