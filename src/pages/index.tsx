@@ -1,9 +1,9 @@
-import { Heading } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 
 export default function Home() {
   return (
-    <main>
+    <Flex as="main" h="full" alignItems="center" justifyContent="center">
       <Heading as="h1">Hello world</Heading>
-    </main>
+    </Flex>
   );
 }

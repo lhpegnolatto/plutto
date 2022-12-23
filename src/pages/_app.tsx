@@ -2,6 +2,8 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { ChakraProvider } from "@chakra-ui/react";
 
+import { AppLayout } from "components/layouts/app";
+
 import { theme } from "theme";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -16,7 +18,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.svg" />
       </Head>
 
-      <Component {...pageProps} />
+      <AppLayout>
+        <Component {...pageProps} />
+      </AppLayout>
     </ChakraProvider>
   );
 }
