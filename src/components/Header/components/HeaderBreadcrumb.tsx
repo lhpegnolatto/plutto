@@ -5,10 +5,14 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 import { useAppLayoutContext } from "contexts/AppLayoutContext";
 
 export function HeaderBreadcrumb() {
+  const { asPath } = useRouter();
+
   const { breadcrumbItems } = useAppLayoutContext();
 
   const separatorColor = useColorModeValue("gray.400", "gray.600");
@@ -19,15 +23,22 @@ export function HeaderBreadcrumb() {
       separator={<Text color={separatorColor}>/</Text>}
       sx={{ "li > span": { display: "flex" } }}
     >
-      {breadcrumbItems.map(({ title, path, isCurrentPage }) => (
-        <BreadcrumbItem
-          key={path}
-          isCurrentPage={isCurrentPage}
-          fontSize={isCurrentPage ? "sm" : "xs"}
-        >
-          <BreadcrumbLink href={path}>{title}</BreadcrumbLink>
-        </BreadcrumbItem>
-      ))}
+      {breadcrumbItems.map(({ title, path }) => {
+        const isCurrentPage = asPath === path;
+
+        return (
+          <BreadcrumbItem
+            key={path}
+            isCurrentPage={isCurrentPage}
+            fontSize="xs"
+            fontWeight={isCurrentPage ? "semibold" : "regular"}
+          >
+            <Link href={path} passHref legacyBehavior>
+              <BreadcrumbLink>{title}</BreadcrumbLink>
+            </Link>
+          </BreadcrumbItem>
+        );
+      })}
     </Breadcrumb>
   );
 }

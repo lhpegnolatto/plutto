@@ -16,6 +16,7 @@ const pages = [
     title: "Home",
     path: "/",
     icon: <Icon as={FiHome} boxSize="5" />,
+    shouldMatchExactHref: true,
   },
   {
     title: "Transactions",
@@ -52,16 +53,23 @@ export function Sidebar() {
 
       <Box as="nav">
         <VStack as="ul" listStyleType="none">
-          {pages.map(({ title, path, icon }) => (
-            <li key={path}>
-              <SidebarIconButton
-                title={title}
-                icon={icon}
-                aria-label={`${title} page`}
-                variant={asPath === path ? "solid" : "shadow"}
-              />
-            </li>
-          ))}
+          {pages.map(({ title, path, icon, shouldMatchExactHref = false }) => {
+            const isCurrentPage = shouldMatchExactHref
+              ? asPath === path
+              : asPath.startsWith(path);
+
+            return (
+              <li key={path}>
+                <SidebarIconButton
+                  title={title}
+                  path={path}
+                  icon={icon}
+                  aria-label={`${title} page`}
+                  variant={isCurrentPage ? "solid" : "shadow"}
+                />
+              </li>
+            );
+          })}
         </VStack>
       </Box>
     </VStack>

@@ -13,7 +13,6 @@ interface AppLayoutContextProps {
 type BreadcrumbItem = {
   title: string;
   path: string;
-  isCurrentPage?: boolean;
 };
 
 type AppLayoutContextData = {
@@ -47,5 +46,5 @@ export const useAppLayoutBreadcrumb = (
 
   useEffect(() => {
     setBreadcrumbItems(newBreadcrumbItems);
-  }, [newBreadcrumbItems, setBreadcrumbItems]);
+  }, [setBreadcrumbItems]); // eslint-disable-line react-hooks/exhaustive-deps
 };

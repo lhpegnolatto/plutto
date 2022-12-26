@@ -4,15 +4,18 @@ import {
   Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
+import Link from "next/link";
 
 interface SidebarIconButtonProps extends IconButtonProps {
   title: string;
+  path: string;
   icon: JSX.Element;
 }
 
 export function SidebarIconButton({
   title,
   icon,
+  path,
   ...rest
 }: SidebarIconButtonProps) {
   const buttonsHoverBg = useColorModeValue("gray.100", "whiteAlpha.200");
@@ -29,6 +32,8 @@ export function SidebarIconButton({
       color={tooltipColor}
     >
       <IconButton
+        as={Link}
+        href={path}
         icon={icon}
         _hover={{ bg: buttonsHoverBg }}
         _active={{ bg: buttonsActiveBg }}
