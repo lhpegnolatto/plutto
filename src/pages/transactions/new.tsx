@@ -1,14 +1,18 @@
-import { Box, Button, Heading, Input, Select } from "@chakra-ui/react";
+import { Box, Button, Heading, Input } from "@chakra-ui/react";
 
 import { FormField } from "components/form/FormField";
 import { FormGrid } from "components/form/FormGrid";
+import { Select, tagSelectComponents } from "components/form/Select";
 import { useAppLayoutBreadcrumb } from "contexts/AppLayoutContext";
+import { useForm } from "react-hook-form";
 
 export default function NewTransaction() {
   useAppLayoutBreadcrumb([
     { title: "Transactions", path: "/transactions" },
     { title: "New", path: "/transactions/new" },
   ]);
+
+  const { control } = useForm();
 
   return (
     <Box as="main" h="full">
@@ -25,23 +29,31 @@ export default function NewTransaction() {
           </FormGrid.Item>
           <FormGrid.Item colSpan={6}>
             <FormField label="Category">
-              <Select placeholder="Select the transaction category">
-                <option value="option1">Withdraw</option>
-                <option value="option2">Deposit</option>
-              </Select>
+              <Select
+                name="category"
+                control={control}
+                options={[]}
+                placeholder="Select the transaction category"
+              />
             </FormField>
           </FormGrid.Item>
           <FormGrid.Item colSpan={4}>
             <FormField label="Type">
-              <Select placeholder="Select the transaction type">
-                <option value="option1">Withdraw</option>
-                <option value="option2">Deposit</option>
-              </Select>
+              <Select
+                name="type"
+                control={control}
+                options={[
+                  { label: "Withdraw", value: "withdraw", colorScheme: "red" },
+                  { label: "Deposit", value: "deposit", colorScheme: "green" },
+                ]}
+                placeholder="Select the transaction type"
+                components={tagSelectComponents}
+              />
             </FormField>
           </FormGrid.Item>
           <FormGrid.Item colSpan={4}>
             <FormField label="Amount">
-              <Input placeholder="$00.00" />
+              <Input placeholder="$0.00" />
             </FormField>
           </FormGrid.Item>
           <FormGrid.Item colSpan={4}>
