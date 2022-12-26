@@ -19,6 +19,7 @@ import {
 } from "react-icons/fi";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
+import { useAppLoaderContext } from "contexts/AppLoaderContext";
 
 export function HeaderUserMenu() {
   const router = useRouter();
@@ -28,7 +29,11 @@ export function HeaderUserMenu() {
   const supabaseClient = useSupabaseClient();
   const { user_metadata: userMetadata = {} } = useUser() ?? {};
 
+  const { setIsAppLoading } = useAppLoaderContext();
+
   async function signOut() {
+    setIsAppLoading(true);
+
     await supabaseClient.auth.signOut();
 
     router.push("/sign-in");

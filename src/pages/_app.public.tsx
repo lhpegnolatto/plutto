@@ -7,9 +7,12 @@ import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 
 import { AppLayout } from "components/layouts/app";
+import { AuthLayout } from "components/layouts/auth";
+import { AppLoader } from "components/AppLoader";
+
+import { AppLoaderProvider } from "contexts/AppLoaderContext";
 
 import { theme } from "theme";
-import { AuthLayout } from "components/layouts/auth";
 
 export type NextPageWithLayout = NextPage & {
   layout?: "app" | "auth";
@@ -44,9 +47,13 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           <link rel="icon" href="/favicon.svg" />
         </Head>
 
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <AppLoaderProvider>
+          <AppLoader />
+
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </AppLoaderProvider>
       </ChakraProvider>
     </SessionContextProvider>
   );
