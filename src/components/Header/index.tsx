@@ -1,6 +1,6 @@
 import { Box, Divider, Flex, useColorModeValue } from "@chakra-ui/react";
-import { HeaderBreadcrumb } from "./components/HeaderBreadcrumb";
 
+import { HeaderBreadcrumb } from "./components/HeaderBreadcrumb";
 import { HeaderUserMenu } from "./components/HeaderUserMenu";
 
 export function Header() {

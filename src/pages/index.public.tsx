@@ -1,4 +1,5 @@
 import { Flex, Heading } from "@chakra-ui/react";
+
 import { useAppLayoutBreadcrumb } from "contexts/AppLayoutContext";
 
 export default function Home() {

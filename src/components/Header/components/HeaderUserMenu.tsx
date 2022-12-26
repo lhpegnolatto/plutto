@@ -17,17 +17,30 @@ import {
   FiMoon,
   FiSun,
 } from "react-icons/fi";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 
 export function HeaderUserMenu() {
+  const router = useRouter();
+
   const { colorMode, toggleColorMode } = useColorMode();
+
+  const supabaseClient = useSupabaseClient();
+  const { user_metadata: userMetadata = {} } = useUser() ?? {};
+
+  async function signOut() {
+    await supabaseClient.auth.signOut();
+
+    router.push("/sign-in");
+  }
 
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<Icon as={FiChevronDown} />}>
         <Flex>
           <Avatar
-            name="Luiz Pegnolatto"
-            src="https://www.github.com/lhpegnolatto.png"
+            name={userMetadata.full_name}
+            src={userMetadata.avatar_url}
             size="xs"
             boxShadow="md"
           />
@@ -38,9 +51,9 @@ export function HeaderUserMenu() {
             justifyItems="center"
             ml="2"
           >
-            <Text fontSize="xs">Luiz Pegnolatto</Text>
+            <Text fontSize="xs">{userMetadata.full_name}</Text>
             <Text fontSize="2xs" fontWeight="light">
-              lhpegnolatto@gmail.com
+              {userMetadata.email}
             </Text>
           </Flex>
         </Flex>
@@ -57,7 +70,7 @@ export function HeaderUserMenu() {
         <MenuItem icon={<Icon as={FiGlobe} boxSize="4" />} isDisabled>
           Language
         </MenuItem>
-        <MenuItem icon={<Icon as={FiLogOut} boxSize="4" />} isDisabled>
+        <MenuItem icon={<Icon as={FiLogOut} boxSize="4" />} onClick={signOut}>
           Sign out
         </MenuItem>
       </MenuList>
