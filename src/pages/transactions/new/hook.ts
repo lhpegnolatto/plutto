@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 
-import { Database } from "types/supabase";
+import { Database } from "types/supabase.types";
 
 type CategoryOption = {
   value: string;
