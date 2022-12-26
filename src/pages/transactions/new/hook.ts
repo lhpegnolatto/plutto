@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 
-import { useBreadcrumb } from "contexts/BreadcrumbContext";
-
 import { Database } from "types/supabase";
 
 type CategoryOption = {
@@ -13,11 +11,6 @@ type CategoryOption = {
 };
 
 export function useNewTransaction() {
-  useBreadcrumb([
-    { title: "Transactions", path: "/transactions" },
-    { title: "New", path: "/transactions/new" },
-  ]);
-
   const formProps = useForm();
   const { handleSubmit } = formProps;
 
