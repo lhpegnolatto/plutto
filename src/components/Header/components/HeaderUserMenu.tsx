@@ -40,7 +40,7 @@ export function HeaderUserMenu() {
   }
 
   return (
-    <Menu>
+    <Menu isLazy>
       <MenuButton as={Button} rightIcon={<Icon as={FiChevronDown} />}>
         <Flex>
           <Avatar
