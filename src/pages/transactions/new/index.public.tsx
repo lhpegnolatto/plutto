@@ -3,16 +3,13 @@ import { Box, Button, Heading, Input } from "@chakra-ui/react";
 import { FormField } from "components/form/FormField";
 import { FormGrid } from "components/form/FormGrid";
 import { Select, tagSelectComponents } from "components/form/Select";
-import { useBreadcrumb } from "contexts/BreadcrumbContext";
-import { useForm } from "react-hook-form";
+import { useNewTransaction } from "./hook";
 
 export default function NewTransaction() {
-  useBreadcrumb([
-    { title: "Transactions", path: "/transactions" },
-    { title: "New", path: "/transactions/new" },
-  ]);
+  const { formProps, categories, onSubmit, isCategoriesLoading } =
+    useNewTransaction();
 
-  const { control } = useForm();
+  const { register, control } = formProps;
 
   return (
     <Box as="main" h="full">
@@ -20,11 +17,14 @@ export default function NewTransaction() {
         New transaction
       </Heading>
 
-      <Box as="form" onSubmit={() => alert("form submitted")}>
+      <Box as="form" onSubmit={onSubmit}>
         <FormGrid.Grid mt="8">
           <FormGrid.Item colSpan={6}>
             <FormField label="Title">
-              <Input placeholder="Type your transaction title" />
+              <Input
+                placeholder="Type your transaction title"
+                {...register("title")}
+              />
             </FormField>
           </FormGrid.Item>
           <FormGrid.Item colSpan={6}>
@@ -32,8 +32,10 @@ export default function NewTransaction() {
               <Select
                 name="category"
                 control={control}
-                options={[]}
+                options={categories}
                 placeholder="Select the transaction category"
+                components={tagSelectComponents}
+                isLoading={isCategoriesLoading}
               />
             </FormField>
           </FormGrid.Item>
@@ -53,12 +55,12 @@ export default function NewTransaction() {
           </FormGrid.Item>
           <FormGrid.Item colSpan={4}>
             <FormField label="Amount">
-              <Input placeholder="$0.00" />
+              <Input placeholder="$0.00" {...register("amount")} />
             </FormField>
           </FormGrid.Item>
           <FormGrid.Item colSpan={4}>
             <FormField label="Transacted at">
-              <Input type="date" />
+              <Input type="date" {...register("transacted_at")} />
             </FormField>
           </FormGrid.Item>
         </FormGrid.Grid>
