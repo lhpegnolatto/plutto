@@ -2,7 +2,7 @@ import { Button, Flex, Heading, Icon } from "@chakra-ui/react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useAppLoaderContext } from "contexts/AppLoaderContext";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FiGithub } from "react-icons/fi";
 
 import { NextPageWithLayout } from "./_app.public";
@@ -18,6 +18,12 @@ const AuthPage: NextPageWithLayout = () => {
 
     await supabaseClient.auth.signInWithOAuth({
       provider: "github",
+      options: {
+        redirectTo:
+          process.env.NEXT_PUBLIC_SITE_URL ??
+          process.env.NEXT_PUBLIC_VERCEL_URL ??
+          "http://localhost:3000",
+      },
     });
   }
 
