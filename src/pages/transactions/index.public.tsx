@@ -1,9 +1,9 @@
 import { Box, Button } from "@chakra-ui/react";
-import { useAppLayoutBreadcrumb } from "contexts/AppLayoutContext";
+import { useBreadcrumb } from "contexts/BreadcrumbContext";
 import Link from "next/link";
 
 export default function Transactions() {
-  useAppLayoutBreadcrumb([{ title: "Transactions", path: "/transactions" }]);
+  useBreadcrumb([{ title: "Transactions", path: "/transactions" }]);
 
   return (
     <Box as="main" h="full">

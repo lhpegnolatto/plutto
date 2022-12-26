@@ -3,11 +3,11 @@ import { Box, Button, Heading, Input } from "@chakra-ui/react";
 import { FormField } from "components/form/FormField";
 import { FormGrid } from "components/form/FormGrid";
 import { Select, tagSelectComponents } from "components/form/Select";
-import { useAppLayoutBreadcrumb } from "contexts/AppLayoutContext";
+import { useBreadcrumb } from "contexts/BreadcrumbContext";
 import { useForm } from "react-hook-form";
 
 export default function NewTransaction() {
-  useAppLayoutBreadcrumb([
+  useBreadcrumb([
     { title: "Transactions", path: "/transactions" },
     { title: "New", path: "/transactions/new" },
   ]);

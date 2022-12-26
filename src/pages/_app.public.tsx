@@ -9,20 +9,25 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { AppLayout } from "components/layouts/app";
 
 import { theme } from "theme";
+import { AuthLayout } from "components/layouts/auth";
 
 export type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactNode;
+  layout?: "app" | "auth";
 };
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
+const AppLayouts = {
+  app: AppLayout,
+  auth: AuthLayout,
+};
+
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
-  const getLayout =
-    Component.getLayout ?? ((page) => <AppLayout>{page}</AppLayout>);
+  const Layout = AppLayouts[Component.layout || "app"];
 
   return (
     <SessionContextProvider
@@ -39,7 +44,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           <link rel="icon" href="/favicon.svg" />
         </Head>
 
-        {getLayout(<Component {...pageProps} />)}
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </ChakraProvider>
     </SessionContextProvider>
   );

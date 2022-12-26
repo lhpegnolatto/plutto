@@ -8,12 +8,12 @@ import {
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { useAppLayoutContext } from "contexts/AppLayoutContext";
+import { useBreadcrumb } from "contexts/BreadcrumbContext";
 
 export function HeaderBreadcrumb() {
   const { asPath } = useRouter();
 
-  const { breadcrumbItems } = useAppLayoutContext();
+  const { breadcrumbItems } = useBreadcrumb();
 
   const separatorColor = useColorModeValue("gray.400", "gray.600");
 

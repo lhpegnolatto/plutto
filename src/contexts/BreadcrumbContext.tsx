@@ -6,7 +6,7 @@ import {
   useEffect,
 } from "react";
 
-interface AppLayoutContextProps {
+interface BreadcrumbContextProps {
   children: ReactNode;
 }
 
@@ -15,36 +15,38 @@ type BreadcrumbItem = {
   path: string;
 };
 
-type AppLayoutContextData = {
+type BreadcrumbContextData = {
   breadcrumbItems: BreadcrumbItem[];
   setBreadcrumbItems: (newBreadcrumbItems: BreadcrumbItem[]) => void;
 };
 
-const AppLayoutContext = createContext({} as AppLayoutContextData);
+const BreadcrumbContext = createContext({} as BreadcrumbContextData);
 
-export function AppLayoutProvider({ children }: AppLayoutContextProps) {
+export function BreadcrumbProvider({ children }: BreadcrumbContextProps) {
   const [breadcrumbItems, setBreadcrumbItems] = useState<BreadcrumbItem[]>([]);
 
   return (
-    <AppLayoutContext.Provider
+    <BreadcrumbContext.Provider
       value={{
         breadcrumbItems,
         setBreadcrumbItems,
       }}
     >
       {children}
-    </AppLayoutContext.Provider>
+    </BreadcrumbContext.Provider>
   );
 }
 
-export const useAppLayoutContext = () => useContext(AppLayoutContext);
-
-export const useAppLayoutBreadcrumb = (
-  newBreadcrumbItems: BreadcrumbItem[]
-) => {
-  const { setBreadcrumbItems } = useContext(AppLayoutContext);
+export const useBreadcrumb = (
+  newBreadcrumbItems?: BreadcrumbItem[]
+): BreadcrumbContextData => {
+  const { breadcrumbItems, setBreadcrumbItems } = useContext(BreadcrumbContext);
 
   useEffect(() => {
-    setBreadcrumbItems(newBreadcrumbItems);
+    if (newBreadcrumbItems) {
+      setBreadcrumbItems(newBreadcrumbItems);
+    }
   }, [setBreadcrumbItems]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return { breadcrumbItems, setBreadcrumbItems };
 };

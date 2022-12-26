@@ -1,8 +1,8 @@
 import { Flex, Heading } from "@chakra-ui/react";
-import { useAppLayoutBreadcrumb } from "contexts/AppLayoutContext";
+import { useBreadcrumb } from "contexts/BreadcrumbContext";
 
 export default function Planned() {
-  useAppLayoutBreadcrumb([{ title: "Planned", path: "/planned" }]);
+  useBreadcrumb([{ title: "Planned", path: "/planned" }]);
 
   return (
     <Flex as="main" h="full" alignItems="center" justifyContent="center">
