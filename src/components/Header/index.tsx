@@ -1,9 +1,14 @@
-import { Box, Divider, Flex } from "@chakra-ui/react";
+import { Box, Divider, Flex, useColorModeValue } from "@chakra-ui/react";
 import { HeaderBreadcrumb } from "./components/HeaderBreadcrumb";
 
 import { HeaderUserMenu } from "./components/HeaderUserMenu";
 
 export function Header() {
+  const dividerBorderColor = useColorModeValue(
+    "blackAlpha.100",
+    "whiteAlpha.100"
+  );
+
   return (
     <Box as="header" px="2">
       <Flex
@@ -18,7 +23,7 @@ export function Header() {
         <HeaderUserMenu />
       </Flex>
 
-      <Divider />
+      <Divider borderColor={dividerBorderColor} />
     </Box>
   );
 }
