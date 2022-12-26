@@ -9,6 +9,8 @@ import {
   MenuList,
   Text,
   useColorMode,
+  SkeletonCircle,
+  Skeleton,
 } from "@chakra-ui/react";
 import {
   FiChevronDown,
@@ -27,7 +29,7 @@ export function HeaderUserMenu() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   const supabaseClient = useSupabaseClient();
-  const { user_metadata: userMetadata = {} } = useUser() ?? {};
+  const { user_metadata: userMetadata } = useUser() ?? {};
 
   const { setIsAppLoading } = useAppLoaderContext();
 
@@ -43,12 +45,14 @@ export function HeaderUserMenu() {
     <Menu isLazy>
       <MenuButton as={Button} rightIcon={<Icon as={FiChevronDown} />}>
         <Flex>
-          <Avatar
-            name={userMetadata.full_name}
-            src={userMetadata.avatar_url}
-            size="xs"
-            boxShadow="md"
-          />
+          <SkeletonCircle isLoaded={!!userMetadata} size="6">
+            <Avatar
+              name={userMetadata?.full_name}
+              src={userMetadata?.avatar_url}
+              size="xs"
+              boxShadow="md"
+            />
+          </SkeletonCircle>
 
           <Flex
             flexDirection="column"
@@ -56,10 +60,19 @@ export function HeaderUserMenu() {
             justifyItems="center"
             ml="2"
           >
-            <Text fontSize="xs">{userMetadata.full_name}</Text>
-            <Text fontSize="2xs" fontWeight="light">
-              {userMetadata.email}
-            </Text>
+            <Skeleton isLoaded={!!userMetadata} minW="110px" h="12px">
+              <Text fontSize="xs">{userMetadata?.full_name}</Text>
+            </Skeleton>
+            <Skeleton
+              isLoaded={!!userMetadata}
+              minW="90px"
+              h="8px"
+              mt={userMetadata ? "0" : "1"}
+            >
+              <Text fontSize="2xs" fontWeight="light">
+                {userMetadata?.email}
+              </Text>
+            </Skeleton>
           </Flex>
         </Flex>
       </MenuButton>
