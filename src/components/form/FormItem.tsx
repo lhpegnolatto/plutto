@@ -1,7 +1,7 @@
 import { GridItem, GridItemProps } from "@chakra-ui/react";
 
-function Item(props: GridItemProps) {
+function FormItem(props: GridItemProps) {
   return <GridItem {...props}></GridItem>;
 }
 
-export default Item;
+export default FormItem;

@@ -1,8 +1,7 @@
 import { Box, Button, Heading, Input } from "@chakra-ui/react";
 
-import { FormField } from "components/form/FormField";
-import { FormGrid } from "components/form/FormGrid";
-import { Select, tagSelectComponents } from "components/form/Select";
+import { Form } from "components/Form";
+import { Select, tagSelectComponents } from "components/Select";
 import { useNewTransaction } from "./hook";
 
 export default function NewTransaction() {
@@ -17,18 +16,18 @@ export default function NewTransaction() {
         New transaction
       </Heading>
 
-      <Box as="form" onSubmit={onSubmit}>
-        <FormGrid.Grid mt="8">
-          <FormGrid.Item colSpan={6}>
-            <FormField label="Title">
+      <Form.Root onSubmit={onSubmit}>
+        <Form.Grid mt="8">
+          <Form.Item colSpan={6}>
+            <Form.Field label="Title">
               <Input
                 placeholder="Type your transaction title"
                 {...register("title")}
               />
-            </FormField>
-          </FormGrid.Item>
-          <FormGrid.Item colSpan={6}>
-            <FormField label="Category">
+            </Form.Field>
+          </Form.Item>
+          <Form.Item colSpan={6}>
+            <Form.Field label="Category">
               <Select
                 name="category"
                 control={control}
@@ -37,10 +36,10 @@ export default function NewTransaction() {
                 components={tagSelectComponents}
                 isLoading={isCategoriesLoading}
               />
-            </FormField>
-          </FormGrid.Item>
-          <FormGrid.Item colSpan={4}>
-            <FormField label="Type">
+            </Form.Field>
+          </Form.Item>
+          <Form.Item colSpan={4}>
+            <Form.Field label="Type">
               <Select
                 name="type"
                 control={control}
@@ -51,24 +50,24 @@ export default function NewTransaction() {
                 placeholder="Select the transaction type"
                 components={tagSelectComponents}
               />
-            </FormField>
-          </FormGrid.Item>
-          <FormGrid.Item colSpan={4}>
-            <FormField label="Amount">
+            </Form.Field>
+          </Form.Item>
+          <Form.Item colSpan={4}>
+            <Form.Field label="Amount">
               <Input placeholder="$0.00" {...register("amount")} />
-            </FormField>
-          </FormGrid.Item>
-          <FormGrid.Item colSpan={4}>
-            <FormField label="Transacted at">
+            </Form.Field>
+          </Form.Item>
+          <Form.Item colSpan={4}>
+            <Form.Field label="Transacted at">
               <Input type="date" {...register("transacted_at")} />
-            </FormField>
-          </FormGrid.Item>
-        </FormGrid.Grid>
+            </Form.Field>
+          </Form.Item>
+        </Form.Grid>
 
         <Button type="submit" colorScheme="green" mt="6">
           Create
         </Button>
-      </Box>
+      </Form.Root>
     </Box>
   );
 }

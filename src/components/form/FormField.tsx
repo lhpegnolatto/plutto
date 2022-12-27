@@ -13,7 +13,7 @@ interface FormFieldProps extends FormControlProps {
   helperMessage?: string;
 }
 
-export function FormField({
+function FormField({
   children,
   label,
   errorMessage = "",
@@ -35,3 +35,5 @@ export function FormField({
     </FormControl>
   );
 }
+
+export default FormField;
