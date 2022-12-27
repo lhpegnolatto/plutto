@@ -8,20 +8,25 @@ import {
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-const breadcrumbItems = [
-  [{ title: "Home", path: "/", shouldMatchExactHref: true }],
+type BreadcrumbItem = {
+  title: string;
+  path: string;
+  shouldMatchExactHref?: boolean;
+};
+
+const breadcrumbItems: Array<Array<BreadcrumbItem>> = [
+  [{ title: "Home", path: "/" }],
   [
     {
       title: "Transactions",
       path: "/transactions",
-      shouldMatchExactHref: true,
     },
   ],
   [
     { title: "Transactions", path: "/transactions" },
-    { title: "New", path: "/transactions/new", shouldMatchExactHref: true },
+    { title: "New", path: "/transactions/new" },
   ],
-  [{ title: "Planned", path: "/planned", shouldMatchExactHref: true }],
+  [{ title: "Planned", path: "/planned" }],
 ];
 
 export function HeaderBreadcrumb() {
@@ -30,7 +35,7 @@ export function HeaderBreadcrumb() {
   const separatorColor = useColorModeValue("gray.400", "gray.600");
 
   const currentPageBreadcrumbItems = breadcrumbItems.find((items) => {
-    const { path: lastItemPath, shouldMatchExactHref } =
+    const { path: lastItemPath, shouldMatchExactHref = true } =
       items[items.length - 1];
 
     return shouldMatchExactHref
