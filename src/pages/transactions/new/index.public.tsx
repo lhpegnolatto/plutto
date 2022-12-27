@@ -7,11 +7,12 @@ import {
   IconButton,
   Input,
 } from "@chakra-ui/react";
-
-import { Form } from "components/Form";
-import { Select, tagSelectComponents } from "components/Select";
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
+
+import { Form } from "../../../components/Form";
+import { Select, tagSelectComponents } from "components/Select";
+
 import { useNewTransaction } from "./hook";
 
 export default function NewTransaction() {
