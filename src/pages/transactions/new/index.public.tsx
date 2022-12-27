@@ -1,7 +1,17 @@
-import { Box, Button, Heading, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  IconButton,
+  Input,
+} from "@chakra-ui/react";
 
 import { Form } from "components/Form";
 import { Select, tagSelectComponents } from "components/Select";
+import Link from "next/link";
+import { FiArrowLeft } from "react-icons/fi";
 import { useNewTransaction } from "./hook";
 
 export default function NewTransaction() {
@@ -12,9 +22,17 @@ export default function NewTransaction() {
 
   return (
     <Box as="main" h="full">
-      <Heading as="h1" fontSize="lg">
-        New transaction
-      </Heading>
+      <Flex alignItems="center">
+        <IconButton
+          as={Link}
+          href="/transactions"
+          aria-label="go back"
+          icon={<Icon as={FiArrowLeft} />}
+        />
+        <Heading as="h1" fontSize="lg" ml="4">
+          New transaction
+        </Heading>
+      </Flex>
 
       <Form.Root onSubmit={onSubmit}>
         <Form.Grid mt="8">
