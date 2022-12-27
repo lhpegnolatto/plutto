@@ -14,12 +14,27 @@ import { Form } from "components/Form";
 import { Select, tagSelectComponents } from "components/Select";
 
 import { useNewTransaction } from "./hook";
+import { CurrencyInput } from "components/CurrencyInput";
+
+const formValidations = {
+  title: { required: "Title is required" },
+  category: { required: "Category is required" },
+  type: { required: "Type is required" },
+  amount: {
+    required: "Amount is required",
+  },
+  transacted_at: { required: "Transaction date is required" },
+};
 
 export default function NewTransaction() {
   const { formProps, categories, onSubmit, isCategoriesLoading } =
     useNewTransaction();
 
-  const { register, control } = formProps;
+  const {
+    register,
+    control,
+    formState: { errors },
+  } = formProps;
 
   return (
     <Box as="main" h="full">
@@ -35,18 +50,24 @@ export default function NewTransaction() {
         </Heading>
       </Flex>
 
-      <Form.Root onSubmit={onSubmit}>
-        <Form.Grid mt="8">
+      <Form.Root onSubmit={onSubmit} mt="10">
+        <Form.Grid>
           <Form.Item colSpan={6}>
-            <Form.Field label="Title">
+            <Form.Field
+              label="Title"
+              errorMessage={errors["title"]?.message?.toString()}
+            >
               <Input
                 placeholder="Type your transaction title"
-                {...register("title")}
+                {...register("title", formValidations["title"])}
               />
             </Form.Field>
           </Form.Item>
           <Form.Item colSpan={6}>
-            <Form.Field label="Category">
+            <Form.Field
+              label="Category"
+              errorMessage={errors["category"]?.message?.toString()}
+            >
               <Select
                 name="category"
                 control={control}
@@ -54,11 +75,15 @@ export default function NewTransaction() {
                 placeholder="Select the transaction category"
                 components={tagSelectComponents}
                 isLoading={isCategoriesLoading}
+                rules={formValidations["category"]}
               />
             </Form.Field>
           </Form.Item>
           <Form.Item colSpan={4}>
-            <Form.Field label="Type">
+            <Form.Field
+              label="Type"
+              errorMessage={errors["type"]?.message?.toString()}
+            >
               <Select
                 name="type"
                 control={control}
@@ -68,24 +93,43 @@ export default function NewTransaction() {
                 ]}
                 placeholder="Select the transaction type"
                 components={tagSelectComponents}
+                rules={formValidations["type"]}
               />
             </Form.Field>
           </Form.Item>
           <Form.Item colSpan={4}>
-            <Form.Field label="Amount">
-              <Input placeholder="$0.00" {...register("amount")} />
+            <Form.Field
+              label="Amount"
+              errorMessage={errors["amount"]?.message?.toString()}
+            >
+              <CurrencyInput
+                name="amount"
+                placeholder="$0.00"
+                control={control}
+                rules={formValidations["amount"]}
+              />
             </Form.Field>
           </Form.Item>
           <Form.Item colSpan={4}>
-            <Form.Field label="Transacted at">
-              <Input type="date" {...register("transacted_at")} />
+            <Form.Field
+              label="Transacted at"
+              errorMessage={errors["transacted_at"]?.message?.toString()}
+            >
+              <Input
+                type="date"
+                {...register("transacted_at", formValidations["transacted_at"])}
+              />
             </Form.Field>
           </Form.Item>
         </Form.Grid>
 
-        <Button type="submit" colorScheme="green" mt="6">
-          Create
-        </Button>
+        <Flex justifyContent="flex-end" gap="6" mt="10">
+          <Button variant="shadow">Cancel</Button>
+
+          <Button type="submit" colorScheme="green">
+            Create
+          </Button>
+        </Flex>
       </Form.Root>
     </Box>
   );
