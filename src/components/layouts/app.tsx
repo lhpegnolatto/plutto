@@ -13,9 +13,11 @@ export function AppLayout({ children }: AppLayoutProps) {
       <Sidebar />
       <Flex flexDirection="column" h="100vh" w="full">
         <Header></Header>
-        <Box w="full" h="full" overflow="auto" p="10">
-          {children}
-        </Box>
+        <Flex w="full" h="full" overflow="auto" p="10" justifyContent="center">
+          <Box maxW="6xl" w="full" h="full">
+            {children}
+          </Box>
+        </Flex>
       </Flex>
     </Flex>
   );
