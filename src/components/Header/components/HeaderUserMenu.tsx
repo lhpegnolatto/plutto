@@ -9,8 +9,6 @@ import {
   MenuList,
   Text,
   useColorMode,
-  SkeletonCircle,
-  Skeleton,
 } from "@chakra-ui/react";
 import {
   FiChevronDown,
@@ -44,15 +42,13 @@ export function HeaderUserMenu() {
   return (
     <Menu isLazy>
       <MenuButton as={Button} rightIcon={<Icon as={FiChevronDown} />}>
-        <Flex>
-          <SkeletonCircle isLoaded={!!userMetadata} size="6">
-            <Avatar
-              name={userMetadata?.full_name}
-              src={userMetadata?.avatar_url}
-              size="xs"
-              boxShadow="md"
-            />
-          </SkeletonCircle>
+        <Flex alignItems="center">
+          <Avatar
+            name={userMetadata?.full_name}
+            src={userMetadata?.avatar_url}
+            size="xs"
+            boxShadow="md"
+          />
 
           <Flex
             flexDirection="column"
@@ -60,19 +56,10 @@ export function HeaderUserMenu() {
             justifyItems="center"
             ml="2"
           >
-            <Skeleton isLoaded={!!userMetadata} minW="110px" h="12px">
-              <Text fontSize="xs">{userMetadata?.full_name}</Text>
-            </Skeleton>
-            <Skeleton
-              isLoaded={!!userMetadata}
-              minW="90px"
-              h="8px"
-              mt={userMetadata ? "0" : "1"}
-            >
-              <Text fontSize="2xs" fontWeight="light">
-                {userMetadata?.email}
-              </Text>
-            </Skeleton>
+            <Text fontSize="xs">{userMetadata?.full_name}</Text>
+            <Text fontSize="2xs" fontWeight="light">
+              {userMetadata?.email}
+            </Text>
           </Flex>
         </Flex>
       </MenuButton>
