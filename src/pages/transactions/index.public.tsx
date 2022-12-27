@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   Box,
   Button,
@@ -7,6 +9,7 @@ import {
   Heading,
   HStack,
   Icon,
+  Skeleton,
   Stat,
   StatArrow,
   StatHelpText,
@@ -21,10 +24,51 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import Link from "next/link";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { FiFilter } from "react-icons/fi";
 
+import { Database } from "types/supabase.types";
+
+type Transaction = {
+  id: string;
+  title: string;
+  type: string;
+  amount: number;
+  transacted_at: string;
+  categories: { title: string; color: string };
+};
+
 export default function Transactions() {
+  const supabaseClient = useSupabaseClient<Database>();
+  const { id: userId } = useUser() || {};
+
+  const [isTransactiosLoading, setIsTransactiosLoading] = useState(true);
+  const [transactios, setTransactios] = useState<Transaction[]>([]);
+
+  useEffect(() => {
+    async function getTransactios() {
+      setIsTransactiosLoading(true);
+
+      const { data } = await supabaseClient
+        .from("transactions")
+        .select(
+          "id, title, type, amount, transacted_at, categories ( title, color )"
+        )
+        .eq("user_id", userId)
+        .limit(10);
+
+      if (data) {
+        setTransactios(data as Transaction[]); // needed to force these types because of a issue on supabase types gen
+      }
+
+      setIsTransactiosLoading(false);
+    }
+
+    if (userId) {
+      getTransactios();
+    }
+  }, [supabaseClient, userId]);
+
   return (
     <Box as="main" h="full">
       <Flex alignItems="center" justifyContent="space-between">
@@ -95,50 +139,44 @@ export default function Transactions() {
             </Tr>
           </Thead>
           <Tbody>
-            <Tr>
-              <Td>
-                <Tag colorScheme="green">Deposit</Tag>
-              </Td>
-              <Td>Landing page freelance</Td>
-              <Td isNumeric>$250.00</Td>
-              <Td>
-                <Tag colorScheme="cyan">Freelance</Tag>
-              </Td>
-              <Td>December 22, 2022</Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <Tag colorScheme="red">Withdraw</Tag>
-              </Td>
-              <Td>Christmas gift for my gf</Td>
-              <Td isNumeric>$100.00</Td>
-              <Td>
-                <Tag colorScheme="pink">Others</Tag>
-              </Td>
-              <Td>December 18, 2022</Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <Tag colorScheme="red">Withdraw</Tag>
-              </Td>
-              <Td>Burger and fries</Td>
-              <Td isNumeric>$20.00</Td>
-              <Td>
-                <Tag colorScheme="orange">Food</Tag>
-              </Td>
-              <Td>December 18, 2022</Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <Tag colorScheme="green">Deposit</Tag>
-              </Td>
-              <Td>Week salary</Td>
-              <Td isNumeric>$300.00</Td>
-              <Td>
-                <Tag colorScheme="purple">Salary</Tag>
-              </Td>
-              <Td>December 17, 2022</Td>
-            </Tr>
+            {transactios.map(
+              ({ id, type, title, amount, categories, transacted_at }) => (
+                <Tr key={id}>
+                  <Td>
+                    <Tag colorScheme={type === "withdraw" ? "red" : "green"}>
+                      {type === "withdraw" ? "Withdraw" : "Deposit"}
+                    </Tag>
+                  </Td>
+                  <Td>{title}</Td>
+                  <Td isNumeric>${amount}</Td>
+                  <Td>
+                    <Tag colorScheme={categories?.color}>
+                      {categories?.title}
+                    </Tag>
+                  </Td>
+                  <Td>{transacted_at}</Td>
+                </Tr>
+              )
+            )}
+            {isTransactiosLoading && (
+              <Tr>
+                <Td>
+                  <Skeleton height="25px" w="100%" />
+                </Td>
+                <Td>
+                  <Skeleton height="25px" w="100%" />
+                </Td>
+                <Td>
+                  <Skeleton height="25px" w="100%" />
+                </Td>
+                <Td>
+                  <Skeleton height="25px" w="100%" />
+                </Td>
+                <Td>
+                  <Skeleton height="25px" w="100%" />
+                </Td>
+              </Tr>
+            )}
           </Tbody>
         </Table>
       </TableContainer>
