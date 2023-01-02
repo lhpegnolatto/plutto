@@ -13,12 +13,14 @@ import {
   PopoverProps,
   useMergeRefs,
 } from "@chakra-ui/react";
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Form } from "components/Form";
 import { Select, tagSelectComponents } from "components/Select";
 import { useEffect, useRef } from "react";
 import FocusLock from "react-focus-lock";
 import { useForm } from "react-hook-form";
+import { useQueryClient } from "react-query";
+
 import { Database } from "types/supabase.types";
 import { colorsOptions } from "./data";
 
@@ -32,16 +34,10 @@ const formDefaultValues = {
   color: "",
 };
 
-export type CreatedCategory = {
-  id: string;
-  title: string;
-  color: string;
-};
-
 interface CategoryPopoverProps extends Omit<PopoverProps, "onClose"> {
   getDefaultValues: () => FormData;
   isOpen: boolean;
-  onClose: (createdCategory?: CreatedCategory) => void;
+  onClose: (createdCategoryId?: string) => void;
 }
 
 export function CategoryPopover({
@@ -60,19 +56,19 @@ export function CategoryPopover({
   const titleInputMergedRefs = useMergeRefs(initialFocusRef, titleInputRef);
 
   const supabaseClient = useSupabaseClient<Database>();
-  const { id: userId } = useUser() || {};
+  const queryClient = useQueryClient();
 
   const onSubmit = handleSubmit(async ({ title, color }) => {
-    if (userId) {
-      const { data } = await supabaseClient
-        .from("categories")
-        .insert({ title, color, user_id: userId })
-        .select("id, title, color")
-        .maybeSingle();
+    const { data } = await supabaseClient
+      .from("categories")
+      .insert({ title, color })
+      .select("id, title, color")
+      .maybeSingle();
 
-      if (data) {
-        onClose(data);
-      }
+    if (data) {
+      queryClient.invalidateQueries("categories");
+
+      onClose(data?.id);
     }
   });
 

@@ -1,8 +1,9 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import { useDisclosure } from "@chakra-ui/react";
 import { SelectInstance } from "chakra-react-select";
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { UseFormSetValue } from "react-hook-form";
+import { useQuery } from "react-query";
 
 import {
   CreatableSelect,
@@ -10,7 +11,7 @@ import {
   Option,
 } from "components/CreatableSelect";
 import { tagSelectComponents } from "components/Select";
-import { CategoryPopover, CreatedCategory } from "./components/CategoryPopover";
+import { CategoryPopover } from "./components/CategoryPopover";
 
 import { Database } from "types/supabase.types";
 
@@ -41,24 +42,13 @@ export function CategorySelect({ setValue, ...rest }: CategorySelectProps) {
     onCreatePopoverOpen();
   }
 
-  function handleOnCreatePopoverClose(createdCategory?: CreatedCategory) {
+  function handleOnCreatePopoverClose(createdCategoryId?: string) {
     if (finalFocusRef.current) {
       finalFocusRef.current.focus();
     }
 
-    if (createdCategory) {
-      const { id, title, color } = createdCategory;
-
-      setCategories((currentCategories) => [
-        ...currentCategories,
-        {
-          value: id,
-          label: title,
-          colorScheme: color,
-        },
-      ]);
-
-      setValue("category", id);
+    if (createdCategoryId) {
+      setValue("category", createdCategoryId);
     }
 
     onCreatePopoverClose();
@@ -72,37 +62,30 @@ export function CategorySelect({ setValue, ...rest }: CategorySelectProps) {
   }
 
   const supabaseClient = useSupabaseClient<Database>();
-  const { id: userId } = useUser() || {};
 
-  const [isCategoriesLoading, setIsCategoriesLoading] = useState(true);
-  const [categories, setCategories] = useState<CategoryOption[]>([]);
-
-  useEffect(() => {
-    async function getCategories() {
-      setIsCategoriesLoading(true);
-
+  const { isLoading: isCategoriesLoading, data: categories = [] } = useQuery<
+    CategoryOption[]
+  >(
+    "categories",
+    async () => {
       const { data } = await supabaseClient
         .from("categories")
-        .select("id, title, color")
-        .eq("user_id", userId);
+        .select("id, title, color");
 
       if (data) {
-        setCategories(
-          data.map(({ id, title, color }) => ({
-            value: id,
-            label: title,
-            colorScheme: color,
-          }))
-        );
+        return data.map(({ id, title, color }) => ({
+          value: id,
+          label: title,
+          colorScheme: color,
+        }));
       }
 
-      setIsCategoriesLoading(false);
+      return [];
+    },
+    {
+      staleTime: 1000 * 60, // 1 minute
     }
-
-    if (userId) {
-      getCategories();
-    }
-  }, [userId]);
+  );
 
   return (
     <>

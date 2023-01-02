@@ -19,22 +19,18 @@ export function useNewTransaction() {
   const { handleSubmit } = formProps;
 
   const supabaseClient = useSupabaseClient<Database>();
-  const { id: userId } = useUser() || {};
 
   const onSubmit = handleSubmit(
     async ({ amount, category, title, transacted_at, type }) => {
-      if (userId) {
-        await supabaseClient.from("transactions").insert({
-          amount: parseFloat(amount),
-          category_id: category,
-          title,
-          transacted_at,
-          type,
-          user_id: userId,
-        });
+      await supabaseClient.from("transactions").insert({
+        amount: parseFloat(amount),
+        category_id: category,
+        title,
+        transacted_at,
+        type,
+      });
 
-        router.push("/transactions");
-      }
+      router.push("/transactions");
     }
   );
 

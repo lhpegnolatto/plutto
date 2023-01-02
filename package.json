@@ -23,7 +23,8 @@
     "react-dom": "18.2.0",
     "react-focus-lock": "^2.9.2",
     "react-hook-form": "^7.41.1",
-    "react-icons": "^4.7.1"
+    "react-icons": "^4.7.1",
+    "react-query": "^3.39.2"
   },
   "devDependencies": {
     "@next/font": "13.1.0",

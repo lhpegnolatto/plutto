@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Box,
@@ -24,8 +23,9 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { FiFilter } from "react-icons/fi";
+import { useQuery } from "react-query";
 
 import { Database } from "types/supabase.types";
 
@@ -40,35 +40,29 @@ type Transaction = {
 
 export default function Transactions() {
   const supabaseClient = useSupabaseClient<Database>();
-  const { id: userId } = useUser() || {};
 
-  const [isTransactiosLoading, setIsTransactiosLoading] = useState(true);
-  const [transactios, setTransactios] = useState<Transaction[]>([]);
+  const { data: transactions = [], isLoading: isTransactionsLoading } =
+    useQuery<Transaction[]>(
+      "transactions",
+      async () => {
+        const { data } = await supabaseClient
+          .from("transactions")
+          .select(
+            "id, title, type, amount, transacted_at, categories ( title, color )"
+          )
+          .order("transacted_at", { ascending: false })
+          .limit(10);
 
-  useEffect(() => {
-    async function getTransactios() {
-      setIsTransactiosLoading(true);
+        if (data) {
+          return data as Transaction[]; // needed to force these types because of a issue on supabase types gen
+        }
 
-      const { data } = await supabaseClient
-        .from("transactions")
-        .select(
-          "id, title, type, amount, transacted_at, categories ( title, color )"
-        )
-        .eq("user_id", userId)
-        .order("transacted_at", { ascending: false })
-        .limit(10);
-
-      if (data) {
-        setTransactios(data as Transaction[]); // needed to force these types because of a issue on supabase types gen
+        return [];
+      },
+      {
+        staleTime: 1000 * 60, // 1 minute
       }
-
-      setIsTransactiosLoading(false);
-    }
-
-    if (userId) {
-      getTransactios();
-    }
-  }, [supabaseClient, userId]);
+    );
 
   return (
     <Box as="main" h="full">
@@ -140,7 +134,7 @@ export default function Transactions() {
             </Tr>
           </Thead>
           <Tbody>
-            {transactios.map(
+            {transactions.map(
               ({ id, type, title, amount, categories, transacted_at }) => (
                 <Tr key={id}>
                   <Td>
@@ -159,7 +153,7 @@ export default function Transactions() {
                 </Tr>
               )
             )}
-            {isTransactiosLoading && (
+            {isTransactionsLoading && (
               <Tr>
                 <Td>
                   <Skeleton height="25px" w="100%" />

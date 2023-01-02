@@ -1,16 +1,19 @@
-import { ReactElement, ReactNode, useState } from "react";
+import { useState } from "react";
 import type { AppProps } from "next/app";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 import { AppLayout } from "components/layouts/app";
 import { AuthLayout } from "components/layouts/auth";
 import { AppLoader } from "components/AppLoader";
 
 import { AppLoaderProvider } from "contexts/AppLoaderContext";
+import { queryClient } from "services/queryClient";
 
 import { theme } from "theme";
 
@@ -33,28 +36,32 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const Layout = AppLayouts[Component.layout || "app"];
 
   return (
-    <SessionContextProvider
-      supabaseClient={supabaseClient}
-      initialSession={pageProps.initialSession}
-    >
-      <ChakraProvider theme={theme}>
-        <Head>
-          <title>Plutto</title>
-          <meta
-            name="description"
-            content="Plutto is a simple personal finance helper for organizing and planning expenses."
-          />
-          <link rel="icon" href="/favicon.svg" />
-        </Head>
+    <QueryClientProvider client={queryClient}>
+      <SessionContextProvider
+        supabaseClient={supabaseClient}
+        initialSession={pageProps.initialSession}
+      >
+        <ChakraProvider theme={theme}>
+          <Head>
+            <title>Plutto</title>
+            <meta
+              name="description"
+              content="Plutto is a simple personal finance helper for organizing and planning expenses."
+            />
+            <link rel="icon" href="/favicon.svg" />
+          </Head>
 
-        <AppLoaderProvider>
-          <AppLoader />
+          <AppLoaderProvider>
+            <AppLoader />
 
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </AppLoaderProvider>
-      </ChakraProvider>
-    </SessionContextProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </AppLoaderProvider>
+        </ChakraProvider>
+      </SessionContextProvider>
+
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   );
 }
