@@ -18,11 +18,12 @@ function FormField({
   label,
   errorMessage = "",
   helperMessage = "",
+  size,
   ...rest
 }: FormFieldProps) {
   return (
-    <FormControl isInvalid={!!errorMessage} {...rest}>
-      <FormLabel>{label}</FormLabel>
+    <FormControl isInvalid={!!errorMessage} {...rest} size={size}>
+      <FormLabel fontSize={size}>{label}</FormLabel>
       {children}
       {errorMessage && (
         <FormErrorMessage position="absolute">

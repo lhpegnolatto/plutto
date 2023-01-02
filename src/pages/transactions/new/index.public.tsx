@@ -15,6 +15,7 @@ import { Select, tagSelectComponents } from "components/Select";
 
 import { useNewTransaction } from "./hook";
 import { CurrencyInput } from "components/CurrencyInput";
+import { CategorySelect } from "components/CategorySelect";
 
 const formValidations = {
   title: { required: "Title is required" },
@@ -27,13 +28,13 @@ const formValidations = {
 };
 
 export default function NewTransaction() {
-  const { formProps, categories, onSubmit, isCategoriesLoading } =
-    useNewTransaction();
+  const { formProps, onSubmit } = useNewTransaction();
 
   const {
     register,
     control,
     formState: { errors },
+    setValue,
   } = formProps;
 
   return (
@@ -68,13 +69,11 @@ export default function NewTransaction() {
               label="Category"
               errorMessage={errors["category"]?.message?.toString()}
             >
-              <Select
+              <CategorySelect
                 name="category"
                 control={control}
-                options={categories}
+                setValue={setValue}
                 placeholder="Select the transaction category"
-                components={tagSelectComponents}
-                isLoading={isCategoriesLoading}
                 rules={formValidations["category"]}
               />
             </Form.Field>

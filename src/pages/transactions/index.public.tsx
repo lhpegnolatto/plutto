@@ -55,6 +55,7 @@ export default function Transactions() {
           "id, title, type, amount, transacted_at, categories ( title, color )"
         )
         .eq("user_id", userId)
+        .order("transacted_at", { ascending: false })
         .limit(10);
 
       if (data) {
