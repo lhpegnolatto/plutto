@@ -19,7 +19,7 @@ import { Select, tagSelectComponents } from "components/Select";
 import { useEffect, useRef } from "react";
 import FocusLock from "react-focus-lock";
 import { useForm } from "react-hook-form";
-import { useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 import { Database } from "types/supabase.types";
 import { colorsOptions } from "./data";
@@ -58,19 +58,22 @@ export function CategoryPopover({
   const supabaseClient = useSupabaseClient<Database>();
   const queryClient = useQueryClient();
 
-  const onSubmit = handleSubmit(async ({ title, color }) => {
-    const { data } = await supabaseClient
-      .from("categories")
-      .insert({ title, color })
-      .select("id, title, color")
-      .maybeSingle();
-
-    if (data) {
-      queryClient.invalidateQueries("categories");
+  const { mutateAsync: onSubmit, isLoading: isSubmitting } = useMutation(
+    handleSubmit(async ({ title, color }) => {
+      const { data } = await supabaseClient
+        .from("categories")
+        .insert({ title, color })
+        .select("id, title, color")
+        .maybeSingle();
 
       onClose(data?.id);
+    }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("categories");
+      },
     }
-  });
+  );
 
   useEffect(() => {
     if (isOpen) {
@@ -93,11 +96,10 @@ export function CategoryPopover({
       </PopoverTrigger>
       <PopoverContent w="full">
         <FocusLock returnFocus persistentFocus={false}>
-          <PopoverCloseButton top="2" />
           <PopoverHeader>Creating a new category</PopoverHeader>
           <PopoverBody p="4">
             <Form.Root
-              id="my-form"
+              id="category-form"
               onSubmit={onSubmit}
               onSubmitCapture={onSubmit}
             >
@@ -123,10 +125,19 @@ export function CategoryPopover({
           </PopoverBody>
           <PopoverFooter p="4">
             <ButtonGroup size="sm" justifyContent="flex-end" w="full">
-              <Button variant="shadow" onClick={() => onClose()}>
+              <Button
+                variant="shadow"
+                onClick={() => onClose()}
+                disabled={isSubmitting}
+              >
                 Cancel
               </Button>
-              <Button colorScheme="brand" type="submit" form="my-form">
+              <Button
+                colorScheme="brand"
+                type="submit"
+                form="category-form"
+                isLoading={isSubmitting}
+              >
                 Create
               </Button>
             </ButtonGroup>

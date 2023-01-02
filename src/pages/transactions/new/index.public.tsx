@@ -28,7 +28,7 @@ const formValidations = {
 };
 
 export default function NewTransaction() {
-  const { formProps, onSubmit } = useNewTransaction();
+  const { formProps, onSubmit, isSubmitting } = useNewTransaction();
 
   const {
     register,
@@ -45,6 +45,7 @@ export default function NewTransaction() {
           href="/transactions"
           aria-label="go back"
           icon={<Icon as={FiArrowLeft} />}
+          isDisabled={isSubmitting}
         />
         <Heading as="h1" fontSize="lg" ml="4">
           New transaction
@@ -123,9 +124,16 @@ export default function NewTransaction() {
         </Form.Grid>
 
         <Flex justifyContent="flex-end" gap="6" mt="10">
-          <Button variant="shadow">Cancel</Button>
+          <Button
+            as={Link}
+            href="/transactions"
+            variant="shadow"
+            isDisabled={isSubmitting}
+          >
+            Cancel
+          </Button>
 
-          <Button type="submit" colorScheme="green">
+          <Button type="submit" colorScheme="green" isLoading={isSubmitting}>
             Create
           </Button>
         </Flex>
