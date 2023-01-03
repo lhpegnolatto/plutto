@@ -142,7 +142,12 @@ export default function Transactions() {
         </Heading>
 
         <HStack spacing="4">
-          <Button leftIcon={<Icon as={FiFilter} />}>Filters</Button>
+          <Button
+            leftIcon={<Icon as={FiFilter} />}
+            isDisabled={isTransactionsLoading}
+          >
+            Filters
+          </Button>
           <Button as={Link} href="/transactions/new" colorScheme="brand">
             Create new
           </Button>
@@ -150,39 +155,47 @@ export default function Transactions() {
       </Flex>
 
       <HStack mt="6" spacing="4">
-        <Card w="full">
-          <CardBody>
-            <Stat>
-              <StatLabel>Saved Money</StatLabel>
-              <StatNumber>${transactionsSummary?.savedMoneyAmount}</StatNumber>
-              <StatHelpText>
-                {formattedStartDate} - {formattedEndDate}
-              </StatHelpText>
-            </Stat>
-          </CardBody>
-        </Card>
-        <Card w="full">
-          <CardBody>
-            <Stat>
-              <StatLabel>Deposits</StatLabel>
-              <StatNumber>${transactionsSummary?.depositsAmount}</StatNumber>
-              <StatHelpText>
-                {formattedStartDate} - {formattedEndDate}
-              </StatHelpText>
-            </Stat>
-          </CardBody>
-        </Card>
-        <Card w="full">
-          <CardBody>
-            <Stat>
-              <StatLabel>Withdraws</StatLabel>
-              <StatNumber>${transactionsSummary?.withdrawsAmount}</StatNumber>
-              <StatHelpText>
-                {formattedStartDate} - {formattedEndDate}
-              </StatHelpText>
-            </Stat>
-          </CardBody>
-        </Card>
+        <Skeleton isLoaded={!isTransactionsLoading} w="full">
+          <Card w="full">
+            <CardBody>
+              <Stat>
+                <StatLabel>Saved Money</StatLabel>
+                <StatNumber>
+                  ${transactionsSummary?.savedMoneyAmount}
+                </StatNumber>
+                <StatHelpText>
+                  {formattedStartDate} - {formattedEndDate}
+                </StatHelpText>
+              </Stat>
+            </CardBody>
+          </Card>
+        </Skeleton>
+        <Skeleton isLoaded={!isTransactionsLoading} w="full">
+          <Card w="full">
+            <CardBody>
+              <Stat>
+                <StatLabel>Deposits</StatLabel>
+                <StatNumber>${transactionsSummary?.depositsAmount}</StatNumber>
+                <StatHelpText>
+                  {formattedStartDate} - {formattedEndDate}
+                </StatHelpText>
+              </Stat>
+            </CardBody>
+          </Card>
+        </Skeleton>
+        <Skeleton isLoaded={!isTransactionsLoading} w="full">
+          <Card w="full">
+            <CardBody>
+              <Stat>
+                <StatLabel>Withdraws</StatLabel>
+                <StatNumber>${transactionsSummary?.withdrawsAmount}</StatNumber>
+                <StatHelpText>
+                  {formattedStartDate} - {formattedEndDate}
+                </StatHelpText>
+              </Stat>
+            </CardBody>
+          </Card>
+        </Skeleton>
       </HStack>
 
       <Heading as="h2" fontSize="md" mt="12">
