@@ -26,11 +26,10 @@ import {
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { FiFilter } from "react-icons/fi";
 import { useQuery } from "react-query";
-import { useState } from "react";
 
 import { Database } from "types/supabase.types";
 
-type Transaction = {
+type TransactionItem = {
   id: string;
   title: string;
   type: string;
@@ -39,15 +38,26 @@ type Transaction = {
   categories: { title: string; color: string };
 };
 
+type TransactionsSummary = {
+  withdrawsAmount: number;
+  depositsAmount: number;
+  savedMoneyAmount: number;
+};
+
+type Transaction = {
+  items: TransactionItem[];
+  summary: TransactionsSummary;
+};
+
 type TransactionsSummaryResponse = {
   type: string;
   amount: number;
 };
 
-type TransactionsSummary = {
-  withdrawsAmount: number;
-  depositsAmount: number;
-  savedMoneyAmount: number;
+const defaultSummary = {
+  withdrawsAmount: 0,
+  depositsAmount: 0,
+  savedMoneyAmount: 0,
 };
 
 export default function Transactions() {
@@ -65,56 +75,58 @@ export default function Transactions() {
 
   const supabaseClient = useSupabaseClient<Database>();
 
-  const [transactionsSummary, setTransactionsSummary] =
-    useState<TransactionsSummary>();
-
-  const { data: transactions = [], isLoading: isTransactionsLoading } =
-    useQuery<Transaction[]>(
-      "transactions",
-      async () => {
-        const { data: summaryData } = await supabaseClient.rpc(
-          "transactions_summary",
-          {
-            start_date: startDate.toDateString(),
-            end_date: endDate.toDateString(),
-          }
-        );
-
-        if (summaryData) {
-          const withdrawsAmount = (
-            summaryData as TransactionsSummaryResponse[]
-          ).reduce(
-            (acc, { type, amount }) => acc + (type === "withdraw" ? amount : 0),
-            0
-          );
-          const depositsAmount = (
-            summaryData as TransactionsSummaryResponse[]
-          ).reduce(
-            (acc, { type, amount }) => acc + (type === "deposit" ? amount : 0),
-            0
-          );
-          const savedMoneyAmount = depositsAmount - withdrawsAmount;
-
-          setTransactionsSummary({
-            withdrawsAmount,
-            depositsAmount,
-            savedMoneyAmount,
-          });
+  const {
+    data: transactions = { items: [], summary: defaultSummary } as Transaction,
+    isLoading: isTransactionsLoading,
+  } = useQuery<Transaction>(
+    "transactions",
+    async () => {
+      const { data: summaryData } = await supabaseClient.rpc(
+        "transactions_summary",
+        {
+          start_date: startDate.toDateString(),
+          end_date: endDate.toDateString(),
         }
+      );
 
-        const { data } = await supabaseClient
-          .from("transactions")
-          .select(
-            "id, title, type, amount, transacted_at, categories ( title, color )",
-            { count: "exact" }
-          )
-          .gte("transacted_at", startDate.toDateString())
-          .lte("transacted_at", endDate.toDateString())
-          .order("transacted_at", { ascending: false })
-          .limit(10);
+      let summary = defaultSummary;
 
-        if (data) {
-          return (data as Transaction[]).map((transaction) => ({
+      if (summaryData) {
+        const withdrawsAmount = (
+          summaryData as TransactionsSummaryResponse[]
+        ).reduce(
+          (acc, { type, amount }) => acc + (type === "withdraw" ? amount : 0),
+          0
+        );
+        const depositsAmount = (
+          summaryData as TransactionsSummaryResponse[]
+        ).reduce(
+          (acc, { type, amount }) => acc + (type === "deposit" ? amount : 0),
+          0
+        );
+        const savedMoneyAmount = depositsAmount - withdrawsAmount;
+
+        summary = {
+          withdrawsAmount,
+          depositsAmount,
+          savedMoneyAmount,
+        };
+      }
+
+      const { data } = await supabaseClient
+        .from("transactions")
+        .select(
+          "id, title, type, amount, transacted_at, categories ( title, color )",
+          { count: "exact" }
+        )
+        .gte("transacted_at", startDate.toDateString())
+        .lte("transacted_at", endDate.toDateString())
+        .order("transacted_at", { ascending: false })
+        .limit(10);
+
+      if (data) {
+        const items = (data as TransactionItem[]) // needed to force these types because of a issue on supabase types gen
+          .map((transaction) => ({
             ...transaction,
             transacted_at: new Date(transaction.transacted_at).toLocaleString(
               "en-US",
@@ -124,15 +136,17 @@ export default function Transactions() {
                 year: "numeric",
               }
             ),
-          })); // needed to force these types because of a issue on supabase types gen
-        }
+          }));
 
-        return [];
-      },
-      {
-        staleTime: 1000 * 60, // 1 minute
+        return { items, summary };
       }
-    );
+
+      return { items: [], summary: defaultSummary };
+    },
+    {
+      staleTime: 1000 * 60, // 1 minute
+    }
+  );
 
   return (
     <Box as="main" h="full">
@@ -161,7 +175,7 @@ export default function Transactions() {
               <Stat>
                 <StatLabel>Saved Money</StatLabel>
                 <StatNumber>
-                  ${transactionsSummary?.savedMoneyAmount}
+                  ${transactions.summary.savedMoneyAmount}
                 </StatNumber>
                 <StatHelpText>
                   {formattedStartDate} - {formattedEndDate}
@@ -175,7 +189,7 @@ export default function Transactions() {
             <CardBody>
               <Stat>
                 <StatLabel>Deposits</StatLabel>
-                <StatNumber>${transactionsSummary?.depositsAmount}</StatNumber>
+                <StatNumber>${transactions.summary.depositsAmount}</StatNumber>
                 <StatHelpText>
                   {formattedStartDate} - {formattedEndDate}
                 </StatHelpText>
@@ -188,7 +202,7 @@ export default function Transactions() {
             <CardBody>
               <Stat>
                 <StatLabel>Withdraws</StatLabel>
-                <StatNumber>${transactionsSummary?.withdrawsAmount}</StatNumber>
+                <StatNumber>${transactions.summary.withdrawsAmount}</StatNumber>
                 <StatHelpText>
                   {formattedStartDate} - {formattedEndDate}
                 </StatHelpText>
@@ -214,7 +228,7 @@ export default function Transactions() {
             </Tr>
           </Thead>
           <Tbody>
-            {transactions.map(
+            {transactions.items.map(
               ({ id, type, title, amount, categories, transacted_at }) => (
                 <Tr key={id}>
                   <Td>
