@@ -152,7 +152,7 @@ export default function Transactions() {
     <Box as="main" h="full">
       <Flex alignItems="center" justifyContent="space-between">
         <Heading as="h1" fontSize="xl">
-          About your transactions
+          Summary of your transactions
         </Heading>
 
         <HStack spacing="4">
