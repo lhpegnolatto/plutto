@@ -24,9 +24,11 @@ import {
 } from "@chakra-ui/react";
 import { FiFilter } from "react-icons/fi";
 
+import { NextPageWithLayout } from "pages/_app.public";
+
 import { useTransactions } from "./hook";
 
-export default function Transactions() {
+const Transactions: NextPageWithLayout = () => {
   const {
     isTransactionsLoading,
     transactions,
@@ -157,4 +159,14 @@ export default function Transactions() {
       </TableContainer>
     </Box>
   );
-}
+};
+
+Transactions.breadcrumbItems = [
+  {
+    title: "Transactions",
+    path: "/transactions",
+    isCurrentPage: true,
+  },
+];
+
+export default Transactions;

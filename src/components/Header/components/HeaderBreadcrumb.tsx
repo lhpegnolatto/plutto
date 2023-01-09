@@ -5,43 +5,20 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 
-type BreadcrumbItem = {
+export type BreadcrumbItem = {
   title: string;
   path: string;
-  shouldMatchExactHref?: boolean;
+  isCurrentPage?: boolean;
 };
 
-const breadcrumbItems: Array<Array<BreadcrumbItem>> = [
-  [{ title: "Home", path: "/" }],
-  [
-    {
-      title: "Transactions",
-      path: "/transactions",
-    },
-  ],
-  [
-    { title: "Transactions", path: "/transactions" },
-    { title: "New", path: "/transactions/new" },
-  ],
-  [{ title: "Planned", path: "/planned" }],
-];
+interface HeaderBreadcrumbProps {
+  items: Array<BreadcrumbItem>;
+}
 
-export function HeaderBreadcrumb() {
-  const { asPath } = useRouter();
-
+export function HeaderBreadcrumb({ items }: HeaderBreadcrumbProps) {
   const separatorColor = useColorModeValue("gray.400", "gray.600");
-
-  const currentPageBreadcrumbItems = breadcrumbItems.find((items) => {
-    const { path: lastItemPath, shouldMatchExactHref = true } =
-      items[items.length - 1];
-
-    return shouldMatchExactHref
-      ? lastItemPath === asPath
-      : asPath.startsWith(lastItemPath);
-  });
 
   return (
     <Breadcrumb
@@ -49,28 +26,20 @@ export function HeaderBreadcrumb() {
       separator={<Text color={separatorColor}>/</Text>}
       sx={{ "li > span": { display: "flex" } }}
     >
-      {currentPageBreadcrumbItems &&
-        currentPageBreadcrumbItems.map(
-          ({ title, path, shouldMatchExactHref }, index) => {
-            const isCurrentPage = shouldMatchExactHref
-              ? path === asPath
-              : index === currentPageBreadcrumbItems.length - 1 &&
-                asPath.startsWith(path);
-
-            return (
-              <BreadcrumbItem
-                key={path}
-                isCurrentPage={isCurrentPage}
-                fontSize="xs"
-                fontWeight={isCurrentPage ? "semibold" : "regular"}
-              >
-                <Link href={path} passHref legacyBehavior>
-                  <BreadcrumbLink>{title}</BreadcrumbLink>
-                </Link>
-              </BreadcrumbItem>
-            );
-          }
-        )}
+      {items.map(({ title, path, isCurrentPage }) => {
+        return (
+          <BreadcrumbItem
+            key={path}
+            isCurrentPage={isCurrentPage}
+            fontSize="xs"
+            fontWeight={isCurrentPage ? "semibold" : "regular"}
+          >
+            <Link href={path} passHref legacyBehavior>
+              <BreadcrumbLink>{title}</BreadcrumbLink>
+            </Link>
+          </BreadcrumbItem>
+        );
+      })}
     </Breadcrumb>
   );
 }

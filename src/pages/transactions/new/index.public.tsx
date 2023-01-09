@@ -16,6 +16,7 @@ import { Select, tagSelectComponents } from "components/Select";
 import { useNewTransaction } from "./hook";
 import { CurrencyInput } from "components/CurrencyInput";
 import { CategorySelect } from "components/CategorySelect";
+import { NextPageWithLayout } from "pages/_app.public";
 
 const formValidations = {
   title: { required: "Title is required" },
@@ -27,7 +28,7 @@ const formValidations = {
   transacted_at: { required: "Transaction date is required" },
 };
 
-export default function NewTransaction() {
+const NewTransaction: NextPageWithLayout = () => {
   const { formProps, onSubmit, isSubmitting } = useNewTransaction();
 
   const {
@@ -140,4 +141,11 @@ export default function NewTransaction() {
       </Form.Root>
     </Box>
   );
-}
+};
+
+NewTransaction.breadcrumbItems = [
+  { title: "Transactions", path: "/transactions" },
+  { title: "New", path: "/transactions/new", isCurrentPage: true },
+];
+
+export default NewTransaction;

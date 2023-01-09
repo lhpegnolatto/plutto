@@ -1,9 +1,16 @@
 import { Box, Divider, Flex, useColorModeValue } from "@chakra-ui/react";
 
-import { HeaderBreadcrumb } from "./components/HeaderBreadcrumb";
+import {
+  BreadcrumbItem,
+  HeaderBreadcrumb,
+} from "./components/HeaderBreadcrumb";
 import { HeaderUserMenu } from "./components/HeaderUserMenu";
 
-export function Header() {
+interface HeaderProps {
+  breadcrumbItems: Array<BreadcrumbItem>;
+}
+
+export function Header({ breadcrumbItems }: HeaderProps) {
   const dividerBorderColor = useColorModeValue(
     "blackAlpha.100",
     "whiteAlpha.100"
@@ -18,7 +25,7 @@ export function Header() {
         w="full"
         p="4"
       >
-        <HeaderBreadcrumb />
+        <HeaderBreadcrumb items={breadcrumbItems} />
 
         <HeaderUserMenu />
       </Flex>

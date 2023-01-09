@@ -6,7 +6,7 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
-import { FiActivity, FiCreditCard, FiHome } from "react-icons/fi";
+import { HiHome, HiTrendingUp } from "react-icons/hi";
 
 import { PluttoIcon } from "components/icons";
 import { SidebarIconButton } from "./components/SidebarIconButton";
@@ -15,18 +15,13 @@ const pages = [
   {
     title: "Home",
     path: "/",
-    icon: <Icon as={FiHome} boxSize="5" />,
+    icon: <Icon as={HiHome} boxSize="5" />,
     shouldMatchExactHref: true,
   },
   {
     title: "Transactions",
     path: "/transactions",
-    icon: <Icon as={FiActivity} boxSize="5" />,
-  },
-  {
-    title: "Planned",
-    path: "/planned",
-    icon: <Icon as={FiCreditCard} boxSize="5" />,
+    icon: <Icon as={HiTrendingUp} boxSize="5" />,
   },
 ];
 

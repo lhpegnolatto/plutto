@@ -9,6 +9,7 @@ import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 import { AppLayout } from "components/layouts/app";
+import { BreadcrumbItem } from "components/Header/components/HeaderBreadcrumb";
 import { AuthLayout } from "components/layouts/auth";
 import { AppLoader } from "components/AppLoader";
 
@@ -19,6 +20,7 @@ import { theme } from "theme";
 
 export type NextPageWithLayout = NextPage & {
   layout?: "app" | "auth";
+  breadcrumbItems?: BreadcrumbItem[];
 };
 
 type AppPropsWithLayout = AppProps & {
@@ -54,7 +56,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           <AppLoaderProvider>
             <AppLoader />
 
-            <Layout>
+            <Layout breadcrumbItems={Component.breadcrumbItems || []}>
               <Component {...pageProps} />
             </Layout>
           </AppLoaderProvider>
