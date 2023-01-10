@@ -3,9 +3,13 @@ import {
   Button,
   Flex,
   Heading,
+  HStack,
   Icon,
   IconButton,
   Input,
+  Radio,
+  RadioGroup,
+  Stack,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
@@ -36,7 +40,10 @@ const NewTransaction: NextPageWithLayout = () => {
     control,
     formState: { errors },
     setValue,
+    watch,
   } = formProps;
+
+  const repeatFor = watch("repeatFor");
 
   return (
     <Box as="main" h="full">
@@ -57,16 +64,45 @@ const NewTransaction: NextPageWithLayout = () => {
         <Form.Grid>
           <Form.Item colSpan={6}>
             <Form.Field
-              label="Title"
-              errorMessage={errors["title"]?.message?.toString()}
+              label="Description"
+              errorMessage={errors["description"]?.message?.toString()}
             >
               <Input
-                placeholder="Type your transaction title"
-                {...register("title", formValidations["title"])}
+                placeholder="Type your transaction description"
+                {...register("description")}
               />
             </Form.Field>
           </Form.Item>
           <Form.Item colSpan={6}>
+            <Form.Field
+              label="Transacted at"
+              errorMessage={errors["transacted_at"]?.message?.toString()}
+            >
+              <Input
+                type="date"
+                {...register("transacted_at", formValidations["transacted_at"])}
+              />
+            </Form.Field>
+          </Form.Item>
+          <Form.Item colSpan={4}>
+            <Form.Field
+              label="Type"
+              errorMessage={errors["type"]?.message?.toString()}
+            >
+              <Select
+                name="type"
+                control={control}
+                options={[
+                  { label: "Expense", value: "withdraw", colorScheme: "red" },
+                  { label: "Earn", value: "deposit", colorScheme: "green" },
+                ]}
+                placeholder="Select the transaction type"
+                components={tagSelectComponents}
+                rules={formValidations["type"]}
+              />
+            </Form.Field>
+          </Form.Item>
+          <Form.Item colSpan={4}>
             <Form.Field
               label="Category"
               errorMessage={errors["category"]?.message?.toString()}
@@ -81,26 +117,64 @@ const NewTransaction: NextPageWithLayout = () => {
             </Form.Field>
           </Form.Item>
           <Form.Item colSpan={4}>
-            <Form.Field
-              label="Type"
-              errorMessage={errors["type"]?.message?.toString()}
-            >
+            <Form.Field label="Payment method">
               <Select
-                name="type"
+                name="paymentMethod"
                 control={control}
                 options={[
-                  { label: "Withdraw", value: "withdraw", colorScheme: "red" },
-                  { label: "Deposit", value: "deposit", colorScheme: "green" },
+                  { label: "Cash", value: "cash" },
+                  { label: "Credit card", value: "credit_card" },
                 ]}
-                placeholder="Select the transaction type"
-                components={tagSelectComponents}
-                rules={formValidations["type"]}
+                placeholder="Select the transaction wallet"
               />
             </Form.Field>
           </Form.Item>
           <Form.Item colSpan={4}>
+            <Form.Field label="Repeat">
+              <Select
+                name="repeatFor"
+                control={control}
+                options={[
+                  { label: "Don't repeat", value: "single" },
+                  { label: "Fixed", value: "fixed" },
+                  { label: "Installments", value: "installments" },
+                ]}
+              />
+            </Form.Field>
+          </Form.Item>
+          {repeatFor === "fixed" && (
+            <Form.Item colSpan={4}>
+              <Form.Field label="Fixed period">
+                <Select
+                  name="fixedPeriod"
+                  control={control}
+                  options={[
+                    { label: "Monthly", value: "monthly" },
+                    { label: "Daily", value: "daily" },
+                    { label: "Weekly", value: "weekly" },
+                    { label: "Yearly", value: "yearly" },
+                  ]}
+                />
+              </Form.Field>
+            </Form.Item>
+          )}
+          {repeatFor === "installments" && (
+            <Form.Item colSpan={4}>
+              <Form.Field
+                label="Installments quantity"
+                errorMessage={errors[
+                  "installmentsQuantity"
+                ]?.message?.toString()}
+              >
+                <Input {...register("installmentsQuantity")} />
+              </Form.Field>
+            </Form.Item>
+          )}
+          <Form.Item colSpan={4}>
             <Form.Field
-              label="Amount"
+              label={
+                repeatFor === "installments" ? "Installment amount" : "Amount"
+              }
               errorMessage={errors["amount"]?.message?.toString()}
             >
               <CurrencyInput
@@ -108,17 +182,6 @@ const NewTransaction: NextPageWithLayout = () => {
                 placeholder="$0.00"
                 control={control}
                 rules={formValidations["amount"]}
-              />
-            </Form.Field>
-          </Form.Item>
-          <Form.Item colSpan={4}>
-            <Form.Field
-              label="Transacted at"
-              errorMessage={errors["transacted_at"]?.message?.toString()}
-            >
-              <Input
-                type="date"
-                {...register("transacted_at", formValidations["transacted_at"])}
               />
             </Form.Field>
           </Form.Item>

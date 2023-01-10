@@ -18,7 +18,7 @@ function FormField({
   label,
   errorMessage = "",
   helperMessage = "",
-  size,
+  size = "sm",
   ...rest
 }: FormFieldProps) {
   return (

@@ -16,6 +16,7 @@ export function SidebarIconButton({
   title,
   icon,
   path,
+  isDisabled,
   ...rest
 }: SidebarIconButtonProps) {
   const buttonsHoverBg = useColorModeValue("gray.100", "whiteAlpha.200");
@@ -33,11 +34,12 @@ export function SidebarIconButton({
     >
       <IconButton
         as={Link}
-        href={path}
+        href={isDisabled ? {} : path}
         icon={icon}
         _hover={{ bg: buttonsHoverBg }}
         _active={{ bg: buttonsActiveBg }}
         {...rest}
+        isDisabled={isDisabled}
       />
     </Tooltip>
   );

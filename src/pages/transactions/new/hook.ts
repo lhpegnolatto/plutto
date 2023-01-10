@@ -8,13 +8,17 @@ import { useRouter } from "next/router";
 export function useNewTransaction() {
   const router = useRouter();
 
-  const formProps = useForm({
+  const formProps = useForm<any>({
     defaultValues: {
       title: "",
       category: "",
       type: "withdraw",
       amount: "",
       transacted_at: new Date().toISOString().split("T")[0],
+      repeatFor: "single",
+      fixedPeriod: "monthly",
+      installmentsQuantity: "2",
+      paymentMethod: "cash",
     },
   });
   const { handleSubmit } = formProps;

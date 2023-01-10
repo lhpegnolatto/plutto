@@ -61,14 +61,14 @@ const AuthPage: NextPageWithLayout = () => {
         <Button
           onClick={() => handleSignIn("github")}
           leftIcon={<Icon as={FiGithub} />}
-          isLoading={isAppLoading}
+          isDisabled={isAppLoading}
         >
           Github
         </Button>
         <Button
           onClick={() => handleSignIn("google")}
           leftIcon={<Icon as={IoLogoGoogle} />}
-          isLoading={isAppLoading}
+          isDisabled={isAppLoading}
           colorScheme="orange"
         >
           Google
