@@ -13,5 +13,9 @@
   "license": "MIT",
   "scripts": {
     "web:dev": "yarn workspace @plutto/web next dev"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.17",
+    "typescript": "4.9.4"
   }
 }
