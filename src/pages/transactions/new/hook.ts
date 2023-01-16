@@ -5,20 +5,32 @@ import { useMutation, useQueryClient } from "react-query";
 import { Database } from "types/supabase.types";
 import { useRouter } from "next/router";
 
+type FormData = {
+  description: string;
+  transactedAt: string;
+  type: "expense" | "earn";
+  category: string;
+  paymentMethod: string;
+  repeat: "single" | "fixed" | "installment";
+  amount: string;
+  fixedPeriod: "monthly" | "daily" | "weekly" | "yearly" | null;
+  installments: string;
+};
+
 export function useNewTransaction() {
   const router = useRouter();
 
-  const formProps = useForm<any>({
+  const formProps = useForm<FormData>({
     defaultValues: {
-      title: "",
+      description: "",
+      transactedAt: new Date().toISOString().split("T")[0],
+      type: "expense",
       category: "",
-      type: "withdraw",
+      paymentMethod: "",
+      repeat: "single",
       amount: "",
-      transacted_at: new Date().toISOString().split("T")[0],
-      repeatFor: "single",
       fixedPeriod: "monthly",
-      installmentsQuantity: "2",
-      paymentMethod: "cash",
+      installments: "2",
     },
   });
   const { handleSubmit } = formProps;
@@ -27,17 +39,33 @@ export function useNewTransaction() {
   const queryClient = useQueryClient();
 
   const { mutateAsync: onSubmit, isLoading: isSubmitting } = useMutation(
-    handleSubmit(async ({ amount, category, title, transacted_at, type }) => {
-      await supabaseClient.from("transactions").insert({
-        amount: parseFloat(amount),
-        category_id: category,
-        title,
-        transacted_at,
+    handleSubmit(
+      async ({
+        description,
+        transactedAt,
         type,
-      });
+        category,
+        paymentMethod,
+        repeat,
+        amount,
+        fixedPeriod,
+        installments,
+      }) => {
+        await supabaseClient.from("transactions").insert({
+          description,
+          transacted_at: transactedAt,
+          type,
+          category_id: category,
+          payment_method_id: paymentMethod,
+          repeat,
+          amount: parseFloat(amount),
+          fixed_period: fixedPeriod,
+          installments: installments ? parseInt(installments) : null,
+        });
 
-      router.push("/transactions");
-    }),
+        router.push("/transactions");
+      }
+    ),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("transactions");

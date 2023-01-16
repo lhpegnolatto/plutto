@@ -3,13 +3,9 @@ import {
   Button,
   Flex,
   Heading,
-  HStack,
   Icon,
   IconButton,
   Input,
-  Radio,
-  RadioGroup,
-  Stack,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
@@ -23,13 +19,17 @@ import { CategorySelect } from "components/CategorySelect";
 import { NextPageWithLayout } from "pages/_app.public";
 
 const formValidations = {
-  title: { required: "Title is required" },
-  category: { required: "Category is required" },
+  description: { required: "Title is required" },
+  transactedAt: { required: "Transaction date is required" },
   type: { required: "Type is required" },
+  category: { required: "Category is required" },
+  paymentMethod: { required: "Payment method is required" },
+  repeat: { required: "Repeat type is required" },
   amount: {
     required: "Amount is required",
   },
-  transacted_at: { required: "Transaction date is required" },
+  fixedPeriod: { required: "Period is required" },
+  installments: { required: "Installments quantity is required" },
 };
 
 const NewTransaction: NextPageWithLayout = () => {
@@ -43,7 +43,7 @@ const NewTransaction: NextPageWithLayout = () => {
     watch,
   } = formProps;
 
-  const repeatFor = watch("repeatFor");
+  const repeatType = watch("repeat");
 
   return (
     <Box as="main" h="full">
@@ -69,18 +69,18 @@ const NewTransaction: NextPageWithLayout = () => {
             >
               <Input
                 placeholder="Type your transaction description"
-                {...register("description")}
+                {...register("description", formValidations["description"])}
               />
             </Form.Field>
           </Form.Item>
           <Form.Item colSpan={6}>
             <Form.Field
               label="Transacted at"
-              errorMessage={errors["transacted_at"]?.message?.toString()}
+              errorMessage={errors["transactedAt"]?.message?.toString()}
             >
               <Input
                 type="date"
-                {...register("transacted_at", formValidations["transacted_at"])}
+                {...register("transactedAt", formValidations["transactedAt"])}
               />
             </Form.Field>
           </Form.Item>
@@ -93,8 +93,8 @@ const NewTransaction: NextPageWithLayout = () => {
                 name="type"
                 control={control}
                 options={[
-                  { label: "Expense", value: "withdraw", colorScheme: "red" },
-                  { label: "Earn", value: "deposit", colorScheme: "green" },
+                  { label: "Expense", value: "expense", colorScheme: "red" },
+                  { label: "Earn", value: "earn", colorScheme: "green" },
                 ]}
                 placeholder="Select the transaction type"
                 components={tagSelectComponents}
@@ -126,23 +126,25 @@ const NewTransaction: NextPageWithLayout = () => {
                   { label: "Credit card", value: "credit_card" },
                 ]}
                 placeholder="Select the transaction wallet"
+                rules={formValidations["paymentMethod"]}
               />
             </Form.Field>
           </Form.Item>
           <Form.Item colSpan={4}>
             <Form.Field label="Repeat">
               <Select
-                name="repeatFor"
+                name="repeat"
                 control={control}
                 options={[
                   { label: "Don't repeat", value: "single" },
                   { label: "Fixed", value: "fixed" },
-                  { label: "Installments", value: "installments" },
+                  { label: "Installments", value: "installment" },
                 ]}
+                rules={formValidations["repeat"]}
               />
             </Form.Field>
           </Form.Item>
-          {repeatFor === "fixed" && (
+          {repeatType === "fixed" && (
             <Form.Item colSpan={4}>
               <Form.Field label="Fixed period">
                 <Select
@@ -154,26 +156,27 @@ const NewTransaction: NextPageWithLayout = () => {
                     { label: "Weekly", value: "weekly" },
                     { label: "Yearly", value: "yearly" },
                   ]}
+                  rules={formValidations["fixedPeriod"]}
                 />
               </Form.Field>
             </Form.Item>
           )}
-          {repeatFor === "installments" && (
+          {repeatType === "installment" && (
             <Form.Item colSpan={4}>
               <Form.Field
                 label="Installments quantity"
-                errorMessage={errors[
-                  "installmentsQuantity"
-                ]?.message?.toString()}
+                errorMessage={errors["installments"]?.message?.toString()}
               >
-                <Input {...register("installmentsQuantity")} />
+                <Input
+                  {...register("installments", formValidations["installments"])}
+                />
               </Form.Field>
             </Form.Item>
           )}
           <Form.Item colSpan={4}>
             <Form.Field
               label={
-                repeatFor === "installments" ? "Installment amount" : "Amount"
+                repeatType === "installment" ? "Installment amount" : "Amount"
               }
               errorMessage={errors["amount"]?.message?.toString()}
             >
