@@ -4,12 +4,14 @@ import {
   FormErrorMessage,
   FormHelperText,
   FormLabel,
+  ResponsiveValue,
 } from "@chakra-ui/react";
 
 interface FormFieldProps extends FormControlProps {
   children: React.ReactNode;
   label: string;
   errorMessage?: string;
+  errorMessageSize?: ResponsiveValue<string>;
   helperMessage?: string;
 }
 
@@ -17,6 +19,7 @@ function FormField({
   children,
   label,
   errorMessage = "",
+  errorMessageSize = "sm",
   helperMessage = "",
   size = "sm",
   ...rest
@@ -26,7 +29,7 @@ function FormField({
       <FormLabel fontSize={size}>{label}</FormLabel>
       {children}
       {errorMessage && (
-        <FormErrorMessage position="absolute">
+        <FormErrorMessage position="absolute" fontSize={errorMessageSize}>
           {errorMessage.toString()}
         </FormErrorMessage>
       )}

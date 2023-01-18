@@ -9,33 +9,27 @@ import { Option } from "components/CreatableSelect";
 
 import { Database } from "types/supabase.types";
 
-type CategoryOption = {
-  value: string;
-  label: string;
-  colorScheme: string;
-};
-
 interface UseCategorySelectProps {
   setValue: UseFormSetValue<any>;
 }
 
 export function useCategorySelect({ setValue }: UseCategorySelectProps) {
   const {
-    isOpen: isCreatePopoverOpen,
-    onClose: onCreatePopoverClose,
-    onOpen: onCreatePopoverOpen,
+    isOpen: isCreateDrawerOpen,
+    onClose: onCreateDrawerClose,
+    onOpen: onCreateDrawerOpen,
   } = useDisclosure();
 
   const finalFocusRef = useRef<SelectInstance<Option> | null>(null);
   const defaultCategoryTitle = useRef("");
 
-  function onCategoryCreate(inputValue: string) {
+  function handleOnCreateDrawerOpen(inputValue = "") {
     defaultCategoryTitle.current = inputValue;
 
-    onCreatePopoverOpen();
+    onCreateDrawerOpen();
   }
 
-  function handleOnCreatePopoverClose(createdCategoryId?: string) {
+  function handleOnCreateDrawerClose(createdCategoryId?: string) {
     if (finalFocusRef.current) {
       finalFocusRef.current.focus();
     }
@@ -44,10 +38,10 @@ export function useCategorySelect({ setValue }: UseCategorySelectProps) {
       setValue("category", createdCategoryId);
     }
 
-    onCreatePopoverClose();
+    onCreateDrawerClose();
   }
 
-  function getCategoryPopoverDefaultValues() {
+  function getCategoryDrawerDefaultValues() {
     return {
       title: defaultCategoryTitle.current,
       color: "",
@@ -56,37 +50,33 @@ export function useCategorySelect({ setValue }: UseCategorySelectProps) {
 
   const supabaseClient = useSupabaseClient<Database>();
 
-  const { isLoading: isCategoriesLoading, data: categories = [] } = useQuery<
-    CategoryOption[]
-  >(
+  const { isLoading: isCategoriesLoading, data: categories = [] } = useQuery(
     "categories",
     async () => {
       const { data } = await supabaseClient
         .from("categories")
         .select("id, title, color");
 
-      if (data) {
-        return data.map(({ id, title, color }) => ({
-          value: id,
-          label: title,
-          colorScheme: color,
-        }));
-      }
-
-      return [];
+      return data || [];
     },
     {
       staleTime: 1000 * 60, // 1 minute
+      select: (data) =>
+        data.map(({ id, title, color }) => ({
+          value: id,
+          label: title,
+          colorScheme: color,
+        })),
     }
   );
 
   return {
     finalFocusRef,
-    onCategoryCreate,
     isCategoriesLoading,
     categories,
-    isCreatePopoverOpen,
-    handleOnCreatePopoverClose,
-    getCategoryPopoverDefaultValues,
+    isCreateDrawerOpen,
+    handleOnCreateDrawerOpen,
+    handleOnCreateDrawerClose,
+    getCategoryDrawerDefaultValues,
   };
 }

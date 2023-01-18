@@ -111,13 +111,16 @@ const NewTransaction: NextPageWithLayout = () => {
                 name="category"
                 control={control}
                 setValue={setValue}
-                placeholder="Select the transaction category"
+                placeholder="Select the category"
                 rules={formValidations["category"]}
               />
             </Form.Field>
           </Form.Item>
           <Form.Item colSpan={4}>
-            <Form.Field label="Payment method">
+            <Form.Field
+              label="Payment method"
+              errorMessage={errors["paymentMethod"]?.message?.toString()}
+            >
               <Select
                 name="paymentMethod"
                 control={control}
@@ -125,13 +128,16 @@ const NewTransaction: NextPageWithLayout = () => {
                   { label: "Cash", value: "cash" },
                   { label: "Credit card", value: "credit_card" },
                 ]}
-                placeholder="Select the transaction wallet"
+                placeholder="Select the payment method"
                 rules={formValidations["paymentMethod"]}
               />
             </Form.Field>
           </Form.Item>
           <Form.Item colSpan={4}>
-            <Form.Field label="Repeat">
+            <Form.Field
+              label="Repeat"
+              errorMessage={errors["repeat"]?.message?.toString()}
+            >
               <Select
                 name="repeat"
                 control={control}
@@ -146,7 +152,10 @@ const NewTransaction: NextPageWithLayout = () => {
           </Form.Item>
           {repeatType === "fixed" && (
             <Form.Item colSpan={4}>
-              <Form.Field label="Fixed period">
+              <Form.Field
+                label="Fixed period"
+                errorMessage={errors["fixedPeriod"]?.message?.toString()}
+              >
                 <Select
                   name="fixedPeriod"
                   control={control}
