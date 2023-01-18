@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useMutation, useQueryClient } from "react-query";
+import { useRouter } from "next/router";
 
 import { Database } from "types/supabase.types";
-import { useRouter } from "next/router";
 
 type FormData = {
   description: string;

@@ -7,11 +7,13 @@ import {
   Icon,
   Text,
 } from "@chakra-ui/react";
-import { Form } from "components/Form";
-import { Select, tagSelectComponents } from "components/Select";
 import { HiArrowLeft } from "react-icons/hi2";
+
 import { colorsOptions } from "../../data";
 import { formValidations, useCategoryDrawerForm } from "./hook";
+
+import { Form } from "components/Form";
+import { Select, tagSelectComponents } from "components/Select";
 
 interface CategoryDrawerProps {
   onClose: (createdCategoryId?: string) => void;

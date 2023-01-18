@@ -1,10 +1,11 @@
 import { Button, Flex, Heading, HStack, Icon } from "@chakra-ui/react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useAppLoaderContext } from "contexts/AppLoaderContext";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { FiGithub } from "react-icons/fi";
 import { IoLogoGoogle } from "react-icons/io";
+
+import { useAppLoaderContext } from "contexts/AppLoaderContext";
 
 import { NextPageWithLayout } from "./_app.public";
 

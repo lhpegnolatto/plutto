@@ -1,6 +1,6 @@
 import { useMergeRefs } from "@chakra-ui/react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 
