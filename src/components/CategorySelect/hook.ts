@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import { Option } from "components/CreatableSelect";
 
 import { Database } from "types/supabase.types";
+import { queryKeys } from "constants/queryKeys";
 
 interface UseCategorySelectProps {
   setValue: UseFormSetValue<any>;
@@ -51,7 +52,7 @@ export function useCategorySelect({ setValue }: UseCategorySelectProps) {
   const supabaseClient = useSupabaseClient<Database>();
 
   const { isLoading: isCategoriesLoading, data: categories = [] } = useQuery(
-    "categories",
+    queryKeys.CATEGORIES,
     async () => {
       const { data } = await supabaseClient
         .from("categories")

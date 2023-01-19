@@ -1,5 +1,6 @@
 import { useMergeRefs } from "@chakra-ui/react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { queryKeys } from "constants/queryKeys";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
@@ -60,7 +61,7 @@ export function useCategoryDrawerForm({
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("categories");
+        queryClient.invalidateQueries(queryKeys.CATEGORIES);
       },
     }
   );

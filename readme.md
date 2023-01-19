@@ -1,4 +1,0 @@
-- constants for routes
-- moving select options to data files
-- constants for react-query keys
-- constants for transaction types

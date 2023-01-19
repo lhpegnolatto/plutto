@@ -1,4 +1,5 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { queryKeys } from "constants/queryKeys";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import { Database } from "types/supabase.types";
@@ -8,7 +9,7 @@ export function useCategoryDrawerList() {
   const queryClient = useQueryClient();
 
   const { isLoading: isCategoriesLoading, data: categories = [] } = useQuery(
-    "categories",
+    queryKeys.CATEGORIES,
     async () => {
       const { data } = await supabaseClient
         .from("categories")
@@ -30,7 +31,7 @@ export function useCategoryDrawerList() {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("categories");
+        queryClient.invalidateQueries(queryKeys.CATEGORIES);
       },
     }
   );
