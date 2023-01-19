@@ -26,6 +26,7 @@ import { FiFilter } from "react-icons/fi";
 
 import { NextPageWithLayout } from "pages/_app.public";
 
+import { routes } from "constants/routes";
 import { useTransactions } from "./hook";
 
 const Transactions: NextPageWithLayout = () => {
@@ -50,7 +51,7 @@ const Transactions: NextPageWithLayout = () => {
           >
             Filters
           </Button>
-          <Button as={Link} href="/transactions/new" colorScheme="brand">
+          <Button as={Link} href={routes.NEW_TRANSACTION} colorScheme="brand">
             Create new
           </Button>
         </HStack>
@@ -164,7 +165,7 @@ const Transactions: NextPageWithLayout = () => {
 Transactions.breadcrumbItems = [
   {
     title: "Transactions",
-    path: "/transactions",
+    path: routes.TRANSACTIONS,
     isCurrentPage: true,
   },
 ];

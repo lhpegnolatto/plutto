@@ -20,6 +20,7 @@ import {
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { useAppLoaderContext } from "contexts/AppLoaderContext";
+import { routes } from "constants/routes";
 
 export function HeaderUserMenu() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export function HeaderUserMenu() {
 
     await supabaseClient.auth.signOut();
 
-    router.push("/sign-in");
+    router.push(routes.SIGN_IN);
   }
 
   return (

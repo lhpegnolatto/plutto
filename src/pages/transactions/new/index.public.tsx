@@ -17,6 +17,7 @@ import { useNewTransaction } from "./hook";
 import { CurrencyInput } from "components/CurrencyInput";
 import { CategorySelect } from "components/CategorySelect";
 import { NextPageWithLayout } from "pages/_app.public";
+import { routes } from "constants/routes";
 
 const formValidations = {
   description: { required: "Title is required" },
@@ -50,7 +51,7 @@ const NewTransaction: NextPageWithLayout = () => {
       <Flex alignItems="center">
         <IconButton
           as={Link}
-          href="/transactions"
+          href={routes.TRANSACTIONS}
           aria-label="go back"
           icon={<Icon as={FiArrowLeft} />}
           isDisabled={isSubmitting}
@@ -202,7 +203,7 @@ const NewTransaction: NextPageWithLayout = () => {
         <Flex justifyContent="flex-end" gap="6" mt="10">
           <Button
             as={Link}
-            href="/transactions"
+            href={routes.TRANSACTIONS}
             variant="shadow"
             isDisabled={isSubmitting}
           >
@@ -219,8 +220,8 @@ const NewTransaction: NextPageWithLayout = () => {
 };
 
 NewTransaction.breadcrumbItems = [
-  { title: "Transactions", path: "/transactions" },
-  { title: "New", path: "/transactions/new", isCurrentPage: true },
+  { title: "Transactions", path: routes.TRANSACTIONS },
+  { title: "New", path: routes.NEW_TRANSACTION, isCurrentPage: true },
 ];
 
 export default NewTransaction;

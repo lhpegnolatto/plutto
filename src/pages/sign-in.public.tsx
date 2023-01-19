@@ -6,6 +6,7 @@ import { FiGithub } from "react-icons/fi";
 import { IoLogoGoogle } from "react-icons/io";
 
 import { useAppLoaderContext } from "contexts/AppLoaderContext";
+import { routes } from "constants/routes";
 
 import { NextPageWithLayout } from "./_app.public";
 
@@ -40,7 +41,7 @@ const AuthPage: NextPageWithLayout = () => {
       setIsAppLoading(false);
 
       if (session) {
-        router.push("/");
+        router.push(routes.HOME);
       }
     }
 

@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useRouter } from "next/router";
 
 import { Database } from "types/supabase.types";
+import { routes } from "constants/routes";
 
 type FormData = {
   description: string;
@@ -63,7 +64,7 @@ export function useNewTransaction() {
           installments: installments ? parseInt(installments) : null,
         });
 
-        router.push("/transactions");
+        router.push(routes.TRANSACTIONS);
       }
     ),
     {

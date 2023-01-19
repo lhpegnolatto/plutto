@@ -14,19 +14,21 @@ import {
   HiOutlineArrowTrendingUp,
 } from "react-icons/hi2";
 
+import { routes } from "constants/routes";
+
 import { PluttoIcon } from "components/icons";
 import { SidebarIconButton } from "./components/SidebarIconButton";
 
 const pages = [
   {
     title: "Home",
-    path: "/",
+    path: routes.HOME,
     icon: <Icon as={HiOutlineHome} boxSize="5" />,
     shouldMatchExactHref: true,
   },
   {
     title: "Transactions",
-    path: "/transactions",
+    path: routes.TRANSACTIONS,
     icon: <Icon as={HiOutlineBanknotes} boxSize="5" />,
   },
   {

@@ -1,5 +1,6 @@
 import { Flex, Heading } from "@chakra-ui/react";
 
+import { routes } from "constants/routes";
 import { NextPageWithLayout } from "./_app.public";
 
 const Home: NextPageWithLayout = () => {
@@ -10,6 +11,8 @@ const Home: NextPageWithLayout = () => {
   );
 };
 
-Home.breadcrumbItems = [{ title: "Home", path: "/", isCurrentPage: true }];
+Home.breadcrumbItems = [
+  { title: "Home", path: routes.HOME, isCurrentPage: true },
+];
 
 export default Home;
