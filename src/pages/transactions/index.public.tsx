@@ -28,6 +28,7 @@ import { NextPageWithLayout } from "pages/_app.public";
 
 import { routes } from "constants/routes";
 import { useTransactions } from "./hook";
+import { transactionTypes } from "constants/transactionTypes";
 
 const Transactions: NextPageWithLayout = () => {
   const {
@@ -121,8 +122,8 @@ const Transactions: NextPageWithLayout = () => {
               ({ id, type, title, amount, categories, transacted_at }) => (
                 <Tr key={id}>
                   <Td>
-                    <Tag colorScheme={type === "withdraw" ? "red" : "green"}>
-                      {type === "withdraw" ? "Withdraw" : "Deposit"}
+                    <Tag colorScheme={transactionTypes[type]?.colorScheme}>
+                      {transactionTypes[type]?.label}
                     </Tag>
                   </Td>
                   <Td>{title}</Td>

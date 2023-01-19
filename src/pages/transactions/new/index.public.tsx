@@ -12,12 +12,17 @@ import { FiArrowLeft } from "react-icons/fi";
 
 import { Form } from "components/Form";
 import { Select, tagSelectComponents } from "components/Select";
-
-import { useNewTransaction } from "./hook";
 import { CurrencyInput } from "components/CurrencyInput";
 import { CategorySelect } from "components/CategorySelect";
 import { NextPageWithLayout } from "pages/_app.public";
+
+import { useNewTransaction } from "./hook";
 import { routes } from "constants/routes";
+import {
+  fixedTransactionPeriodOptions,
+  transactionRepeatTypeOptions,
+} from "./data";
+import { transactionTypesOptions } from "constants/transactionTypes";
 
 const formValidations = {
   description: { required: "Title is required" },
@@ -93,10 +98,7 @@ const NewTransaction: NextPageWithLayout = () => {
               <Select
                 name="type"
                 control={control}
-                options={[
-                  { label: "Expense", value: "expense", colorScheme: "red" },
-                  { label: "Earn", value: "earn", colorScheme: "green" },
-                ]}
+                options={transactionTypesOptions}
                 placeholder="Select the transaction type"
                 components={tagSelectComponents}
                 rules={formValidations["type"]}
@@ -142,11 +144,7 @@ const NewTransaction: NextPageWithLayout = () => {
               <Select
                 name="repeat"
                 control={control}
-                options={[
-                  { label: "Don't repeat", value: "single" },
-                  { label: "Fixed", value: "fixed" },
-                  { label: "Installments", value: "installment" },
-                ]}
+                options={transactionRepeatTypeOptions}
                 rules={formValidations["repeat"]}
               />
             </Form.Field>
@@ -160,12 +158,7 @@ const NewTransaction: NextPageWithLayout = () => {
                 <Select
                   name="fixedPeriod"
                   control={control}
-                  options={[
-                    { label: "Monthly", value: "monthly" },
-                    { label: "Daily", value: "daily" },
-                    { label: "Weekly", value: "weekly" },
-                    { label: "Yearly", value: "yearly" },
-                  ]}
+                  options={fixedTransactionPeriodOptions}
                   rules={formValidations["fixedPeriod"]}
                 />
               </Form.Field>
