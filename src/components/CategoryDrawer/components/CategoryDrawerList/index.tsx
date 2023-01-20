@@ -14,6 +14,7 @@ import {
   Td,
   Skeleton,
 } from "@chakra-ui/react";
+import { ConfirmationAlertDialog } from "components/ConfirmationAlertDialog";
 import { HiOutlinePencil, HiOutlineTrash, HiXMark } from "react-icons/hi2";
 
 import { colorsOptions } from "../../data";
@@ -83,14 +84,21 @@ export function CategoryDrawerList({
                       colorScheme="blue"
                       mr="2"
                     />
-                    <IconButton
-                      aria-label="Delete category"
-                      icon={<Icon as={HiOutlineTrash} />}
-                      size="xs"
-                      colorScheme="red"
-                      onClick={() => onDelete(id)}
-                      isLoading={isDeleting}
-                    />
+                    <ConfirmationAlertDialog
+                      onConfirm={() => onDelete(id)}
+                      confirmButtonText="Delete"
+                    >
+                      {(onClick) => (
+                        <IconButton
+                          aria-label="Delete category"
+                          icon={<Icon as={HiOutlineTrash} />}
+                          size="xs"
+                          colorScheme="red"
+                          onClick={onClick}
+                          isLoading={isDeleting}
+                        />
+                      )}
+                    </ConfirmationAlertDialog>
                   </Flex>
                 </Td>
               </Tr>
