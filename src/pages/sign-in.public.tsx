@@ -1,4 +1,12 @@
-import { Button, Flex, Heading, HStack, Icon } from "@chakra-ui/react";
+import {
+  Button,
+  Card,
+  Flex,
+  Heading,
+  HStack,
+  Icon,
+  VStack,
+} from "@chakra-ui/react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -9,6 +17,7 @@ import { useAppLoaderContext } from "contexts/AppLoaderContext";
 import { routes } from "constants/routes";
 
 import { NextPageWithLayout } from "./_app.public";
+import { PluttoLogo, PluttoText } from "components/icons";
 
 const AuthPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -46,7 +55,7 @@ const AuthPage: NextPageWithLayout = () => {
     }
 
     checkSession();
-  }, []);
+  }, [router, setIsAppLoading, supabaseClient]);
 
   return (
     <Flex
@@ -55,27 +64,34 @@ const AuthPage: NextPageWithLayout = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <Heading as="h1" fontSize="lg">
-        Please sign in using one of this services
-      </Heading>
+      <Card p="10" alignItems="center">
+        <Flex alignItems="center">
+          <PluttoLogo color="brand.600" boxSize="12" />
+          <PluttoText width="20" height="8" ml="4" color="brand.600" />
+        </Flex>
 
-      <HStack spacing="4" mt="4">
-        <Button
-          onClick={() => handleSignIn("github")}
-          leftIcon={<Icon as={FiGithub} />}
-          isDisabled={isAppLoading}
-        >
-          Github
-        </Button>
-        <Button
-          onClick={() => handleSignIn("google")}
-          leftIcon={<Icon as={IoLogoGoogle} />}
-          isDisabled={isAppLoading}
-          colorScheme="orange"
-        >
-          Google
-        </Button>
-      </HStack>
+        <Heading as="h1" fontSize="lg" mt="12">
+          Please sign in using one of this services
+        </Heading>
+
+        <VStack spacing="4" mt="8">
+          <Button
+            onClick={() => handleSignIn("github")}
+            leftIcon={<Icon as={FiGithub} />}
+            isDisabled={isAppLoading}
+          >
+            Github
+          </Button>
+          <Button
+            onClick={() => handleSignIn("google")}
+            leftIcon={<Icon as={IoLogoGoogle} />}
+            isDisabled={isAppLoading}
+            colorScheme="orange"
+          >
+            Google
+          </Button>
+        </VStack>
+      </Card>
     </Flex>
   );
 };

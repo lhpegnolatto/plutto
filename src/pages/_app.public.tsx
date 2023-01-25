@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import type { AppProps } from "next/app";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -8,9 +8,8 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
-import { AppLayout } from "components/layouts/app";
+import { AppLayout } from "components/AppLayout";
 import { BreadcrumbItem } from "components/Header/components/HeaderBreadcrumb";
-import { AuthLayout } from "components/layouts/auth";
 import { AppLoader } from "components/AppLoader";
 
 import { AppLoaderProvider } from "contexts/AppLoaderContext";
@@ -29,7 +28,7 @@ type AppPropsWithLayout = AppProps & {
 
 const AppLayouts = {
   app: AppLayout,
-  auth: AuthLayout,
+  auth: Fragment,
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {

@@ -16,7 +16,7 @@ import {
 
 import { routes } from "constants/routes";
 
-import { PluttoIcon } from "components/icons";
+import { PluttoLogo } from "components/icons";
 import { SidebarIconButton } from "./components/SidebarIconButton";
 
 const pages = [
@@ -68,7 +68,7 @@ export function Sidebar() {
       px="2"
       py="4"
     >
-      <PluttoIcon color="brand.600" boxSize="8" />
+      <PluttoLogo color="brand.600" boxSize="8" />
 
       <Divider />
 
