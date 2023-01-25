@@ -7,26 +7,40 @@ import {
   SlideFade,
   Box,
 } from "@chakra-ui/react";
-import { useState } from "react";
 
 import { CategoryDrawerForm } from "./components/CategoryDrawerForm";
-import { FormData } from "./components/CategoryDrawerForm/hook";
 import { CategoryDrawerList } from "./components/CategoryDrawerList";
+import { useCategoryDrawer } from "./hook";
+
+export type CategoryFormItem = {
+  id?: string;
+  title: string;
+  color: string;
+};
 
 interface CategoryDrawerProps
   extends Omit<DrawerProps, "onClose" | "children"> {
-  getDefaultValues: () => FormData;
   isOpen: boolean;
-  onClose: (createdCategoryId?: string) => void;
+  onClose: () => void;
+  onCreateCategory: (createdCategoryId: string) => void;
+  onDeleteCategory: (deletedCategoryId: string) => void;
+  newCategoryTitle: string;
 }
 
 export function CategoryDrawer({
-  getDefaultValues,
   isOpen,
   onClose,
+  onCreateCategory,
+  onDeleteCategory,
+  newCategoryTitle,
   ...rest
 }: CategoryDrawerProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {
+    currentView,
+    onOpenCategoryForm,
+    onCloseCategoryForm,
+    defaultValuesRef,
+  } = useCategoryDrawer({ onCreateCategory, newCategoryTitle });
 
   return (
     <Drawer
@@ -42,24 +56,29 @@ export function CategoryDrawer({
           <Box position="relative">
             <Box position="absolute" w="full">
               <SlideFade
-                in={!isSubmitting}
+                in={currentView === "list"}
                 unmountOnExit
                 custom={{ offsetX: -80 }}
               >
                 <CategoryDrawerList
                   onClose={onClose}
-                  setIsSubmitting={setIsSubmitting}
+                  onOpenCategoryForm={onOpenCategoryForm}
+                  onDeleteCategory={onDeleteCategory}
                 />
               </SlideFade>
             </Box>
 
             <Box position="absolute" w="full">
               <SlideFade
-                in={isSubmitting}
+                in={currentView === "form"}
                 unmountOnExit
                 custom={{ offsetX: 80, reverse: true }}
               >
-                <CategoryDrawerForm onClose={() => setIsSubmitting(false)} />
+                <CategoryDrawerForm
+                  onClose={onCloseCategoryForm}
+                  defaultValues={defaultValuesRef.current}
+                  categoryId={defaultValuesRef.current?.id}
+                />
               </SlideFade>
             </Box>
           </Box>

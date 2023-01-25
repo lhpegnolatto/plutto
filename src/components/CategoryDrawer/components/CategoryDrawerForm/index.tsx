@@ -10,29 +10,33 @@ import {
 import { HiArrowLeft } from "react-icons/hi2";
 
 import { colorsOptions } from "../../data";
-import { formValidations, useCategoryDrawerForm } from "./hook";
+import { FormData, formValidations, useCategoryDrawerForm } from "./hook";
 
 import { Form } from "components/Form";
 import { Select, tagSelectComponents } from "components/Select";
 
 interface CategoryDrawerProps {
   onClose: (createdCategoryId?: string) => void;
+  defaultValues?: FormData;
+  categoryId?: string;
 }
 
-export function CategoryDrawerForm({ onClose }: CategoryDrawerProps) {
+export function CategoryDrawerForm({
+  onClose,
+  defaultValues,
+  categoryId,
+}: CategoryDrawerProps) {
   const {
     titleInputMergedRefs,
     titleInputProps,
-    formProps,
+    formProps: {
+      control,
+      handleSubmit,
+      formState: { errors },
+    },
     onSubmit,
     isSubmitting,
-  } = useCategoryDrawerForm({ onClose });
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = formProps;
+  } = useCategoryDrawerForm({ onClose, defaultValues, categoryId });
 
   return (
     <>
@@ -46,7 +50,7 @@ export function CategoryDrawerForm({ onClose }: CategoryDrawerProps) {
         />
 
         <Text fontSize="md" fontWeight="bold">
-          Create a new category
+          {categoryId ? "Editing a category" : "Creating a new category"}
         </Text>
       </Flex>
 
@@ -61,6 +65,7 @@ export function CategoryDrawerForm({ onClose }: CategoryDrawerProps) {
             ref={titleInputMergedRefs}
             placeholder="Type your category title"
             size="sm"
+            autoFocus
             {...titleInputProps}
           />
         </Form.Field>
@@ -96,7 +101,7 @@ export function CategoryDrawerForm({ onClose }: CategoryDrawerProps) {
           onClick={handleSubmit(async (data) => onSubmit(data))}
           isLoading={isSubmitting}
         >
-          Create
+          {categoryId ? "Save" : "Create"}
         </Button>
       </ButtonGroup>
     </>

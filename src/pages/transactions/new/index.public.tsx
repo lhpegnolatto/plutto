@@ -39,15 +39,18 @@ const formValidations = {
 };
 
 const NewTransaction: NextPageWithLayout = () => {
-  const { formProps, onSubmit, isSubmitting } = useNewTransaction();
-
   const {
-    register,
-    control,
-    formState: { errors },
-    setValue,
-    watch,
-  } = formProps;
+    formProps: {
+      register,
+      control,
+      formState: { errors },
+      setValue,
+      getValues,
+      watch,
+    },
+    onSubmit,
+    isSubmitting,
+  } = useNewTransaction();
 
   const repeatType = watch("repeat");
 
@@ -114,6 +117,7 @@ const NewTransaction: NextPageWithLayout = () => {
                 name="category"
                 control={control}
                 setValue={setValue}
+                getValues={getValues}
                 placeholder="Select the category"
                 rules={formValidations["category"]}
               />

@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useDisclosure } from "@chakra-ui/react";
 import { SelectInstance } from "chakra-react-select";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { UseFormSetValue } from "react-hook-form";
+import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 import { useQuery } from "react-query";
 
 import { Option } from "components/CreatableSelect";
@@ -12,9 +12,15 @@ import { queryKeys } from "constants/queryKeys";
 
 interface UseCategorySelectProps {
   setValue: UseFormSetValue<any>;
+  getValues: UseFormGetValues<any>;
+  name: string;
 }
 
-export function useCategorySelect({ setValue }: UseCategorySelectProps) {
+export function useCategorySelect({
+  setValue,
+  getValues,
+  name,
+}: UseCategorySelectProps) {
   const {
     isOpen: isCreateDrawerOpen,
     onClose: onCreateDrawerClose,
@@ -22,31 +28,32 @@ export function useCategorySelect({ setValue }: UseCategorySelectProps) {
   } = useDisclosure();
 
   const finalFocusRef = useRef<SelectInstance<Option> | null>(null);
-  const defaultCategoryTitle = useRef("");
+  const defaultCategoryTitleRef = useRef("");
 
   function handleOnCreateDrawerOpen(inputValue = "") {
-    defaultCategoryTitle.current = inputValue;
+    defaultCategoryTitleRef.current = inputValue;
 
     onCreateDrawerOpen();
   }
 
-  function handleOnCreateDrawerClose(createdCategoryId?: string) {
+  function handleOnCreateDrawerClose() {
     if (finalFocusRef.current) {
       finalFocusRef.current.focus();
-    }
-
-    if (createdCategoryId) {
-      setValue("category", createdCategoryId);
     }
 
     onCreateDrawerClose();
   }
 
-  function getCategoryDrawerDefaultValues() {
-    return {
-      title: defaultCategoryTitle.current,
-      color: "",
-    };
+  function onCreateCategory(createdCategoryId: string) {
+    setValue(name, createdCategoryId);
+  }
+
+  function onDeleteCategory(deletedCategoryId: string) {
+    const currentCategoryId = getValues(name);
+
+    if (currentCategoryId === deletedCategoryId) {
+      setValue(name, "", { shouldValidate: true });
+    }
   }
 
   const supabaseClient = useSupabaseClient<Database>();
@@ -78,6 +85,8 @@ export function useCategorySelect({ setValue }: UseCategorySelectProps) {
     isCreateDrawerOpen,
     handleOnCreateDrawerOpen,
     handleOnCreateDrawerClose,
-    getCategoryDrawerDefaultValues,
+    defaultCategoryTitleRef,
+    onCreateCategory,
+    onDeleteCategory,
   };
 }

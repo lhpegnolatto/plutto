@@ -1,4 +1,4 @@
-import { UseFormSetValue } from "react-hook-form";
+import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 import { Box, Button } from "@chakra-ui/react";
 
 import {
@@ -13,9 +13,15 @@ import { useCategorySelect } from "./hook";
 interface CategorySelectProps
   extends Omit<CreatableSelectProps, "onCreateOption" | "options"> {
   setValue: UseFormSetValue<any>;
+  getValues: UseFormGetValues<any>;
 }
 
-export function CategorySelect({ setValue, ...rest }: CategorySelectProps) {
+export function CategorySelect({
+  setValue,
+  getValues,
+  name,
+  ...rest
+}: CategorySelectProps) {
   const {
     finalFocusRef,
     isCategoriesLoading,
@@ -23,8 +29,10 @@ export function CategorySelect({ setValue, ...rest }: CategorySelectProps) {
     isCreateDrawerOpen,
     handleOnCreateDrawerOpen,
     handleOnCreateDrawerClose,
-    getCategoryDrawerDefaultValues,
-  } = useCategorySelect({ setValue });
+    defaultCategoryTitleRef,
+    onCreateCategory,
+    onDeleteCategory,
+  } = useCategorySelect({ setValue, name, getValues });
 
   return (
     <Box position="relative">
@@ -44,6 +52,7 @@ export function CategorySelect({ setValue, ...rest }: CategorySelectProps) {
 
       <CreatableSelect
         {...rest}
+        name={name}
         ref={finalFocusRef}
         onCreateOption={handleOnCreateDrawerOpen}
         formatCreateLabel={(inputValue) => `Create "${inputValue}" category`}
@@ -55,7 +64,9 @@ export function CategorySelect({ setValue, ...rest }: CategorySelectProps) {
       <CategoryDrawer
         isOpen={isCreateDrawerOpen}
         onClose={handleOnCreateDrawerClose}
-        getDefaultValues={getCategoryDrawerDefaultValues}
+        onCreateCategory={onCreateCategory}
+        onDeleteCategory={onDeleteCategory}
+        newCategoryTitle={defaultCategoryTitleRef.current}
       />
     </Box>
   );

@@ -4,7 +4,13 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import { Database } from "types/supabase.types";
 
-export function useCategoryDrawerList() {
+interface UseCategoryDrawerListProps {
+  onDeleteCategory: (deletedCategoryId: string) => void;
+}
+
+export function useCategoryDrawerList({
+  onDeleteCategory,
+}: UseCategoryDrawerListProps) {
   const supabaseClient = useSupabaseClient<Database>();
   const queryClient = useQueryClient();
 
@@ -28,6 +34,8 @@ export function useCategoryDrawerList() {
         .from("categories")
         .delete()
         .match({ id: categoryId });
+
+      onDeleteCategory(categoryId);
     },
     {
       onSuccess: () => {

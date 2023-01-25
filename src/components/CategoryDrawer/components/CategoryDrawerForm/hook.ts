@@ -15,9 +15,10 @@ export type FormData = {
 interface UseCategoryDrawerFormProps {
   defaultValues?: FormData;
   onClose: (createdCategoryId?: string) => void;
+  categoryId?: string;
 }
 
-const formDefaultValues = {
+export const formDefaultValues = {
   title: "",
   color: "",
 };
@@ -30,6 +31,7 @@ export const formValidations = {
 export function useCategoryDrawerForm({
   defaultValues,
   onClose,
+  categoryId,
 }: UseCategoryDrawerFormProps) {
   const initialFocusRef = useRef(null);
 
@@ -51,13 +53,22 @@ export function useCategoryDrawerForm({
 
   const { mutateAsync: onSubmit, isLoading: isSubmitting } = useMutation(
     async ({ title, color }: FormData) => {
-      const { data } = await supabaseClient
-        .from("categories")
-        .insert({ title, color })
-        .select("id, title, color")
-        .maybeSingle();
+      if (categoryId) {
+        await supabaseClient
+          .from("categories")
+          .update({ title, color })
+          .eq("id", categoryId);
 
-      onClose(data?.id);
+        onClose();
+      } else {
+        const { data } = await supabaseClient
+          .from("categories")
+          .insert({ title, color })
+          .select("id, title, color")
+          .maybeSingle();
+
+        onClose(data?.id);
+      }
     },
     {
       onSuccess: () => {

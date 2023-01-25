@@ -20,17 +20,25 @@ import { HiOutlinePencil, HiOutlineTrash, HiXMark } from "react-icons/hi2";
 import { colorsOptions } from "../../data";
 import { useCategoryDrawerList } from "./hook";
 
+type CategoryListItem = {
+  id: string;
+  title: string;
+  color: string;
+};
+
 interface CategoryDrawerListProps {
   onClose: () => void;
-  setIsSubmitting: (isSubmitting: boolean) => void;
+  onOpenCategoryForm: (category?: CategoryListItem) => void;
+  onDeleteCategory: (deletedCategoryId: string) => void;
 }
 
 export function CategoryDrawerList({
   onClose,
-  setIsSubmitting,
+  onOpenCategoryForm,
+  onDeleteCategory,
 }: CategoryDrawerListProps) {
   const { isCategoriesLoading, categories, isDeleting, onDelete } =
-    useCategoryDrawerList();
+    useCategoryDrawerList({ onDeleteCategory });
 
   return (
     <>
@@ -49,7 +57,7 @@ export function CategoryDrawerList({
         </Flex>
 
         <Button
-          onClick={() => setIsSubmitting(true)}
+          onClick={() => onOpenCategoryForm()}
           size="sm"
           colorScheme="brand"
         >
@@ -83,6 +91,7 @@ export function CategoryDrawerList({
                       size="xs"
                       colorScheme="blue"
                       mr="2"
+                      onClick={() => onOpenCategoryForm({ id, title, color })}
                     />
                     <ConfirmationAlertDialog
                       onConfirm={() => onDelete(id)}
@@ -103,8 +112,29 @@ export function CategoryDrawerList({
                 </Td>
               </Tr>
             ))}
+            {!isCategoriesLoading && categories.length === 0 && (
+              <Tr>
+                <Td colSpan={3}>
+                  <Flex
+                    py="4"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    fontSize="md"
+                  >
+                    {"You don't have any categories yet :("}
+                  </Flex>
+                </Td>
+              </Tr>
+            )}
             {isCategoriesLoading && (
               <Tr>
+                <Td>
+                  <Skeleton height="25px" w="100%" />
+                </Td>
+                <Td>
+                  <Skeleton height="25px" w="100%" />
+                </Td>
                 <Td>
                   <Skeleton height="25px" w="100%" />
                 </Td>
