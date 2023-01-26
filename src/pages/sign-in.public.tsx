@@ -25,7 +25,7 @@ const AuthPage: NextPageWithLayout = () => {
 
   const { isAppLoading, setIsAppLoading } = useAppLoaderContext();
 
-  async function handleSignIn(provider: "github" | "google") {
+  async function handleSignIn(provider: "github" | "google" | "facebook") {
     setIsAppLoading(true);
 
     await supabaseClient.auth.signInWithOAuth({
@@ -90,7 +90,14 @@ const AuthPage: NextPageWithLayout = () => {
           >
             Google
           </Button>
-        </VStack>
+            <Button
+              onClick={() => handleSignIn("facebook")}
+              leftIcon={<Icon as={FiFacebook} />}
+              isDisabled={isAppLoading}
+              colorScheme="blue"
+            >
+              Facebook
+            </Button>
       </Card>
     </Flex>
   );
