@@ -1,4 +1,12 @@
-import { Button, Card, Flex, Heading, HStack, Icon } from "@chakra-ui/react";
+import {
+  Button,
+  Card,
+  Flex,
+  Heading,
+  HStack,
+  Icon,
+  Stack,
+} from "@chakra-ui/react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -50,21 +58,39 @@ const AuthPage: NextPageWithLayout = () => {
   }, [router, setIsAppLoading, supabaseClient]);
 
   return (
-    <Card p="14" alignItems="center" mt="10" borderRadius="xl">
+    <Card
+      p={{ base: "10", md: "14" }}
+      mt="10"
+      alignItems="center"
+      borderRadius="xl"
+      w={{ base: "100%", md: "auto" }}
+    >
       <Flex alignItems="center" flexDirection="column">
         <PluttoLogo color="brand.600" boxSize="12" />
         <PluttoText color="brand.600" width="20" height="8" mt="2" />
       </Flex>
 
-      <Heading as="h1" fontSize="lg" mt="6">
+      <Heading
+        as="h1"
+        fontSize={{ base: "md", md: "lg" }}
+        mt="6"
+        maxW={{ base: "220px", md: "1000px" }}
+        textAlign="center"
+      >
         Our mission never ends. Let us help you with your!
       </Heading>
 
-      <Heading as="h2" fontWeight="normal" fontSize="md" mt="10">
+      <Heading
+        as="h2"
+        fontWeight="normal"
+        fontSize="md"
+        mt={{ base: "6", md: "10" }}
+        textAlign="center"
+      >
         Sign in using one of this services:
       </Heading>
 
-      <HStack spacing="4" mt="4">
+      <Stack direction={{ base: "column", md: "row" }} spacing="4" mt="4">
         <Button
           onClick={() => handleSignIn("github")}
           leftIcon={<Icon as={FiGithub} />}
@@ -88,7 +114,7 @@ const AuthPage: NextPageWithLayout = () => {
         >
           Facebook
         </Button>
-      </HStack>
+      </Stack>
     </Card>
   );
 };

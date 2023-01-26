@@ -24,6 +24,7 @@ export function AuthLayout({ children }: AuthLayoutProps) {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
+      p="10"
     >
       <Box position="fixed" h="100vh" w="2000px">
         <Box
