@@ -57,7 +57,7 @@ const AuthPage: NextPageWithLayout = () => {
     checkSession();
   }, [router, setIsAppLoading, supabaseClient]);
 
-  const cardBackground = useColorModeValue("gray.50", "gray.800");
+  const cardBackground = useColorModeValue("gray.50", "gray.700");
 
   return (
     <Card
