@@ -9,15 +9,17 @@ import {
   fallingStar5Animation,
   rocketAnimation,
   rocketContainerAnimation,
+  rocketLaunchAnimation,
   starsGroup1Animation,
   starsGroup2Animation,
 } from "./animations";
 
 interface AuthLayoutProps {
   children: React.ReactNode;
+  launchNow?: boolean;
 }
 
-export function AuthLayout({ children }: AuthLayoutProps) {
+export function AuthLayout({ children, launchNow = false }: AuthLayoutProps) {
   return (
     <Flex
       h="100vh"
@@ -26,6 +28,7 @@ export function AuthLayout({ children }: AuthLayoutProps) {
       justifyContent="center"
       p="10"
       bg="gray.800"
+      overflow="hidden"
     >
       <Box position="fixed" h="100vh" w="2000px">
         <Box
@@ -71,7 +74,13 @@ export function AuthLayout({ children }: AuthLayoutProps) {
       </Box>
 
       <Box animation={rocketContainerAnimation}>
-        <Rocket w="12" h="28" color="white" animation={rocketAnimation} />
+        <Rocket
+          w="12"
+          h="28"
+          color="white"
+          transform="translate(-100px, -850px)"
+          animation={launchNow ? rocketLaunchAnimation : rocketAnimation}
+        />
       </Box>
 
       {children}

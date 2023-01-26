@@ -19,6 +19,14 @@ const rocketShakeAnimationKeyframes = keyframes`
 
 export const rocketAnimation = `${rocketShakeAnimationKeyframes} 0.1s linear infinite`;
 
+const rocketLaunchAnimationKeyframes = keyframes`
+  0% { transform: translate(0px, 0px); }
+  40% { transform: translate(-20px, 60px); }
+  100% { transform: translate(-100px, -850px); }
+`;
+
+export const rocketLaunchAnimation = `${rocketLaunchAnimationKeyframes} 2s linear 1`;
+
 const starsGroupsShakeAnimationKeyframes = keyframes`
   0% { opacity: 0.6; transform: translateX(1px); }
   50% { opacity: 0.8; transform: translateX(0px); }
