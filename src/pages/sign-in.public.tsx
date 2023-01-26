@@ -3,9 +3,9 @@ import {
   Card,
   Flex,
   Heading,
-  HStack,
   Icon,
   Stack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
@@ -57,6 +57,8 @@ const AuthPage: NextPageWithLayout = () => {
     checkSession();
   }, [router, setIsAppLoading, supabaseClient]);
 
+  const cardBackground = useColorModeValue("gray.50", "gray.800");
+
   return (
     <Card
       p={{ base: "10", md: "14" }}
@@ -64,6 +66,7 @@ const AuthPage: NextPageWithLayout = () => {
       alignItems="center"
       borderRadius="xl"
       w={{ base: "100%", md: "auto" }}
+      bg={cardBackground}
     >
       <Flex alignItems="center" flexDirection="column">
         <PluttoLogo color="brand.600" boxSize="12" />

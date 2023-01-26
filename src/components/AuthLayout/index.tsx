@@ -25,6 +25,7 @@ export function AuthLayout({ children }: AuthLayoutProps) {
       alignItems="center"
       justifyContent="center"
       p="10"
+      bg="gray.800"
     >
       <Box position="fixed" h="100vh" w="2000px">
         <Box
@@ -70,7 +71,7 @@ export function AuthLayout({ children }: AuthLayoutProps) {
       </Box>
 
       <Box animation={rocketContainerAnimation}>
-        <Rocket w="12" h="28" animation={rocketAnimation} />
+        <Rocket w="12" h="28" color="white" animation={rocketAnimation} />
       </Box>
 
       {children}
