@@ -9,6 +9,7 @@ import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 import { AppLayout } from "components/AppLayout";
+import { AuthLayout } from "components/AuthLayout";
 import { BreadcrumbItem } from "components/Header/components/HeaderBreadcrumb";
 import { AppLoader } from "components/AppLoader";
 
@@ -28,7 +29,7 @@ type AppPropsWithLayout = AppProps & {
 
 const AppLayouts = {
   app: AppLayout,
-  auth: Fragment,
+  auth: AuthLayout,
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
