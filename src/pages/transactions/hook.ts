@@ -35,8 +35,8 @@ const defaultSummary = {
 };
 
 export function useTransactions() {
-  const startDate = new Date(2022, 11, 20);
   const endDate = new Date();
+  const startDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
 
   const formattedStartDate = startDate.toLocaleString("en-US", {
     day: "numeric",

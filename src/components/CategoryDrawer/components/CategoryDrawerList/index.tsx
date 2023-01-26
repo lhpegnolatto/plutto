@@ -122,7 +122,7 @@ export function CategoryDrawerList({
                     justifyContent="center"
                     fontSize="md"
                   >
-                    {"You don't have any categories yet :("}
+                    {"You don't have any category yet :("}
                   </Flex>
                 </Td>
               </Tr>

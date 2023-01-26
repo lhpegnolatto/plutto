@@ -40,7 +40,7 @@ const Transactions: NextPageWithLayout = () => {
 
   return (
     <Box as="main" h="full">
-      <Flex alignItems="center" justifyContent="space-between">
+      <Flex justifyContent="space-between">
         <Heading as="h1" fontSize="xl">
           Summary of your transactions
         </Heading>
@@ -136,6 +136,21 @@ const Transactions: NextPageWithLayout = () => {
                   <Td>{transacted_at}</Td>
                 </Tr>
               )
+            )}
+            {!isTransactionsLoading && transactions.items.length === 0 && (
+              <Tr>
+                <Td colSpan={5}>
+                  <Flex
+                    py="4"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    fontSize="md"
+                  >
+                    {"You don't have any transaction yet :("}
+                  </Flex>
+                </Td>
+              </Tr>
             )}
             {isTransactionsLoading && (
               <Tr>
