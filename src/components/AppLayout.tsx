@@ -13,11 +13,14 @@ export function AppLayout({ children, breadcrumbItems }: AppLayoutProps) {
   return (
     <Flex h="100vh">
       <Sidebar />
-      <Flex flexDirection="column" h="100vh" w="full">
+      <Flex
+        flexDirection="column"
+        h={{ base: "calc(100vh - 56px)", md: "100vh" }}
+        w="full"
+      >
         <Header breadcrumbItems={breadcrumbItems} />
         <Flex
           w="full"
-          h="full"
           overflow="auto"
           py={{ base: "6", md: "10" }}
           px="6"
