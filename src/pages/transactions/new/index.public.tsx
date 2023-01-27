@@ -71,7 +71,7 @@ const NewTransaction: NextPageWithLayout = () => {
 
       <Form.Root onSubmit={onSubmit} mt="10">
         <Form.Grid>
-          <Form.Item colSpan={6}>
+          <Form.Item colSpan={{ base: 12, lg: 6 }}>
             <Form.Field
               label="Description"
               errorMessage={errors["description"]?.message?.toString()}
@@ -82,7 +82,7 @@ const NewTransaction: NextPageWithLayout = () => {
               />
             </Form.Field>
           </Form.Item>
-          <Form.Item colSpan={6}>
+          <Form.Item colSpan={{ base: 12, md: 6 }}>
             <Form.Field
               label="Transacted at"
               errorMessage={errors["transactedAt"]?.message?.toString()}
@@ -93,7 +93,7 @@ const NewTransaction: NextPageWithLayout = () => {
               />
             </Form.Field>
           </Form.Item>
-          <Form.Item colSpan={4}>
+          <Form.Item colSpan={{ base: 12, md: 6, lg: 4 }}>
             <Form.Field
               label="Type"
               errorMessage={errors["type"]?.message?.toString()}
@@ -108,7 +108,7 @@ const NewTransaction: NextPageWithLayout = () => {
               />
             </Form.Field>
           </Form.Item>
-          <Form.Item colSpan={4}>
+          <Form.Item colSpan={{ base: 12, md: 6, lg: 4 }}>
             <Form.Field
               label="Category"
               errorMessage={errors["category"]?.message?.toString()}
@@ -123,7 +123,7 @@ const NewTransaction: NextPageWithLayout = () => {
               />
             </Form.Field>
           </Form.Item>
-          <Form.Item colSpan={4}>
+          <Form.Item colSpan={{ base: 12, md: 6, lg: 4 }}>
             <Form.Field
               label="Payment method"
               errorMessage={errors["paymentMethod"]?.message?.toString()}
@@ -140,7 +140,7 @@ const NewTransaction: NextPageWithLayout = () => {
               />
             </Form.Field>
           </Form.Item>
-          <Form.Item colSpan={4}>
+          <Form.Item colSpan={{ base: 12, md: 4 }}>
             <Form.Field
               label="Repeat"
               errorMessage={errors["repeat"]?.message?.toString()}
@@ -154,7 +154,7 @@ const NewTransaction: NextPageWithLayout = () => {
             </Form.Field>
           </Form.Item>
           {repeatType === "fixed" && (
-            <Form.Item colSpan={4}>
+            <Form.Item colSpan={{ base: 12, md: 4 }}>
               <Form.Field
                 label="Fixed period"
                 errorMessage={errors["fixedPeriod"]?.message?.toString()}
@@ -169,7 +169,7 @@ const NewTransaction: NextPageWithLayout = () => {
             </Form.Item>
           )}
           {repeatType === "installment" && (
-            <Form.Item colSpan={4}>
+            <Form.Item colSpan={{ base: 12, md: 4 }}>
               <Form.Field
                 label="Installments quantity"
                 errorMessage={errors["installments"]?.message?.toString()}
@@ -180,7 +180,7 @@ const NewTransaction: NextPageWithLayout = () => {
               </Form.Field>
             </Form.Item>
           )}
-          <Form.Item colSpan={4}>
+          <Form.Item colSpan={{ base: 12, md: 4 }}>
             <Form.Field
               label={
                 repeatType === "installment" ? "Installment amount" : "Amount"

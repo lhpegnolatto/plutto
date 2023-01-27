@@ -9,6 +9,7 @@ import {
   HStack,
   Icon,
   Skeleton,
+  Stack,
   Stat,
   StatHelpText,
   StatLabel,
@@ -40,7 +41,11 @@ const Transactions: NextPageWithLayout = () => {
 
   return (
     <Box as="main" h="full">
-      <Flex justifyContent="space-between">
+      <Flex
+        direction={{ base: "column", md: "row" }}
+        justifyContent="space-between"
+        gap="4"
+      >
         <Heading as="h1" fontSize="xl">
           Summary of your transactions
         </Heading>
@@ -58,7 +63,7 @@ const Transactions: NextPageWithLayout = () => {
         </HStack>
       </Flex>
 
-      <HStack mt="6" spacing="4">
+      <Stack direction={{ base: "column", md: "row" }} mt="6" spacing="4">
         <Skeleton isLoaded={!isTransactionsLoading} w="full">
           <Card w="full">
             <CardBody>
@@ -78,7 +83,7 @@ const Transactions: NextPageWithLayout = () => {
           <Card w="full">
             <CardBody>
               <Stat>
-                <StatLabel>Deposits</StatLabel>
+                <StatLabel>Earns</StatLabel>
                 <StatNumber>${transactions.summary.depositsAmount}</StatNumber>
                 <StatHelpText>
                   {formattedStartDate} - {formattedEndDate}
@@ -91,7 +96,7 @@ const Transactions: NextPageWithLayout = () => {
           <Card w="full">
             <CardBody>
               <Stat>
-                <StatLabel>Withdraws</StatLabel>
+                <StatLabel>Expenses</StatLabel>
                 <StatNumber>${transactions.summary.withdrawsAmount}</StatNumber>
                 <StatHelpText>
                   {formattedStartDate} - {formattedEndDate}
@@ -100,7 +105,7 @@ const Transactions: NextPageWithLayout = () => {
             </CardBody>
           </Card>
         </Skeleton>
-      </HStack>
+      </Stack>
 
       <Heading as="h2" fontSize="md" mt="12">
         List of all transactions in this time

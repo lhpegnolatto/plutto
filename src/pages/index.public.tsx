@@ -29,8 +29,8 @@ const Home: NextPageWithLayout = () => {
       <Grid
         h="full"
         py="8"
-        templateRows="4fr 2fr"
-        templateColumns="4fr 2fr"
+        templateRows={{ base: "repeat(4, 1fr)", lg: "4fr 2fr" }}
+        templateColumns={{ base: "1fr", lg: "4fr 2fr" }}
         gap="6"
       >
         <Card p="6">

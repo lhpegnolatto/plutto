@@ -8,6 +8,7 @@ import {
   MenuItem,
   MenuList,
   Text,
+  useBreakpointValue,
   useColorMode,
 } from "@chakra-ui/react";
 import {
@@ -40,6 +41,8 @@ export function HeaderUserMenu() {
     router.push(routes.SIGN_IN);
   }
 
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   return (
     <Menu isLazy>
       <MenuButton as={Button} rightIcon={<Icon as={FiChevronDown} />}>
@@ -51,17 +54,19 @@ export function HeaderUserMenu() {
             boxShadow="md"
           />
 
-          <Flex
-            flexDirection="column"
-            alignItems="flex-start"
-            justifyItems="center"
-            ml="2"
-          >
-            <Text fontSize="xs">{userMetadata?.full_name}</Text>
-            <Text fontSize="2xs" fontWeight="light">
-              {userMetadata?.email}
-            </Text>
-          </Flex>
+          {!isMobile && (
+            <Flex
+              flexDirection="column"
+              alignItems="flex-start"
+              justifyItems="center"
+              ml="2"
+            >
+              <Text fontSize="xs">{userMetadata?.full_name}</Text>
+              <Text fontSize="2xs" fontWeight="light">
+                {userMetadata?.email}
+              </Text>
+            </Flex>
+          )}
         </Flex>
       </MenuButton>
       <MenuList fontSize="sm" sx={{ span: { display: "flex" } }}>

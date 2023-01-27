@@ -2,6 +2,7 @@ import {
   IconButton,
   IconButtonProps,
   Tooltip,
+  useBreakpointValue,
   useColorModeValue,
 } from "@chakra-ui/react";
 import Link from "next/link";
@@ -24,6 +25,8 @@ export function SidebarIconButton({
   const tooltipBg = useColorModeValue("gray.200", "gray.700");
   const tooltipColor = useColorModeValue("black", "white");
 
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   return (
     <Tooltip
       label={title}
@@ -31,6 +34,7 @@ export function SidebarIconButton({
       hasArrow
       bg={tooltipBg}
       color={tooltipColor}
+      isDisabled={isMobile}
     >
       <IconButton
         as={Link}

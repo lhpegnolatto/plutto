@@ -3,6 +3,8 @@ import {
   Box,
   Divider,
   Icon,
+  Stack,
+  useBreakpointValue,
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
@@ -54,26 +56,45 @@ const pages = [
 export function Sidebar() {
   const { asPath } = useRouter();
 
+  const sidebarBackgroundColor = useColorModeValue("gray.50", "gray.800");
   const sidebarBorderColor = useColorModeValue(
     "blackAlpha.100",
     "whiteAlpha.100"
   );
 
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
+  console.log(sidebarBorderColor);
+
   return (
     <VStack
       spacing="4"
-      borderRight="1px"
       borderColor={sidebarBorderColor}
-      w="14"
-      px="2"
-      py="4"
+      borderRight={{ base: "none", md: "1px" }}
+      borderTop={{ base: "1px", md: "none" }}
+      position={{ base: "fixed", md: "initial" }}
+      w={{ base: "100%", md: "14" }}
+      h={{ base: "14", md: "initial" }}
+      zIndex="docked"
+      bottom="0px"
+      px={{ base: "4", md: "2" }}
+      py={{ base: "2", md: "4" }}
+      bg={sidebarBackgroundColor}
     >
-      <PluttoLogo color="brand.600" boxSize="8" />
+      {!isMobile && (
+        <>
+          <PluttoLogo color="brand.600" boxSize="8" />
 
-      <Divider />
+          <Divider />
+        </>
+      )}
 
       <Box as="nav">
-        <VStack as="ul" listStyleType="none">
+        <Stack
+          direction={{ base: "row", md: "column" }}
+          as="ul"
+          listStyleType="none"
+        >
           {pages.map(
             ({ title, path, icon, shouldMatchExactHref = false, ...rest }) => {
               const isCurrentPage = shouldMatchExactHref
@@ -94,7 +115,7 @@ export function Sidebar() {
               );
             }
           )}
-        </VStack>
+        </Stack>
       </Box>
     </VStack>
   );
