@@ -42,11 +42,17 @@ export function HeaderUserMenu() {
   }
 
   const isMobile = useBreakpointValue({ base: true, md: false });
+  const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
 
   return (
     <Menu isLazy>
-      <MenuButton as={Button} rightIcon={<Icon as={FiChevronDown} />}>
-        <Flex alignItems="center">
+      <MenuButton
+        as={Button}
+        rightIcon={<Icon as={FiChevronDown} />}
+        size={buttonSize}
+        px={{ base: "2", md: "4" }}
+      >
+        <Flex alignItems="center" py="2">
           <Avatar
             name={userMetadata?.full_name}
             src={userMetadata?.avatar_url}
@@ -59,7 +65,7 @@ export function HeaderUserMenu() {
               flexDirection="column"
               alignItems="flex-start"
               justifyItems="center"
-              ml="2"
+              ml={{ base: "1", md: "2" }}
             >
               <Text fontSize="xs">{userMetadata?.full_name}</Text>
               <Text fontSize="2xs" fontWeight="light">

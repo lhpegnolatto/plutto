@@ -56,7 +56,7 @@ const pages = [
 export function Sidebar() {
   const { asPath } = useRouter();
 
-  const sidebarBackgroundColor = useColorModeValue("gray.50", "gray.800");
+  const sidebarBackgroundColor = useColorModeValue("white", "gray.800");
   const sidebarBorderColor = useColorModeValue(
     "blackAlpha.100",
     "whiteAlpha.100"
@@ -64,14 +64,12 @@ export function Sidebar() {
 
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-  console.log(sidebarBorderColor);
-
   return (
     <VStack
       spacing="4"
       borderColor={sidebarBorderColor}
-      borderRight={{ base: "none", md: "1px" }}
-      borderTop={{ base: "1px", md: "none" }}
+      borderRightWidth={{ base: "none", md: "1px" }}
+      borderTopWidth={{ base: "1px", md: "none" }}
       position={{ base: "fixed", md: "initial" }}
       w={{ base: "100%", md: "14" }}
       h={{ base: "14", md: "initial" }}
