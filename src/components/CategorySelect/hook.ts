@@ -22,26 +22,26 @@ export function useCategorySelect({
   name,
 }: UseCategorySelectProps) {
   const {
-    isOpen: isCreateDrawerOpen,
-    onClose: onCreateDrawerClose,
-    onOpen: onCreateDrawerOpen,
+    isOpen: isDrawerOpen,
+    onClose: onDrawerClose,
+    onOpen: onDrawerOpen,
   } = useDisclosure();
 
   const finalFocusRef = useRef<SelectInstance<Option> | null>(null);
   const defaultCategoryTitleRef = useRef("");
 
-  function handleOnCreateDrawerOpen(inputValue = "") {
+  function handleOnDrawerOpen(inputValue = "") {
     defaultCategoryTitleRef.current = inputValue;
 
-    onCreateDrawerOpen();
+    onDrawerOpen();
   }
 
-  function handleOnCreateDrawerClose() {
+  function handleOnDrawerClose() {
     if (finalFocusRef.current) {
       finalFocusRef.current.focus();
     }
 
-    onCreateDrawerClose();
+    onDrawerClose();
   }
 
   function onCreateCategory(createdCategoryId: string) {
@@ -82,9 +82,9 @@ export function useCategorySelect({
     finalFocusRef,
     isCategoriesLoading,
     categories,
-    isCreateDrawerOpen,
-    handleOnCreateDrawerOpen,
-    handleOnCreateDrawerClose,
+    isDrawerOpen,
+    handleOnDrawerOpen,
+    handleOnDrawerClose,
     defaultCategoryTitleRef,
     onCreateCategory,
     onDeleteCategory,

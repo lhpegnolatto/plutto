@@ -26,9 +26,9 @@ export function CategorySelect({
     finalFocusRef,
     isCategoriesLoading,
     categories,
-    isCreateDrawerOpen,
-    handleOnCreateDrawerOpen,
-    handleOnCreateDrawerClose,
+    isDrawerOpen,
+    handleOnDrawerOpen,
+    handleOnDrawerClose,
     defaultCategoryTitleRef,
     onCreateCategory,
     onDeleteCategory,
@@ -44,7 +44,7 @@ export function CategorySelect({
         top="-6"
         right="0"
         padding="0"
-        onClick={() => handleOnCreateDrawerOpen()}
+        onClick={() => handleOnDrawerOpen()}
         textDecoration="none !important"
       >
         Manage categories
@@ -54,7 +54,7 @@ export function CategorySelect({
         {...rest}
         name={name}
         ref={finalFocusRef}
-        onCreateOption={handleOnCreateDrawerOpen}
+        onCreateOption={handleOnDrawerOpen}
         formatCreateLabel={(inputValue) => `Create "${inputValue}" category`}
         components={tagSelectComponents}
         isLoading={isCategoriesLoading}
@@ -62,8 +62,8 @@ export function CategorySelect({
       />
 
       <CategoryDrawer
-        isOpen={isCreateDrawerOpen}
-        onClose={handleOnCreateDrawerClose}
+        isOpen={isDrawerOpen}
+        onClose={handleOnDrawerClose}
         onCreateCategory={onCreateCategory}
         onDeleteCategory={onDeleteCategory}
         newCategoryTitle={defaultCategoryTitleRef.current}
