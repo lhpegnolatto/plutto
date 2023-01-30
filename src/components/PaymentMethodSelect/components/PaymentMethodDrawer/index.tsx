@@ -18,6 +18,12 @@ export type PaymentMethodFormItem = {
   color: string;
 };
 
+type PaymentMethod = {
+  id: string;
+  title: string;
+  color: string;
+};
+
 interface PaymentMethodDrawerProps
   extends Omit<DrawerProps, "onClose" | "children"> {
   isOpen: boolean;
@@ -25,6 +31,8 @@ interface PaymentMethodDrawerProps
   onCreatePaymentMethod: (createdPaymentMethodId: string) => void;
   onDeletePaymentMethod: (deletedPaymentMethodId: string) => void;
   newPaymentMethodTitle: string;
+  paymentMethods: PaymentMethod[];
+  isPaymentMethodsLoading: boolean;
 }
 
 export function PaymentMethodDrawer({
@@ -33,6 +41,8 @@ export function PaymentMethodDrawer({
   onCreatePaymentMethod,
   onDeletePaymentMethod,
   newPaymentMethodTitle,
+  isPaymentMethodsLoading,
+  paymentMethods,
   ...rest
 }: PaymentMethodDrawerProps) {
   const {
@@ -64,6 +74,8 @@ export function PaymentMethodDrawer({
                   onClose={onClose}
                   onOpenPaymentMethodForm={onOpenPaymentMethodForm}
                   onDeletePaymentMethod={onDeletePaymentMethod}
+                  paymentMethods={paymentMethods}
+                  isPaymentMethodsLoading={isPaymentMethodsLoading}
                 />
               </SlideFade>
             </Box>

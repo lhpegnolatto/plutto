@@ -26,19 +26,28 @@ type CategoryListItem = {
   color: string;
 };
 
+type Category = {
+  id: string;
+  title: string;
+  color: string;
+};
+
 interface CategoryDrawerListProps {
   onClose: () => void;
   onOpenCategoryForm: (category?: CategoryListItem) => void;
   onDeleteCategory: (deletedCategoryId: string) => void;
+  categories: Category[];
+  isCategoriesLoading: boolean;
 }
 
 export function CategoryDrawerList({
   onClose,
   onOpenCategoryForm,
   onDeleteCategory,
+  categories,
+  isCategoriesLoading,
 }: CategoryDrawerListProps) {
-  const { isCategoriesLoading, categories, isDeleting, onDelete } =
-    useCategoryDrawerList({ onDeleteCategory });
+  const { isDeleting, onDelete } = useCategoryDrawerList({ onDeleteCategory });
 
   return (
     <>

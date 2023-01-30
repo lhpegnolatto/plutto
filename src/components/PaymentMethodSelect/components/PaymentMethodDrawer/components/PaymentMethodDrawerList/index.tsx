@@ -26,19 +26,30 @@ type PaymentMethodListItem = {
   color: string;
 };
 
+type PaymentMethod = {
+  id: string;
+  title: string;
+  color: string;
+};
+
 interface PaymentMethodDrawerListProps {
   onClose: () => void;
   onOpenPaymentMethodForm: (paymentMethod?: PaymentMethodListItem) => void;
   onDeletePaymentMethod: (deletedPaymentMethodId: string) => void;
+  paymentMethods: PaymentMethod[];
+  isPaymentMethodsLoading: boolean;
 }
 
 export function PaymentMethodDrawerList({
   onClose,
   onOpenPaymentMethodForm,
   onDeletePaymentMethod,
+  paymentMethods,
+  isPaymentMethodsLoading,
 }: PaymentMethodDrawerListProps) {
-  const { isPaymentMethodsLoading, paymentMethods, isDeleting, onDelete } =
-    usePaymentMethodDrawerList({ onDeletePaymentMethod });
+  const { isDeleting, onDelete } = usePaymentMethodDrawerList({
+    onDeletePaymentMethod,
+  });
 
   return (
     <>

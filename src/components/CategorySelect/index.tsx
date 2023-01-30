@@ -58,7 +58,11 @@ export function CategorySelect({
         formatCreateLabel={(inputValue) => `Create "${inputValue}" category`}
         components={tagSelectComponents}
         isLoading={isCategoriesLoading}
-        options={categories}
+        options={categories.map(({ id, title, color }) => ({
+          value: id,
+          label: title,
+          colorScheme: color,
+        }))}
       />
 
       <CategoryDrawer
@@ -67,6 +71,8 @@ export function CategorySelect({
         onCreateCategory={onCreateCategory}
         onDeleteCategory={onDeleteCategory}
         newCategoryTitle={defaultCategoryTitleRef.current}
+        categories={categories}
+        isCategoriesLoading={isCategoriesLoading}
       />
     </Box>
   );

@@ -60,7 +60,11 @@ export function PaymentMethodSelect({
         }
         components={tagSelectComponents}
         isLoading={isPaymentMethodsLoading}
-        options={paymentMethods}
+        options={paymentMethods.map(({ id, title, color }) => ({
+          value: id,
+          label: title,
+          colorScheme: color,
+        }))}
       />
 
       <PaymentMethodDrawer
@@ -69,6 +73,8 @@ export function PaymentMethodSelect({
         onCreatePaymentMethod={onCreatePaymentMethod}
         onDeletePaymentMethod={onDeletePaymentMethod}
         newPaymentMethodTitle={defaultPaymentMethodTitleRef.current}
+        paymentMethods={paymentMethods}
+        isPaymentMethodsLoading={isPaymentMethodsLoading}
       />
     </Box>
   );

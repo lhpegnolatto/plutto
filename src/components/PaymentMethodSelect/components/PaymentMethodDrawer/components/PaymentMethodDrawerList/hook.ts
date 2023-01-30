@@ -1,6 +1,6 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { queryKeys } from "constants/queryKeys";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 import { Database } from "types/supabase.types";
 
@@ -13,21 +13,6 @@ export function usePaymentMethodDrawerList({
 }: UsePaymentMethodDrawerListProps) {
   const supabaseClient = useSupabaseClient<Database>();
   const queryClient = useQueryClient();
-
-  const { isLoading: isPaymentMethodsLoading, data: paymentMethods = [] } =
-    useQuery(
-      queryKeys.PAYMENT_METHODS,
-      async () => {
-        const { data } = await supabaseClient
-          .from("payment_methods")
-          .select("id, title, color");
-
-        return data || [];
-      },
-      {
-        staleTime: 1000 * 60, // 1 minute
-      }
-    );
 
   const { mutateAsync: onDelete, isLoading: isDeleting } = useMutation(
     async (paymentMethodId: string) => {
@@ -45,5 +30,5 @@ export function usePaymentMethodDrawerList({
     }
   );
 
-  return { isPaymentMethodsLoading, paymentMethods, isDeleting, onDelete };
+  return { isDeleting, onDelete };
 }

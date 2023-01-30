@@ -69,12 +69,6 @@ export function useCategorySelect({
     },
     {
       staleTime: 1000 * 60, // 1 minute
-      select: (data) =>
-        data.map(({ id, title, color }) => ({
-          value: id,
-          label: title,
-          colorScheme: color,
-        })),
     }
   );
 

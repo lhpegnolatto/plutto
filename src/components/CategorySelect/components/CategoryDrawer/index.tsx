@@ -18,6 +18,12 @@ export type CategoryFormItem = {
   color: string;
 };
 
+type Category = {
+  id: string;
+  title: string;
+  color: string;
+};
+
 interface CategoryDrawerProps
   extends Omit<DrawerProps, "onClose" | "children"> {
   isOpen: boolean;
@@ -25,6 +31,8 @@ interface CategoryDrawerProps
   onCreateCategory: (createdCategoryId: string) => void;
   onDeleteCategory: (deletedCategoryId: string) => void;
   newCategoryTitle: string;
+  categories: Category[];
+  isCategoriesLoading: boolean;
 }
 
 export function CategoryDrawer({
@@ -33,6 +41,8 @@ export function CategoryDrawer({
   onCreateCategory,
   onDeleteCategory,
   newCategoryTitle,
+  categories,
+  isCategoriesLoading,
   ...rest
 }: CategoryDrawerProps) {
   const {
@@ -64,6 +74,8 @@ export function CategoryDrawer({
                   onClose={onClose}
                   onOpenCategoryForm={onOpenCategoryForm}
                   onDeleteCategory={onDeleteCategory}
+                  categories={categories}
+                  isCategoriesLoading={isCategoriesLoading}
                 />
               </SlideFade>
             </Box>
