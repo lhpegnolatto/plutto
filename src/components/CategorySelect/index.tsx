@@ -6,7 +6,7 @@ import {
   CreatableSelectProps,
 } from "components/CreatableSelect";
 import { tagSelectComponents } from "components/Select";
-import { CategoryDrawer } from "components/CategoryDrawer";
+import { CategoryDrawer } from "./components/CategoryDrawer";
 
 import { useCategorySelect } from "./hook";
 
