@@ -21,6 +21,7 @@ export function AppLayout({ children, breadcrumbItems }: AppLayoutProps) {
         <Header breadcrumbItems={breadcrumbItems} />
         <Flex
           w="full"
+          h="full"
           overflow="auto"
           py={{ base: "6", md: "10" }}
           px="6"
