@@ -8,7 +8,7 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
-import { AppLayout } from "components/AppLayout";
+import { AppLayout, AppLayoutProps } from "components/AppLayout";
 import { BreadcrumbItem } from "components/Header/components/HeaderBreadcrumb";
 import { AppLoader } from "components/AppLoader";
 
@@ -27,8 +27,8 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const AppLayouts = {
-  app: AppLayout,
-  auth: Fragment,
+  app: (props: AppLayoutProps) => <AppLayout {...props} />,
+  auth: (_: any) => <Fragment />,
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
@@ -62,7 +62,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         </ChakraProvider>
       </SessionContextProvider>
 
-      {/* <ReactQueryDevtools /> */}
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }
