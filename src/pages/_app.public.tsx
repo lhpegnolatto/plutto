@@ -28,7 +28,7 @@ type AppPropsWithLayout = AppProps & {
 
 const AppLayouts = {
   app: (props: AppLayoutProps) => <AppLayout {...props} />,
-  auth: (_: any) => <Fragment />,
+  auth: ({ children }: any) => <Fragment>{children}</Fragment>,
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
