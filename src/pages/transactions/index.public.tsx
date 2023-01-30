@@ -84,7 +84,7 @@ const Transactions: NextPageWithLayout = () => {
             <CardBody>
               <Stat>
                 <StatLabel>Earns</StatLabel>
-                <StatNumber>${transactions.summary.depositsAmount}</StatNumber>
+                <StatNumber>${transactions.summary.earnsAmount}</StatNumber>
                 <StatHelpText>
                   {formattedStartDate} - {formattedEndDate}
                 </StatHelpText>
@@ -97,7 +97,7 @@ const Transactions: NextPageWithLayout = () => {
             <CardBody>
               <Stat>
                 <StatLabel>Expenses</StatLabel>
-                <StatNumber>${transactions.summary.withdrawsAmount}</StatNumber>
+                <StatNumber>${transactions.summary.expensesAmount}</StatNumber>
                 <StatHelpText>
                   {formattedStartDate} - {formattedEndDate}
                 </StatHelpText>
@@ -116,26 +116,40 @@ const Transactions: NextPageWithLayout = () => {
           <Thead>
             <Tr>
               <Th w="px">Type</Th>
-              <Th>Title</Th>
+              <Th>Description</Th>
               <Th isNumeric>Amount</Th>
               <Th>Category</Th>
+              <Th>Payment method</Th>
               <Th>Transacted at</Th>
             </Tr>
           </Thead>
           <Tbody>
             {transactions.items.map(
-              ({ id, type, title, amount, categories, transacted_at }) => (
+              ({
+                id,
+                type,
+                description,
+                amount,
+                categories,
+                payment_methods,
+                transacted_at,
+              }) => (
                 <Tr key={id}>
                   <Td>
                     <Tag colorScheme={transactionTypes[type]?.colorScheme}>
                       {transactionTypes[type]?.label}
                     </Tag>
                   </Td>
-                  <Td>{title}</Td>
+                  <Td>{description}</Td>
                   <Td isNumeric>${amount}</Td>
                   <Td>
                     <Tag colorScheme={categories?.color}>
                       {categories?.title}
+                    </Tag>
+                  </Td>
+                  <Td>
+                    <Tag colorScheme={payment_methods?.color}>
+                      {payment_methods?.title}
                     </Tag>
                   </Td>
                   <Td>{transacted_at}</Td>
@@ -144,7 +158,7 @@ const Transactions: NextPageWithLayout = () => {
             )}
             {!isTransactionsLoading && transactions.items.length === 0 && (
               <Tr>
-                <Td colSpan={5}>
+                <Td colSpan={6}>
                   <Flex
                     py="4"
                     flexDirection="column"
@@ -159,6 +173,9 @@ const Transactions: NextPageWithLayout = () => {
             )}
             {isTransactionsLoading && (
               <Tr>
+                <Td>
+                  <Skeleton height="25px" w="100%" />
+                </Td>
                 <Td>
                   <Skeleton height="25px" w="100%" />
                 </Td>

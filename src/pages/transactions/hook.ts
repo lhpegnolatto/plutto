@@ -5,16 +5,17 @@ import { Database } from "types/supabase.types";
 
 type TransactionItem = {
   id: string;
-  title: string;
+  description: string;
   type: string;
   amount: number;
   transacted_at: string;
   categories: { title: string; color: string };
+  payment_methods: { title: string; color: string };
 };
 
 type TransactionsSummary = {
-  withdrawsAmount: number;
-  depositsAmount: number;
+  expensesAmount: number;
+  earnsAmount: number;
   savedMoneyAmount: number;
 };
 
@@ -29,8 +30,8 @@ type TransactionsSummaryResponse = {
 };
 
 const defaultSummary = {
-  withdrawsAmount: 0,
-  depositsAmount: 0,
+  expensesAmount: 0,
+  earnsAmount: 0,
   savedMoneyAmount: 0,
 };
 
@@ -66,23 +67,23 @@ export function useTransactions() {
       let summary = defaultSummary;
 
       if (summaryData) {
-        const withdrawsAmount = (
+        const expensesAmount = (
           summaryData as TransactionsSummaryResponse[]
         ).reduce(
-          (acc, { type, amount }) => acc + (type === "withdraw" ? amount : 0),
+          (acc, { type, amount }) => acc + (type === "expense" ? amount : 0),
           0
         );
-        const depositsAmount = (
+        const earnsAmount = (
           summaryData as TransactionsSummaryResponse[]
         ).reduce(
-          (acc, { type, amount }) => acc + (type === "deposit" ? amount : 0),
+          (acc, { type, amount }) => acc + (type === "earn" ? amount : 0),
           0
         );
-        const savedMoneyAmount = depositsAmount - withdrawsAmount;
+        const savedMoneyAmount = earnsAmount - expensesAmount;
 
         summary = {
-          withdrawsAmount,
-          depositsAmount,
+          expensesAmount,
+          earnsAmount,
           savedMoneyAmount,
         };
       }
@@ -90,7 +91,7 @@ export function useTransactions() {
       const { data } = await supabaseClient
         .from("transactions")
         .select(
-          "id, title, type, amount, transacted_at, categories ( title, color )",
+          "id, description, type, amount, transacted_at, categories ( title, color ), payment_methods ( title, color )",
           { count: "exact" }
         )
         .gte("transacted_at", startDate.toDateString())
