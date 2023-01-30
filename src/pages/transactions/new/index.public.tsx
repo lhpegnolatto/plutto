@@ -23,6 +23,7 @@ import {
   transactionRepeatTypeOptions,
 } from "./data";
 import { transactionTypesOptions } from "constants/transactionTypes";
+import { PaymentMethodSelect } from "components/PaymentMethodSelect";
 
 const formValidations = {
   description: { required: "Title is required" },
@@ -128,13 +129,11 @@ const NewTransaction: NextPageWithLayout = () => {
               label="Payment method"
               errorMessage={errors["paymentMethod"]?.message?.toString()}
             >
-              <Select
+              <PaymentMethodSelect
                 name="paymentMethod"
                 control={control}
-                options={[
-                  { label: "Cash", value: "cash" },
-                  { label: "Credit card", value: "credit_card" },
-                ]}
+                setValue={setValue}
+                getValues={getValues}
                 placeholder="Select the payment method"
                 rules={formValidations["paymentMethod"]}
               />

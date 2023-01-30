@@ -4,7 +4,7 @@ import { Header } from "components/Header";
 import { BreadcrumbItem } from "components/Header/components/HeaderBreadcrumb";
 import { Sidebar } from "components/Sidebar";
 
-interface AppLayoutProps {
+export interface AppLayoutProps {
   children: React.ReactNode;
   breadcrumbItems: Array<BreadcrumbItem>;
 }
