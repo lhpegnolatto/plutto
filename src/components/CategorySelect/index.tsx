@@ -20,6 +20,7 @@ export function CategorySelect({
   setValue,
   getValues,
   name,
+  isDisabled,
   ...rest
 }: CategorySelectProps) {
   const {
@@ -46,8 +47,9 @@ export function CategorySelect({
         padding="0"
         onClick={() => handleOnDrawerOpen()}
         textDecoration="none !important"
+        isDisabled={isDisabled}
       >
-        Manage categories
+        manage
       </Button>
 
       <CreatableSelect
@@ -63,10 +65,11 @@ export function CategorySelect({
           label: title,
           colorScheme: color,
         }))}
+        isDisabled={isDisabled}
       />
 
       <CategoryDrawer
-        isOpen={isDrawerOpen}
+        isOpen={isDrawerOpen && !isDisabled}
         onClose={handleOnDrawerClose}
         onCreateCategory={onCreateCategory}
         onDeleteCategory={onDeleteCategory}

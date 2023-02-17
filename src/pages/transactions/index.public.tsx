@@ -28,16 +28,34 @@ import { FiFilter } from "react-icons/fi";
 import { NextPageWithLayout } from "pages/_app.public";
 
 import { routes } from "constants/routes";
-import { useTransactions } from "./hook";
+import { TransactionItem, useTransactions } from "./hook";
 import { transactionTypes } from "constants/transactionTypes";
 
 const Transactions: NextPageWithLayout = () => {
   const {
     isTransactionsLoading,
     transactions,
+    summary,
     formattedStartDate,
     formattedEndDate,
   } = useTransactions();
+
+  function getTransactionRecurrenceColumn({
+    recurrence,
+    installment_label,
+    frequency,
+  }: TransactionItem) {
+    switch (recurrence) {
+      case "fixed_periodic":
+        return `Repeat ${frequency}`;
+      case "installment_based":
+        return `Installment ${installment_label}`;
+      case "unique":
+        return "Unique";
+      default:
+        return "";
+    }
+  }
 
   return (
     <Box as="main" h="full">
@@ -69,9 +87,7 @@ const Transactions: NextPageWithLayout = () => {
             <CardBody>
               <Stat>
                 <StatLabel>Saved Money</StatLabel>
-                <StatNumber>
-                  ${transactions.summary.savedMoneyAmount}
-                </StatNumber>
+                <StatNumber>${summary.savedMoneyAmount}</StatNumber>
                 <StatHelpText>
                   {formattedStartDate} - {formattedEndDate}
                 </StatHelpText>
@@ -83,8 +99,8 @@ const Transactions: NextPageWithLayout = () => {
           <Card w="full">
             <CardBody>
               <Stat>
-                <StatLabel>Earns</StatLabel>
-                <StatNumber>${transactions.summary.earnsAmount}</StatNumber>
+                <StatLabel>Revenues</StatLabel>
+                <StatNumber>${summary.revenuesAmount}</StatNumber>
                 <StatHelpText>
                   {formattedStartDate} - {formattedEndDate}
                 </StatHelpText>
@@ -97,7 +113,7 @@ const Transactions: NextPageWithLayout = () => {
             <CardBody>
               <Stat>
                 <StatLabel>Expenses</StatLabel>
-                <StatNumber>${transactions.summary.expensesAmount}</StatNumber>
+                <StatNumber>${summary.expensesAmount}</StatNumber>
                 <StatHelpText>
                   {formattedStartDate} - {formattedEndDate}
                 </StatHelpText>
@@ -117,6 +133,7 @@ const Transactions: NextPageWithLayout = () => {
             <Tr>
               <Th w="px">Type</Th>
               <Th>Description</Th>
+              <Th>Recurrence</Th>
               <Th isNumeric>Amount</Th>
               <Th>Category</Th>
               <Th>Payment method</Th>
@@ -124,41 +141,46 @@ const Transactions: NextPageWithLayout = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {transactions.items.map(
-              ({
+            {transactions.map((transaction) => {
+              const {
                 id,
-                type,
+                purpose,
                 description,
                 amount,
-                categories,
-                payment_methods,
-                transacted_at,
-              }) => (
+                category_color,
+                category_title,
+                payment_method_color,
+                payment_method_title,
+                occurred_at,
+              } = transaction;
+
+              return (
                 <Tr key={id}>
                   <Td>
-                    <Tag colorScheme={transactionTypes[type]?.colorScheme}>
-                      {transactionTypes[type]?.label}
+                    <Tag colorScheme={transactionTypes[purpose]?.colorScheme}>
+                      {transactionTypes[purpose]?.label}
                     </Tag>
                   </Td>
                   <Td>{description}</Td>
+                  <Td>{getTransactionRecurrenceColumn(transaction)}</Td>
                   <Td isNumeric>${amount}</Td>
                   <Td>
-                    <Tag colorScheme={categories?.color}>
-                      {categories?.title}
-                    </Tag>
+                    <Tag colorScheme={category_color}>{category_title}</Tag>
                   </Td>
                   <Td>
-                    <Tag colorScheme={payment_methods?.color}>
-                      {payment_methods?.title}
-                    </Tag>
+                    {payment_method_title && (
+                      <Tag colorScheme={payment_method_color}>
+                        {payment_method_title}
+                      </Tag>
+                    )}
                   </Td>
-                  <Td>{transacted_at}</Td>
+                  <Td>{occurred_at}</Td>
                 </Tr>
-              )
-            )}
-            {!isTransactionsLoading && transactions.items.length === 0 && (
+              );
+            })}
+            {!isTransactionsLoading && transactions.length === 0 && (
               <Tr>
-                <Td colSpan={6}>
+                <Td colSpan={7}>
                   <Flex
                     py="4"
                     flexDirection="column"

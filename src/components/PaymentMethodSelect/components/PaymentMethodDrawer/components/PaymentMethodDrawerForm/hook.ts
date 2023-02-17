@@ -24,8 +24,8 @@ export const formDefaultValues = {
 };
 
 export const formValidations = {
-  title: { required: "Title is required" },
-  color: { required: "Color is required" },
+  title: { required: "is required" },
+  color: { required: "is required" },
 };
 
 export function usePaymentMethodDrawerForm({

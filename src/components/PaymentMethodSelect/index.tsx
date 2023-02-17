@@ -20,6 +20,7 @@ export function PaymentMethodSelect({
   setValue,
   getValues,
   name,
+  isDisabled,
   ...rest
 }: PaymentMethodSelectProps) {
   const {
@@ -46,8 +47,9 @@ export function PaymentMethodSelect({
         padding="0"
         onClick={() => handleOnDrawerOpen()}
         textDecoration="none !important"
+        isDisabled={isDisabled}
       >
-        Manage payment methods
+        manage
       </Button>
 
       <CreatableSelect
@@ -65,10 +67,11 @@ export function PaymentMethodSelect({
           label: title,
           colorScheme: color,
         }))}
+        isDisabled={isDisabled}
       />
 
       <PaymentMethodDrawer
-        isOpen={isDrawerOpen}
+        isOpen={isDrawerOpen && !isDisabled}
         onClose={handleOnDrawerClose}
         onCreatePaymentMethod={onCreatePaymentMethod}
         onDeletePaymentMethod={onDeletePaymentMethod}

@@ -1,7 +1,7 @@
 export const transactionRepeatTypeOptions = [
-  { label: "Don't repeat", value: "single" },
-  { label: "Fixed", value: "fixed" },
-  { label: "Installments", value: "installment" },
+  { label: "Unique", value: "unique" },
+  { label: "Fixed periodic", value: "fixed_periodic" },
+  { label: "Installments based", value: "installment_based" },
 ];
 
 export const fixedTransactionPeriodOptions = [

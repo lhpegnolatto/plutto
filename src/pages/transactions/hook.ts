@@ -3,36 +3,33 @@ import { useQuery } from "react-query";
 
 import { Database } from "types/supabase.types";
 
-type TransactionItem = {
+import { getTransactionsWithSummary } from "services/transactions/getWithSummary";
+
+export type TransactionItem = {
   id: string;
   description: string;
-  type: string;
+  purpose: "revenue" | "expense";
   amount: number;
-  transacted_at: string;
-  categories: { title: string; color: string };
-  payment_methods: { title: string; color: string };
+  category_title: string;
+  category_color: string;
+  payment_method_title: string;
+  payment_method_color: string;
+  recurrence: "unique" | "installment_based" | "fixed_periodic";
+  frequency?: "monthly" | "daily" | "weekly" | "yearly";
+  installment_label?: string;
+  ended_at: string;
+  occurred_at?: string;
 };
 
 type TransactionsSummary = {
   expensesAmount: number;
-  earnsAmount: number;
+  revenuesAmount: number;
   savedMoneyAmount: number;
 };
 
-type Transaction = {
-  items: TransactionItem[];
+type TransactionsQueryResponse = {
+  transactions: TransactionItem[];
   summary: TransactionsSummary;
-};
-
-type TransactionsSummaryResponse = {
-  type: string;
-  amount: number;
-};
-
-const defaultSummary = {
-  expensesAmount: 0,
-  earnsAmount: 0,
-  savedMoneyAmount: 0,
 };
 
 export function useTransactions() {
@@ -51,73 +48,22 @@ export function useTransactions() {
   const supabaseClient = useSupabaseClient<Database>();
 
   const {
-    data: transactions = { items: [], summary: defaultSummary } as Transaction,
+    data: {
+      transactions = [],
+      summary = {
+        expensesAmount: 0,
+        revenuesAmount: 0,
+        savedMoneyAmount: 0,
+      },
+    } = {} as TransactionsQueryResponse,
     isLoading: isTransactionsLoading,
-  } = useQuery<Transaction>(
+  } = useQuery<TransactionsQueryResponse>(
     "transactions",
-    async () => {
-      const { data: summaryData } = await supabaseClient.rpc(
-        "transactions_summary",
-        {
-          start_date: startDate.toDateString(),
-          end_date: endDate.toDateString(),
-        }
-      );
-
-      let summary = defaultSummary;
-
-      if (summaryData) {
-        const expensesAmount = (
-          summaryData as TransactionsSummaryResponse[]
-        ).reduce(
-          (acc, { type, amount }) => acc + (type === "expense" ? amount : 0),
-          0
-        );
-        const earnsAmount = (
-          summaryData as TransactionsSummaryResponse[]
-        ).reduce(
-          (acc, { type, amount }) => acc + (type === "earn" ? amount : 0),
-          0
-        );
-        const savedMoneyAmount = earnsAmount - expensesAmount;
-
-        summary = {
-          expensesAmount,
-          earnsAmount,
-          savedMoneyAmount,
-        };
-      }
-
-      const { data } = await supabaseClient
-        .from("transactions")
-        .select(
-          "id, description, type, amount, transacted_at, categories ( title, color ), payment_methods ( title, color )",
-          { count: "exact" }
-        )
-        .gte("transacted_at", startDate.toDateString())
-        .lte("transacted_at", endDate.toDateString())
-        .order("transacted_at", { ascending: false })
-        .limit(10);
-
-      if (data) {
-        const items = (data as TransactionItem[]) // needed to force these types because of a issue on supabase types gen
-          .map((transaction) => ({
-            ...transaction,
-            transacted_at: new Date(transaction.transacted_at).toLocaleString(
-              "en-US",
-              {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              }
-            ),
-          }));
-
-        return { items, summary };
-      }
-
-      return { items: [], summary: defaultSummary };
-    },
+    async () =>
+      await getTransactionsWithSummary(supabaseClient, {
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+      }),
     {
       staleTime: 1000 * 60, // 1 minute
     }
@@ -126,6 +72,7 @@ export function useTransactions() {
   return {
     isTransactionsLoading,
     transactions,
+    summary,
     formattedStartDate,
     formattedEndDate,
   };

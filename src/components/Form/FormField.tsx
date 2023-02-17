@@ -1,10 +1,10 @@
 import {
   FormControl,
   FormControlProps,
-  FormErrorMessage,
   FormHelperText,
   FormLabel,
   ResponsiveValue,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 interface FormFieldProps extends FormControlProps {
@@ -19,21 +19,22 @@ function FormField({
   children,
   label,
   errorMessage = "",
-  errorMessageSize = "sm",
+  errorMessageSize = "xs",
   helperMessage = "",
   size = "sm",
   ...rest
 }: FormFieldProps) {
+  const isInvalid = !!errorMessage;
+  const errorColor = useColorModeValue("red.500", "red.300");
+
   return (
-    <FormControl isInvalid={!!errorMessage} {...rest} size={size}>
-      <FormLabel fontSize={size}>{label}</FormLabel>
+    <FormControl isInvalid={isInvalid} {...rest} size={size}>
+      <FormLabel fontSize={size} color={isInvalid ? errorColor : undefined}>
+        {label}
+        {isInvalid && ` ${errorMessage}`}
+      </FormLabel>
       {children}
-      {errorMessage && (
-        <FormErrorMessage position="absolute" fontSize={errorMessageSize}>
-          {errorMessage.toString()}
-        </FormErrorMessage>
-      )}
-      {helperMessage && !errorMessage && (
+      {helperMessage && (
         <FormHelperText position="absolute">{helperMessage}</FormHelperText>
       )}
     </FormControl>

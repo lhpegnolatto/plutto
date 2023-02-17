@@ -37,6 +37,7 @@ export const CreatableSelect = forwardRef<
       control,
       useBasicStyles = true,
       selectedOptionStyle = "check",
+      onChange: propOnChange = () => {},
       ...props
     },
     ref
@@ -63,7 +64,10 @@ export const CreatableSelect = forwardRef<
         ref={mergedRefs}
         onBlur={onBlur}
         options={options}
-        onChange={(option) => onChange(option?.value)}
+        onChange={(option, actionMeta) => {
+          onChange(option?.value);
+          propOnChange(option, actionMeta);
+        }}
         useBasicStyles={useBasicStyles}
         selectedOptionStyle={selectedOptionStyle}
         {...props}

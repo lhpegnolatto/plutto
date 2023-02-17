@@ -25,20 +25,6 @@ import {
 import { transactionTypesOptions } from "constants/transactionTypes";
 import { PaymentMethodSelect } from "components/PaymentMethodSelect";
 
-const formValidations = {
-  description: { required: "Title is required" },
-  transactedAt: { required: "Transaction date is required" },
-  type: { required: "Type is required" },
-  category: { required: "Category is required" },
-  paymentMethod: { required: "Payment method is required" },
-  repeat: { required: "Repeat type is required" },
-  amount: {
-    required: "Amount is required",
-  },
-  fixedPeriod: { required: "Period is required" },
-  installments: { required: "Installments quantity is required" },
-};
-
 const NewTransaction: NextPageWithLayout = () => {
   const {
     formProps: {
@@ -47,13 +33,15 @@ const NewTransaction: NextPageWithLayout = () => {
       formState: { errors },
       setValue,
       getValues,
-      watch,
     },
     onSubmit,
     isSubmitting,
+    formValidations,
+    onPurposeChange,
+    onRecurrenceChange,
+    purpose,
+    recurrence,
   } = useNewTransaction();
-
-  const repeatType = watch("repeat");
 
   return (
     <Box as="main" h="full">
@@ -89,23 +77,24 @@ const NewTransaction: NextPageWithLayout = () => {
               errorMessage={errors["transactedAt"]?.message?.toString()}
             >
               <Input
-                type="date"
+                type="datetime-local"
                 {...register("transactedAt", formValidations["transactedAt"])}
               />
             </Form.Field>
           </Form.Item>
           <Form.Item colSpan={{ base: 12, md: 6, lg: 4 }}>
             <Form.Field
-              label="Type"
-              errorMessage={errors["type"]?.message?.toString()}
+              label="Purpose"
+              errorMessage={errors["purpose"]?.message?.toString()}
             >
               <Select
-                name="type"
+                name="purpose"
                 control={control}
                 options={transactionTypesOptions}
-                placeholder="Select the transaction type"
+                placeholder="Select the transaction purpose"
                 components={tagSelectComponents}
-                rules={formValidations["type"]}
+                rules={formValidations["purpose"]}
+                onChange={onPurposeChange}
               />
             </Form.Field>
           </Form.Item>
@@ -128,6 +117,7 @@ const NewTransaction: NextPageWithLayout = () => {
             <Form.Field
               label="Payment method"
               errorMessage={errors["paymentMethod"]?.message?.toString()}
+              isDisabled={purpose === "revenue"}
             >
               <PaymentMethodSelect
                 name="paymentMethod"
@@ -136,42 +126,56 @@ const NewTransaction: NextPageWithLayout = () => {
                 getValues={getValues}
                 placeholder="Select the payment method"
                 rules={formValidations["paymentMethod"]}
+                isDisabled={purpose === "revenue"}
               />
             </Form.Field>
           </Form.Item>
-          <Form.Item colSpan={{ base: 12, md: 4 }}>
+          <Form.Item
+            colSpan={{
+              base: 12,
+              md: recurrence === "installment_based" ? 3 : 4,
+            }}
+          >
             <Form.Field
-              label="Repeat"
-              errorMessage={errors["repeat"]?.message?.toString()}
+              label="Recurrence"
+              errorMessage={errors["recurrence"]?.message?.toString()}
             >
               <Select
-                name="repeat"
+                name="recurrence"
                 control={control}
                 options={transactionRepeatTypeOptions}
-                rules={formValidations["repeat"]}
+                rules={formValidations["recurrence"]}
+                onChange={onRecurrenceChange}
               />
             </Form.Field>
           </Form.Item>
-          {repeatType === "fixed" && (
-            <Form.Item colSpan={{ base: 12, md: 4 }}>
+          {(recurrence === "fixed_periodic" ||
+            recurrence === "installment_based") && (
+            <Form.Item
+              colSpan={{
+                base: 12,
+                md: recurrence === "installment_based" ? 3 : 4,
+              }}
+            >
               <Form.Field
-                label="Fixed period"
-                errorMessage={errors["fixedPeriod"]?.message?.toString()}
+                label="Frequency"
+                errorMessage={errors["frequency"]?.message?.toString()}
               >
                 <Select
-                  name="fixedPeriod"
+                  name="frequency"
                   control={control}
                   options={fixedTransactionPeriodOptions}
-                  rules={formValidations["fixedPeriod"]}
+                  rules={formValidations["frequency"]}
                 />
               </Form.Field>
             </Form.Item>
           )}
-          {repeatType === "installment" && (
-            <Form.Item colSpan={{ base: 12, md: 4 }}>
+          {recurrence === "installment_based" && (
+            <Form.Item colSpan={{ base: 12, md: 3 }}>
               <Form.Field
-                label="Installments quantity"
+                label="Installments"
                 errorMessage={errors["installments"]?.message?.toString()}
+                helperMessage="minimum is 2"
               >
                 <Input
                   {...register("installments", formValidations["installments"])}
@@ -179,12 +183,18 @@ const NewTransaction: NextPageWithLayout = () => {
               </Form.Field>
             </Form.Item>
           )}
-          <Form.Item colSpan={{ base: 12, md: 4 }}>
+          <Form.Item
+            colSpan={{
+              base: 12,
+              md: recurrence === "installment_based" ? 3 : 4,
+            }}
+          >
             <Form.Field
-              label={
-                repeatType === "installment" ? "Installment amount" : "Amount"
-              }
+              label="Amount"
               errorMessage={errors["amount"]?.message?.toString()}
+              helperMessage={
+                recurrence === "installment_based" ? "per installment" : ""
+              }
             >
               <CurrencyInput
                 name="amount"
