@@ -21,23 +21,26 @@ const Home: NextPageWithLayout = () => {
   });
 
   return (
-    <Box as="main" h="full">
-      <Heading as="h1" fontSize="xl">
-        {userMetadata && `Welcome ${firstName}!`}
-      </Heading>
+    <Box as="main">
+      <Flex flexDirection="column">
+        <Heading as="h1" fontSize="xl">
+          {userMetadata && `Welcome ${firstName}! `}
+        </Heading>
+        <Text
+          fontSize="sm"
+          color="gray.400"
+        >{`Let's see a summary of your month (${formattedStartDate} - ${formattedEndDate})`}</Text>
+      </Flex>
 
       <Grid
         h="full"
-        py="8"
+        mt="8"
         templateRows={{ base: "repeat(4, 1fr)", lg: "4fr 2fr" }}
         templateColumns={{ base: "1fr", lg: "4fr 2fr" }}
         gap="6"
       >
         <Card p="6">
-          <Text fontWeight="semibold">
-            Your transactions in current month ({formattedStartDate} -{" "}
-            {formattedEndDate})
-          </Text>
+          <Text fontWeight="semibold">Your transactions</Text>
 
           <Flex
             alignItems="center"

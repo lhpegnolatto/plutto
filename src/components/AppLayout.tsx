@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useToken } from "@chakra-ui/react";
 
 import { Header } from "components/Header";
 import { BreadcrumbItem } from "components/Header/components/HeaderBreadcrumb";
@@ -10,24 +10,30 @@ export interface AppLayoutProps {
 }
 
 export function AppLayout({ children, breadcrumbItems }: AppLayoutProps) {
+  const [size16] = useToken("sizes", ["16"]);
+
   return (
     <Flex h="100vh">
       <Sidebar />
       <Flex
         flexDirection="column"
-        h={{ base: "calc(100vh - 56px)", md: "100vh" }}
+        h={{ base: `calc(100% - ${size16})`, md: "100vh" }}
         w="full"
       >
         <Header breadcrumbItems={breadcrumbItems} />
-        <Flex
-          w="full"
-          h="full"
-          overflow="auto"
-          py={{ base: "6", md: "10" }}
-          px="6"
-          justifyContent="center"
-        >
-          <Box maxW="6xl" w="full" h="full">
+        <Flex w="full" h="full" overflow="auto" px="6" justifyContent="center">
+          <Box
+            maxW="6xl"
+            w="full"
+            h="full"
+            sx={{
+              "& > *": {
+                height: "auto",
+                minH: "100%",
+                py: { base: "6", md: "10" },
+              },
+            }}
+          >
             {children}
           </Box>
         </Flex>

@@ -61,7 +61,7 @@ const Transactions: NextPageWithLayout = () => {
   }
 
   return (
-    <Box as="main" h="full">
+    <Box as="main">
       <Flex
         direction={{ base: "column", md: "row" }}
         justifyContent="space-between"

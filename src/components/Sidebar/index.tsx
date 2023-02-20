@@ -72,12 +72,13 @@ export function Sidebar() {
       borderTopWidth={{ base: "1px", md: "none" }}
       position={{ base: "fixed", md: "initial" }}
       w={{ base: "100%", md: "14" }}
-      h={{ base: "14", md: "initial" }}
+      h={{ base: "16", md: "initial" }}
       zIndex="docked"
       bottom="0px"
       px={{ base: "4", md: "2" }}
       py={{ base: "2", md: "4" }}
       bg={sidebarBackgroundColor}
+      justifyContent={{ base: "center", md: "flex-start" }}
     >
       {!isMobile && (
         <>

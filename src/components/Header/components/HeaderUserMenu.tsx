@@ -42,21 +42,22 @@ export function HeaderUserMenu() {
   }
 
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
 
   return (
     <Menu isLazy>
       <MenuButton
         as={Button}
-        rightIcon={<Icon as={FiChevronDown} />}
-        size={buttonSize}
-        px={{ base: "2", md: "4" }}
+        rightIcon={!isMobile && <Icon as={FiChevronDown} />}
+        size="md"
+        minW="0"
+        px={{ base: "1", md: "4" }}
+        borderRadius={{ base: "full", md: "md" }}
       >
         <Flex alignItems="center" py="2">
           <Avatar
             name={userMetadata?.full_name}
             src={userMetadata?.avatar_url}
-            size="xs"
+            size={isMobile ? "sm" : "xs"}
             boxShadow="md"
           />
 

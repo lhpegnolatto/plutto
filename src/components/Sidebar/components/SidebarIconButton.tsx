@@ -43,6 +43,7 @@ export function SidebarIconButton({
         _hover={{ bg: buttonsHoverBg }}
         _active={{ bg: buttonsActiveBg }}
         {...rest}
+        size={isMobile ? "lg" : "md"}
         isDisabled={isDisabled}
       />
     </Tooltip>

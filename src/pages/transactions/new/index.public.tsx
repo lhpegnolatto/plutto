@@ -44,7 +44,7 @@ const NewTransaction: NextPageWithLayout = () => {
   } = useNewTransaction();
 
   return (
-    <Box as="main" h="full">
+    <Box as="main">
       <Flex alignItems="center">
         <IconButton
           as={Link}
