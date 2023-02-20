@@ -82,7 +82,7 @@ export function PaymentMethodDrawerList({
             <Tr>
               <Th>Title</Th>
               <Th>Color</Th>
-              <Th w="1px">Actions</Th>
+              <Th w="1px" />
             </Tr>
           </Thead>
           <Tbody>

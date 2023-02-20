@@ -41,6 +41,8 @@ const Transactions: NextPageWithLayout = () => {
     summary,
     formattedStartDate,
     formattedEndDate,
+    onDelete,
+    isDeleting,
   } = useTransactions();
 
   function getTransactionRecurrenceColumn({
@@ -247,9 +249,10 @@ const Transactions: NextPageWithLayout = () => {
                     aria-label="Edit category"
                     icon={<Icon as={HiOutlinePencil} />}
                     size="xs"
+                    isDisabled={isDeleting}
                   />
                   <ConfirmationAlertDialog
-                    onConfirm={() => {}}
+                    onConfirm={() => onDelete(id)}
                     confirmButtonText="Delete"
                   >
                     {(onClick) => (
@@ -258,6 +261,7 @@ const Transactions: NextPageWithLayout = () => {
                         icon={<Icon as={HiOutlineTrash} />}
                         size="xs"
                         onClick={onClick}
+                        isLoading={isDeleting}
                       />
                     )}
                   </ConfirmationAlertDialog>
