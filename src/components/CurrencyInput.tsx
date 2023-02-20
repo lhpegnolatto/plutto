@@ -35,7 +35,7 @@ export function CurrencyInput({
     <NumberInput
       onChange={(valueAsString) => onChange(parse(valueAsString))}
       value={format(value)}
-      pattern="\$[0-9]*(.[0-9]+)"
+      pattern="\$[0-9]*(.[0-9]+)?"
     >
       <NumberInputField ref={ref} onBlur={onBlur} {...props} />
     </NumberInput>
