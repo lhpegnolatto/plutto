@@ -3632,10 +3632,10 @@ stylis@4.1.3:
   resolved "https://registry.npmjs.org/stylis/-/stylis-4.1.3.tgz"
   integrity sha512-GP6WDNWf+o403jrEp9c5jibKavrtLW+/qYGhFxFrG8maXhwTBI7gLLhiBb0o7uFccWN+EOS9aMO6cGHWAO07OA==
 
-supabase@^1.27.10:
-  version "1.27.10"
-  resolved "https://registry.yarnpkg.com/supabase/-/supabase-1.27.10.tgz#5cc4fbcf69d6dd044970cb70e79b246a8268e9da"
-  integrity sha512-eSu9UN+bOA5s9DF6Z+i3ZfPeDarN+GoKWUOPDW+AptzX/A9/ov7Y53pV25K8grOf0Mc0f/khlzKygjju4yZGsg==
+supabase@^1.38.7:
+  version "1.38.7"
+  resolved "https://registry.yarnpkg.com/supabase/-/supabase-1.38.7.tgz#7b721e7404518477faa566b5924165ef9458e185"
+  integrity sha512-89FAgPEksSvjyzb84xe2VtPCufNBhfk1eT6XOPuj7HZTUJhWWymtp/kyEBNrK8BdyqpkHsHnqTd5IaywrNXRaw==
   dependencies:
     bin-links "^4.0.1"
     node-fetch "^3.2.10"

@@ -9,82 +9,27 @@ import {
   Square,
   Text,
 } from "@chakra-ui/react";
-import { useUser } from "@supabase/auth-helpers-react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-} from "recharts";
+import { Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
+import { HiWrenchScrewdriver } from "react-icons/hi2";
 
 import { routes } from "constants/routes";
-import { HiWrenchScrewdriver } from "react-icons/hi2";
 import { NextPageWithLayout } from "./_app.public";
-
-const data = [
-  {
-    expenses: 4000,
-    revenues: 2400,
-    amt: 2400,
-  },
-  {
-    expenses: 3000,
-    revenues: 1398,
-    amt: 2210,
-  },
-  {
-    expenses: 2000,
-    revenues: 9800,
-    amt: 2290,
-  },
-  {
-    expenses: 2780,
-    revenues: 3908,
-    amt: 2000,
-  },
-  {
-    expenses: 1890,
-    revenues: 4800,
-    amt: 2181,
-  },
-  {
-    expenses: 2390,
-    revenues: 3800,
-    amt: 2500,
-  },
-  {
-    expenses: 3490,
-    revenues: 4300,
-    amt: 2100,
-  },
-];
+import { useHome } from "./hook";
 
 const Home: NextPageWithLayout = () => {
-  const { user_metadata: userMetadata } = useUser() ?? {};
-  const firstName = (userMetadata?.full_name || "").split(" ")[0];
-
-  const endDate = new Date();
-  const startDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
-  const formattedStartDate = startDate.toLocaleString("en-US", {
-    day: "numeric",
-    month: "short",
-  });
-  const formattedEndDate = endDate.toLocaleString("en-US", {
-    day: "numeric",
-    month: "short",
-  });
+  const {
+    formattedStartDate,
+    formattedEndDate,
+    purposesSummary,
+    isPurposesSummaryLoading,
+    userFirstName,
+  } = useHome();
 
   return (
     <Box as="main">
       <Flex flexDirection="column">
         <Heading as="h1" fontSize="xl">
-          {userMetadata && `Welcome ${firstName}! `}
+          {userFirstName && `Welcome ${userFirstName}! `}
         </Heading>
         <Text
           fontSize="sm"
@@ -125,7 +70,7 @@ const Home: NextPageWithLayout = () => {
             <AreaChart
               width={730}
               height={250}
-              data={data}
+              data={purposesSummary}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
               <defs>
@@ -140,16 +85,30 @@ const Home: NextPageWithLayout = () => {
               </defs>
               <Tooltip
                 cursor={{ opacity: 0.2 }}
+                wrapperStyle={{ outline: "none" }}
                 contentStyle={{
                   background: "#2D3748",
                   borderColor: "#1A202C",
                   borderRadius: "10px",
                 }}
-                labelFormatter={() => ""}
+                labelFormatter={(label) =>
+                  purposesSummary &&
+                  new Date(purposesSummary[label].day).toLocaleString("en-US", {
+                    day: "numeric",
+                    month: "long",
+                  })
+                }
+                formatter={(value, name) => [
+                  new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(value as number),
+                  name,
+                ]}
               />
               <Area
                 type="monotone"
-                dataKey="revenues"
+                dataKey="revenue"
                 stroke="#48BB78"
                 fillOpacity={1}
                 fill="url(#colorPv)"
@@ -158,7 +117,7 @@ const Home: NextPageWithLayout = () => {
               />
               <Area
                 type="monotone"
-                dataKey="expenses"
+                dataKey="expense"
                 stroke="#F56565"
                 fillOpacity={1}
                 fill="url(#colorUv)"
@@ -190,7 +149,7 @@ const Home: NextPageWithLayout = () => {
             <AreaChart
               width={730}
               height={250}
-              data={data}
+              data={purposesSummary}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
               <defs>
@@ -199,10 +158,32 @@ const Home: NextPageWithLayout = () => {
                   <stop offset="100%" stopColor="#4299E1" stopOpacity={0.1} />
                 </linearGradient>
               </defs>
-              <Tooltip cursor={false} />
+              <Tooltip
+                cursor={{ opacity: 0.2 }}
+                wrapperStyle={{ outline: "none" }}
+                contentStyle={{
+                  background: "#2D3748",
+                  borderColor: "#1A202C",
+                  borderRadius: "10px",
+                }}
+                labelFormatter={(label) =>
+                  purposesSummary &&
+                  new Date(purposesSummary[label].day).toLocaleString("en-US", {
+                    day: "numeric",
+                    month: "long",
+                  })
+                }
+                formatter={(value) => [
+                  new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(value as number),
+                  "saved money",
+                ]}
+              />
               <Area
                 type="monotone"
-                dataKey="amt"
+                dataKey="savedMoney"
                 stroke="#4299E1"
                 fillOpacity={1}
                 fill="url(#colorAmt)"

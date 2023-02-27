@@ -36,9 +36,10 @@ import { ConfirmationAlertDialog } from "components/ConfirmationAlertDialog";
 
 const Transactions: NextPageWithLayout = () => {
   const {
-    isTransactionsLoading,
     transactions,
-    summary,
+    isTransactionsLoading,
+    purposesSummary,
+    isPurposesSummaryLoading,
     formattedStartDate,
     formattedEndDate,
     onDelete,
@@ -85,7 +86,7 @@ const Transactions: NextPageWithLayout = () => {
       </Flex>
 
       <Stack direction={{ base: "column", md: "row" }} mt="6" spacing="4">
-        <Skeleton isLoaded={!isTransactionsLoading} w="full">
+        <Skeleton isLoaded={!isPurposesSummaryLoading} w="full">
           <Card w="full">
             <CardBody>
               <Stat>
@@ -94,7 +95,7 @@ const Transactions: NextPageWithLayout = () => {
                   {new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
-                  }).format(summary.savedMoneyAmount)}
+                  }).format(purposesSummary.savedMoneyAmount)}
                 </StatNumber>
                 <StatHelpText>
                   {formattedStartDate} - {formattedEndDate}
@@ -103,7 +104,7 @@ const Transactions: NextPageWithLayout = () => {
             </CardBody>
           </Card>
         </Skeleton>
-        <Skeleton isLoaded={!isTransactionsLoading} w="full">
+        <Skeleton isLoaded={!isPurposesSummaryLoading} w="full">
           <Card w="full">
             <CardBody>
               <Stat>
@@ -112,7 +113,7 @@ const Transactions: NextPageWithLayout = () => {
                   {new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
-                  }).format(summary.revenuesAmount)}
+                  }).format(purposesSummary.revenuesAmount)}
                 </StatNumber>
                 <StatHelpText>
                   {formattedStartDate} - {formattedEndDate}
@@ -121,7 +122,7 @@ const Transactions: NextPageWithLayout = () => {
             </CardBody>
           </Card>
         </Skeleton>
-        <Skeleton isLoaded={!isTransactionsLoading} w="full">
+        <Skeleton isLoaded={!isPurposesSummaryLoading} w="full">
           <Card w="full">
             <CardBody>
               <Stat>
@@ -130,7 +131,7 @@ const Transactions: NextPageWithLayout = () => {
                   {new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
-                  }).format(summary.expensesAmount)}
+                  }).format(purposesSummary.expensesAmount)}
                 </StatNumber>
                 <StatHelpText>
                   {formattedStartDate} - {formattedEndDate}

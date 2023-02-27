@@ -3,7 +3,8 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import { Database } from "types/supabase.types";
 
-import { getTransactionsWithSummary } from "services/transactions/getWithSummary";
+import { getAllTransactions } from "services/transactions/getAll";
+import { getTransactionsPurposesSummary } from "services/transactions/getPurposesSummary";
 import { queryKeys } from "constants/queryKeys";
 
 export type TransactionItem = {
@@ -22,15 +23,10 @@ export type TransactionItem = {
   occurred_at?: string;
 };
 
-type TransactionsSummary = {
+type PurposesSummary = {
   expensesAmount: number;
   revenuesAmount: number;
   savedMoneyAmount: number;
-};
-
-type TransactionsQueryResponse = {
-  transactions: TransactionItem[];
-  summary: TransactionsSummary;
 };
 
 export function useTransactions() {
@@ -63,20 +59,30 @@ export function useTransactions() {
     }
   );
 
+  const { data: transactions = [], isLoading: isTransactionsLoading } =
+    useQuery<TransactionItem[]>(
+      queryKeys.TRANSACTIONS,
+      async () =>
+        await getAllTransactions(supabaseClient, {
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+        }),
+      {
+        staleTime: 1000 * 60, // 1 minute
+      }
+    );
+
   const {
-    data: {
-      transactions = [],
-      summary = {
-        expensesAmount: 0,
-        revenuesAmount: 0,
-        savedMoneyAmount: 0,
-      },
-    } = {} as TransactionsQueryResponse,
-    isLoading: isTransactionsLoading,
-  } = useQuery<TransactionsQueryResponse>(
-    queryKeys.TRANSACTIONS,
+    data: purposesSummary = {
+      expensesAmount: 0,
+      revenuesAmount: 0,
+      savedMoneyAmount: 0,
+    },
+    isLoading: isPurposesSummaryLoading,
+  } = useQuery<PurposesSummary>(
+    queryKeys.PURPOSES_SUMMARY,
     async () =>
-      await getTransactionsWithSummary(supabaseClient, {
+      await getTransactionsPurposesSummary(supabaseClient, {
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString(),
       }),
@@ -86,9 +92,10 @@ export function useTransactions() {
   );
 
   return {
-    isTransactionsLoading,
     transactions,
-    summary,
+    isTransactionsLoading,
+    purposesSummary,
+    isPurposesSummaryLoading,
     formattedStartDate,
     formattedEndDate,
     onDelete,
