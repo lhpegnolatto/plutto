@@ -11,13 +11,18 @@ const rocketMovementAnimationKeyframes = keyframes`
 
 export const rocketContainerAnimation = `${rocketMovementAnimationKeyframes} 15s linear infinite`;
 
+const rocketSlideInAnimationKeyframes = keyframes`
+  0% { transform: translateY(2500px); }
+  100% { transform: translateY(0px); }
+`;
+
 const rocketShakeAnimationKeyframes = keyframes`
   0% { transform: translateX(1px); }
   50% { transform: translateX(0px); }
   100% { transform: translateX(1px); }
 `;
 
-export const rocketAnimation = `${rocketShakeAnimationKeyframes} 0.1s linear infinite`;
+export const rocketAnimation = `${rocketShakeAnimationKeyframes} 0.1s linear infinite, ${rocketSlideInAnimationKeyframes} 2s forwards`;
 
 const rocketLaunchAnimationKeyframes = keyframes`
   0% { transform: translate(0px, 0px); }

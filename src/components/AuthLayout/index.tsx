@@ -78,7 +78,7 @@ export function AuthLayout({ children, launchNow = false }: AuthLayoutProps) {
           w="12"
           h="28"
           color="white"
-          transform="translate(-100px, -850px)"
+          transform="translateY(2500px)"
           animation={launchNow ? rocketLaunchAnimation : rocketAnimation}
         />
       </Box>

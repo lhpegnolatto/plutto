@@ -5,6 +5,7 @@ import {
   SetStateAction,
   useContext,
   useState,
+  useEffect,
 } from "react";
 
 interface AppLoaderContextProps {
@@ -19,7 +20,11 @@ type AppLoaderContextData = {
 const AppLoaderContext = createContext({} as AppLoaderContextData);
 
 export function AppLoaderProvider({ children }: AppLoaderContextProps) {
-  const [isAppLoading, setIsAppLoading] = useState(false);
+  const [isAppLoading, setIsAppLoading] = useState(true);
+
+  useEffect(() => {
+    setIsAppLoading(false);
+  }, []);
 
   return (
     <AppLoaderContext.Provider

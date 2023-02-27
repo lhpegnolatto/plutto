@@ -1,0 +1,50 @@
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
+import { useAppLoaderContext } from "contexts/AppLoaderContext";
+import { routes } from "constants/routes";
+
+export function useSignIn() {
+  const router = useRouter();
+  const supabaseClient = useSupabaseClient();
+
+  const { isAppLoading, setIsAppLoading } = useAppLoaderContext();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  async function handleSignIn(provider: "github" | "google" | "facebook") {
+    setIsAppLoading(true);
+    setIsSubmitting(true);
+
+    await supabaseClient.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo:
+          process.env.NEXT_PUBLIC_SITE_URL ??
+          process.env.NEXT_PUBLIC_VERCEL_URL ??
+          "http://localhost:3000",
+      },
+    });
+  }
+
+  useEffect(() => {
+    async function checkSession() {
+      setIsSubmitting(false);
+      setIsAppLoading(true);
+
+      const {
+        data: { session },
+      } = await supabaseClient.auth.getSession();
+
+      setIsAppLoading(false);
+
+      if (session) {
+        router.push(routes.HOME);
+      }
+    }
+
+    checkSession();
+  }, [router, setIsAppLoading, supabaseClient]);
+
+  return { isAppLoading, isSubmitting, handleSignIn };
+}
