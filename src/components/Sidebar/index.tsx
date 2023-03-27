@@ -11,9 +11,9 @@ import {
 import {
   HiOutlineAcademicCap,
   HiOutlineHome,
-  HiOutlineBuildingLibrary,
   HiOutlineBanknotes,
-  HiOutlineArrowTrendingUp,
+  HiBeaker,
+  HiOutlinePresentationChartLine,
 } from "react-icons/hi2";
 
 import { routes } from "constants/routes";
@@ -36,13 +36,13 @@ const pages = [
   {
     title: "Insights - (coming soon)",
     path: "/insights",
-    icon: <Icon as={HiOutlineBuildingLibrary} boxSize="5" />,
+    icon: <Icon as={HiBeaker} boxSize="5" />,
     isDisabled: true,
   },
   {
     title: "Goals - (coming soon)",
     path: "/goals",
-    icon: <Icon as={HiOutlineArrowTrendingUp} boxSize="5" />,
+    icon: <Icon as={HiOutlinePresentationChartLine} boxSize="5" />,
     isDisabled: true,
   },
   {

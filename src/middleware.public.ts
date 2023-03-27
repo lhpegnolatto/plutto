@@ -17,6 +17,11 @@ export async function middleware(req: NextRequest) {
   } = await supabaseClient.auth.getSession();
 
   if (session) {
+    if (req.nextUrl.pathname === "/") {
+      const homeUrl = new URL(routes.HOME, req.nextUrl.origin);
+      return NextResponse.redirect(homeUrl);
+    }
+
     return res;
   }
 

@@ -8,8 +8,8 @@ type PurposesSummaryPerDayResponse = {
 };
 
 type PurposesSummaryPerDayItem = {
-  revenue: number;
-  expense: number;
+  revenues: number;
+  expenses: number;
   savedMoney: number;
   day: number;
 };
@@ -34,16 +34,21 @@ export async function getTransactionsPurposesPerDaySummary(
   );
 
   if (data) {
-    const groupedByDay = (data as PurposesSummaryPerDayResponse[]).reduce(
-      (acc, { purpose, amount, day }) => {
+    const groupedByDay = (data as PurposesSummaryPerDayResponse[])
+      .sort((a, b) => new Date(a.day).getTime() - new Date(b.day).getTime())
+      .reduce((acc, { purpose, amount, day }) => {
         const existingItemIndex = acc.findIndex((item) => item.day === day);
 
         if (existingItemIndex > -1) {
           const existingItem = acc[existingItemIndex];
           acc.splice(existingItemIndex, 1, {
             day: existingItem.day,
-            revenue: purpose === "revenue" ? amount : existingItem.revenue,
-            expense: purpose === "expense" ? amount : existingItem.expense,
+            revenues:
+              existingItem.revenues +
+              (purpose === "revenue" ? amount : existingItem.revenues),
+            expenses:
+              existingItem.expenses +
+              (purpose === "expense" ? amount : existingItem.expenses),
             savedMoney:
               existingItem.savedMoney +
               (purpose === "revenue" ? amount : amount * -1),
@@ -51,18 +56,20 @@ export async function getTransactionsPurposesPerDaySummary(
         } else {
           acc.push({
             day,
-            revenue: purpose === "revenue" ? amount : 0,
-            expense: purpose === "expense" ? amount : 0,
-            savedMoney: purpose === "revenue" ? amount : amount * -1,
+            revenues:
+              (acc[acc.length - 1]?.revenues || 0) +
+              (purpose === "revenue" ? amount : 0),
+            expenses:
+              (acc[acc.length - 1]?.expenses || 0) +
+              (purpose === "expense" ? amount : 0),
+            savedMoney:
+              (acc[acc.length - 1]?.savedMoney || 0) +
+              (purpose === "revenue" ? amount : amount * -1),
           });
         }
 
         return acc;
-      },
-      [] as PurposesSummaryPerDayItem[]
-    );
-
-    console.log(groupedByDay);
+      }, [] as PurposesSummaryPerDayItem[]);
 
     return groupedByDay;
   }

@@ -61,6 +61,14 @@ const Transactions: NextPageWithLayout = () => {
     }
   }
 
+  function getSummaryValuePercentage(value: number) {
+    return Number(
+      (value /
+        (purposesSummary.expensesAmount + purposesSummary.revenuesAmount)) *
+        100
+    ).toFixed(2);
+  }
+
   return (
     <Box as="main">
       <Flex
@@ -68,9 +76,14 @@ const Transactions: NextPageWithLayout = () => {
         justifyContent="space-between"
         gap="4"
       >
-        <Heading as="h1" fontSize="xl">
-          Summary of your transactions
-        </Heading>
+        <Box>
+          <Heading as="h1" fontSize="xl">
+            Summary of your transactions
+          </Heading>
+          <Tag mt="2">
+            {formattedStartDate} - {formattedEndDate}
+          </Tag>
+        </Box>
 
         <HStack spacing="4">
           <Button
@@ -98,7 +111,7 @@ const Transactions: NextPageWithLayout = () => {
                   }).format(purposesSummary.savedMoneyAmount)}
                 </StatNumber>
                 <StatHelpText>
-                  {formattedStartDate} - {formattedEndDate}
+                  {getSummaryValuePercentage(purposesSummary.savedMoneyAmount)}%
                 </StatHelpText>
               </Stat>
             </CardBody>
@@ -116,7 +129,7 @@ const Transactions: NextPageWithLayout = () => {
                   }).format(purposesSummary.revenuesAmount)}
                 </StatNumber>
                 <StatHelpText>
-                  {formattedStartDate} - {formattedEndDate}
+                  {getSummaryValuePercentage(purposesSummary.revenuesAmount)}%
                 </StatHelpText>
               </Stat>
             </CardBody>
@@ -134,7 +147,7 @@ const Transactions: NextPageWithLayout = () => {
                   }).format(purposesSummary.expensesAmount)}
                 </StatNumber>
                 <StatHelpText>
-                  {formattedStartDate} - {formattedEndDate}
+                  {getSummaryValuePercentage(purposesSummary.expensesAmount)}%
                 </StatHelpText>
               </Stat>
             </CardBody>

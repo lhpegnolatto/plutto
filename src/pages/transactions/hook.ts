@@ -30,8 +30,9 @@ type PurposesSummary = {
 };
 
 export function useTransactions() {
-  const endDate = new Date();
-  const startDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
+  const today = new Date();
+  const endDate = new Date(today.getFullYear(), today.getMonth(), 0);
+  const startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
 
   const formattedStartDate = startDate.toLocaleString("en-US", {
     day: "numeric",
