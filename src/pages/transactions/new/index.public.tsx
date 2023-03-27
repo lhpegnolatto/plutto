@@ -67,6 +67,7 @@ const NewTransaction: NextPageWithLayout = () => {
             >
               <Input
                 placeholder="Type your transaction description"
+                autoFocus
                 {...register("description", formValidations["description"])}
               />
             </Form.Field>

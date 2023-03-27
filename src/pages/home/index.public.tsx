@@ -10,6 +10,7 @@ import { MonthSavedMoneyCard } from "./components/MonthSavedMoneyCard";
 import { FastInsightsCard } from "./components/FastInsightsCard";
 
 const Home: NextPageWithLayout = () => {
+  const hasFastInsightsCard = useBreakpointValue({ base: false, lg: true });
   const hasCalendarCard = useBreakpointValue({ base: false, lg: true });
 
   return (
@@ -19,24 +20,16 @@ const Home: NextPageWithLayout = () => {
       <Grid
         h="auto"
         templateRows={{
-          base: "repeat(4, minmax(240px, 1fr))",
+          base: "repeat(3, minmax(240px, 1fr))",
           lg: "repeat(2, 1fr)",
         }}
         templateColumns={{ base: "1fr", lg: "repeat(3, 1fr)" }}
         gap="6"
         flex="1"
-        sx={{
-          "& .recharts-surface": {
-            borderRadius: "md",
-          },
-          "& .recharts-sector": {
-            stroke: "gray.700",
-          },
-        }}
       >
         <MonthSavedMoneyCard />
 
-        <FastInsightsCard />
+        {hasFastInsightsCard && <FastInsightsCard />}
 
         <HalfYearSavedMoneyCard />
 
