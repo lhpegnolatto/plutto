@@ -10,11 +10,17 @@ export function useHomeHeader() {
   const router = useRouter();
 
   function handleOnNewRevenueClick() {
-    router.push(`${routes.NEW_TRANSACTION}?purpose=revenue`);
+    router.push({
+      pathname: routes.NEW_TRANSACTION,
+      query: { purpose: "revenue" },
+    });
   }
 
   function handleOnNewExpenseClick() {
-    router.push(`${routes.NEW_TRANSACTION}?purpose=expense`);
+    router.push({
+      pathname: routes.NEW_TRANSACTION,
+      query: { purpose: "expense" },
+    });
   }
 
   return {

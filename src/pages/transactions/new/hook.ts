@@ -10,10 +10,12 @@ import { Database } from "types/supabase.types";
 import { routes } from "constants/routes";
 import { getDateTimeInputDefaultValue } from "utils/getDateTimeInputDefaultValue";
 
+type Purpose = "expense" | "revenue";
+
 type FormData = {
   description: string;
   transactedAt: string;
-  purpose: "expense" | "revenue";
+  purpose: Purpose;
   category: string;
   paymentMethod?: string;
   recurrence: "unique" | "installment_based" | "fixed_periodic";
@@ -29,7 +31,7 @@ export function useNewTransaction() {
     defaultValues: {
       description: "",
       transactedAt: getDateTimeInputDefaultValue(),
-      purpose: "expense",
+      purpose: (router.query?.purpose as Purpose) || "expense",
       category: "",
       paymentMethod: undefined,
       recurrence: "unique",
