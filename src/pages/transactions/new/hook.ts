@@ -1,172 +1,72 @@
-import { useForm } from "react-hook-form";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useMutation, useQueryClient } from "react-query";
 import { useRouter } from "next/router";
-import { SingleValue } from "chakra-react-select";
-
-import { Option } from "components/Select";
+import { useCallback, useState } from "react";
 
 import { Database } from "types/supabase.types";
 import { routes } from "constants/routes";
 import { getDateTimeInputDefaultValue } from "utils/getDateTimeInputDefaultValue";
+import { TransactionFormData } from "../components/TransactionForm/hook";
 
 type Purpose = "expense" | "revenue";
-
-type FormData = {
-  description: string;
-  transactedAt: string;
-  purpose: Purpose;
-  category: string;
-  paymentMethod?: string;
-  recurrence: "unique" | "installment_based" | "fixed_periodic";
-  amount: string;
-  frequency: "monthly" | "daily" | "weekly" | "yearly" | null;
-  installments: string;
-};
 
 export function useNewTransaction() {
   const router = useRouter();
 
-  const formProps = useForm<FormData>({
-    defaultValues: {
-      description: "",
-      transactedAt: getDateTimeInputDefaultValue(),
-      purpose: (router.query?.purpose as Purpose) || "expense",
-      category: "",
-      paymentMethod: undefined,
-      recurrence: "unique",
-      amount: "",
-      frequency: null,
-      installments: "",
-    },
-  });
-
-  const { handleSubmit, watch, clearErrors, setValue } = formProps;
-
-  const [recurrence, purpose] = watch(["recurrence", "purpose"]);
-
-  const formValidations = {
-    description: { required: "is required" },
-    transactedAt: { required: "is required" },
-    purpose: { required: "is required" },
-    category: { required: "is required" },
-    paymentMethod: {
-      validate: {
-        required: (value: string) => {
-          if (!value && purpose === "expense") return "is required";
-          return true;
-        },
-      },
-    },
-    recurrence: { required: "is required" },
-    amount: {
-      required: "is required",
-    },
-    frequency: {
-      validate: {
-        required: (value: string) => {
-          if (
-            !value &&
-            (recurrence === "installment_based" ||
-              recurrence === "fixed_periodic")
-          )
-            return "is required";
-          return true;
-        },
-      },
-    },
-    installments: {
-      validate: {
-        required: (value: string) => {
-          if (!value && recurrence === "installment_based")
-            return "is required";
-          return true;
-        },
-        min: (value: string) => {
-          const numericValue = parseFloat(value);
-
-          if (
-            (isNaN(numericValue) || numericValue < 2) &&
-            recurrence === "installment_based"
-          )
-            return "is invalid";
-          return true;
-        },
-      },
-    },
-  };
-
-  function onPurposeChange(option: SingleValue<Option>) {
-    clearErrors();
-
-    if (option && option.value === "revenue") {
-      setValue("paymentMethod", undefined);
-    }
-  }
-
-  function onRecurrenceChange(option: SingleValue<Option>) {
-    clearErrors();
-
-    if (!option) return;
-
-    if (option.value === "unique") {
-      setValue("frequency", null);
-      setValue("installments", "");
-    } else if (option.value === "fixed_periodic") {
-      setValue("frequency", "monthly");
-      setValue("installments", "");
-    } else if (option.value === "installment_based") {
-      setValue("frequency", "monthly");
-      setValue("installments", "2");
-    }
-  }
+  const getDefaultValues = useCallback(
+    () =>
+      ({
+        description: "",
+        transactedAt: getDateTimeInputDefaultValue(),
+        purpose: (router.query?.purpose as Purpose) || "expense",
+        category: "",
+        paymentMethod: undefined,
+        recurrence: "unique",
+        amount: "",
+        frequency: null,
+        installments: "",
+      } as TransactionFormData),
+    [router]
+  );
 
   const supabaseClient = useSupabaseClient<Database>();
-  const queryClient = useQueryClient();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { mutateAsync: onSubmit, isLoading: isSubmitting } = useMutation(
-    handleSubmit(
-      async ({
+  const onSubmit = useCallback(
+    async ({
+      description,
+      transactedAt,
+      purpose,
+      category,
+      paymentMethod,
+      recurrence,
+      amount,
+      frequency,
+      installments,
+    }: TransactionFormData) => {
+      setIsSubmitting(true);
+
+      await supabaseClient.from("transactions").insert({
         description,
-        transactedAt,
+        transacted_at: new Date(transactedAt).toISOString(),
         purpose,
-        category,
-        paymentMethod,
+        category_id: category,
+        payment_method_id: paymentMethod,
         recurrence,
-        amount,
+        amount: parseFloat(amount),
         frequency,
-        installments,
-      }) => {
-        await supabaseClient.from("transactions").insert({
-          description,
-          transacted_at: new Date(transactedAt).toISOString(),
-          purpose,
-          category_id: category,
-          payment_method_id: paymentMethod,
-          recurrence,
-          amount: parseFloat(amount),
-          frequency,
-          installments: installments ? parseInt(installments) : null,
-        });
+        installments: installments ? parseInt(installments) : null,
+      });
 
-        router.push(routes.TRANSACTIONS);
-      }
-    ),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("transactions");
-      },
-    }
+      router.push(routes.TRANSACTIONS);
+
+      setIsSubmitting(false);
+    },
+    [router, supabaseClient]
   );
 
   return {
-    formProps,
     onSubmit,
+    getDefaultValues,
     isSubmitting,
-    formValidations,
-    onPurposeChange,
-    onRecurrenceChange,
-    purpose,
-    recurrence,
   };
 }
