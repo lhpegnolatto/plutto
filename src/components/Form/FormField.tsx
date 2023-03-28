@@ -29,7 +29,7 @@ function FormField({
 
   return (
     <FormControl isInvalid={isInvalid} {...rest} size={size}>
-      <FormLabel fontSize={size} color={isInvalid ? errorColor : undefined}>
+      <FormLabel fontSize={size} {...(isInvalid && { color: errorColor })}>
         {label}
         {isInvalid && ` ${errorMessage}`}
       </FormLabel>
