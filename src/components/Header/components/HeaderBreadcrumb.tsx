@@ -34,7 +34,7 @@ export function HeaderBreadcrumb({ items }: HeaderBreadcrumbProps) {
             fontSize="xs"
             fontWeight={isCurrentPage ? "semibold" : "regular"}
           >
-            <Link href={path} passHref legacyBehavior>
+            <Link href={isCurrentPage ? "#" : path} passHref legacyBehavior>
               <BreadcrumbLink>{title}</BreadcrumbLink>
             </Link>
           </BreadcrumbItem>

@@ -24,7 +24,7 @@ import { FiFilter } from "react-icons/fi";
 
 import { NextPageWithLayout } from "pages/_app.public";
 
-import { routes } from "constants/routes";
+import { addRouteParam, routes } from "constants/routes";
 import { TransactionItem, useTransactions } from "./hook";
 import {
   HiArrowTrendingDown,
@@ -260,6 +260,10 @@ const Transactions: NextPageWithLayout = () => {
 
                 <Flex gap="2">
                   <IconButton
+                    as={Link}
+                    href={addRouteParam(routes.EDIT_TRANSACTION, {
+                      transactionId: id,
+                    })}
                     aria-label="Edit category"
                     icon={<Icon as={HiOutlinePencil} />}
                     size="xs"

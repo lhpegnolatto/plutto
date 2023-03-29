@@ -7,6 +7,10 @@ import { NextPageWithLayout } from "pages/_app.public";
 import { useNewTransaction } from "./hook";
 import { routes } from "constants/routes";
 import { TransactionForm } from "../components/TransactionForm";
+import {
+  TransactionFormData,
+  transactionFormDefaultValues,
+} from "../components/TransactionForm/hook";
 
 const NewTransaction: NextPageWithLayout = () => {
   const { onSubmit, defaultValues, isSubmitting } = useNewTransaction();
@@ -22,14 +26,16 @@ const NewTransaction: NextPageWithLayout = () => {
           isDisabled={isSubmitting}
         />
         <Heading as="h1" fontSize="lg" ml="4">
-          New transaction
+          Edit transaction
         </Heading>
       </Flex>
 
       <TransactionForm
-        submitButtonText="Create"
+        submitButtonText="Save"
         onSubmit={onSubmit}
-        defaultValues={defaultValues}
+        defaultValues={
+          (defaultValues || transactionFormDefaultValues) as TransactionFormData
+        }
       />
     </Box>
   );
@@ -37,7 +43,7 @@ const NewTransaction: NextPageWithLayout = () => {
 
 NewTransaction.breadcrumbItems = [
   { title: "Transactions", path: routes.TRANSACTIONS },
-  { title: "New", path: routes.NEW_TRANSACTION, isCurrentPage: true },
+  { title: "Edit", path: routes.EDIT_TRANSACTION, isCurrentPage: true },
 ];
 
 export default NewTransaction;

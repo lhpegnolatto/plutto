@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { SingleValue } from "chakra-react-select";
+import { useEffect } from "react";
 
 import { Option } from "components/Select";
 import { queryKeys } from "constants/queryKeys";
+import { getDateTimeInputDefaultValue } from "utils/getDateTimeInputDefaultValue";
 
 type Purpose = "expense" | "revenue";
 
@@ -21,18 +23,30 @@ export type TransactionFormData = {
 
 interface UseTransactionFormProps {
   onSubmit: (formData: TransactionFormData) => void;
-  getDefaultValues: () => TransactionFormData;
+  defaultValues: TransactionFormData;
 }
+
+export const transactionFormDefaultValues = {
+  description: "",
+  transactedAt: getDateTimeInputDefaultValue(),
+  purpose: "expense",
+  category: "",
+  paymentMethod: undefined,
+  recurrence: "unique",
+  amount: "",
+  frequency: null,
+  installments: "",
+};
 
 export function useTransactionForm({
   onSubmit,
-  getDefaultValues,
+  defaultValues,
 }: UseTransactionFormProps) {
   const formProps = useForm<TransactionFormData>({
-    defaultValues: getDefaultValues(),
+    defaultValues,
   });
 
-  const { handleSubmit, watch, clearErrors, setValue } = formProps;
+  const { handleSubmit, watch, clearErrors, setValue, reset } = formProps;
 
   const [recurrence, purpose] = watch(["recurrence", "purpose"]);
 
@@ -122,6 +136,10 @@ export function useTransactionForm({
       },
     }
   );
+
+  useEffect(() => {
+    reset({ ...transactionFormDefaultValues, ...defaultValues });
+  }, [defaultValues, reset]);
 
   return {
     formProps,

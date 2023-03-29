@@ -1,6 +1,6 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { Database } from "types/supabase.types";
 import { routes } from "constants/routes";
@@ -12,7 +12,7 @@ type Purpose = "expense" | "revenue";
 export function useNewTransaction() {
   const router = useRouter();
 
-  const getDefaultValues = useCallback(
+  const defaultValues = useMemo(
     () =>
       ({
         description: "",
@@ -66,7 +66,7 @@ export function useNewTransaction() {
 
   return {
     onSubmit,
-    getDefaultValues,
+    defaultValues,
     isSubmitting,
   };
 }

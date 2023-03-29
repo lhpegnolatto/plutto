@@ -6,6 +6,7 @@ import {
   Icon,
   IconButton,
   Input,
+  Skeleton,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
@@ -27,13 +28,13 @@ import { PaymentMethodSelect } from "components/PaymentMethodSelect";
 interface TransactionFormProps {
   submitButtonText: string;
   onSubmit: (formData: TransactionFormData) => void;
-  getDefaultValues: () => TransactionFormData;
+  defaultValues: TransactionFormData;
 }
 
 export function TransactionForm({
   submitButtonText,
   onSubmit,
-  getDefaultValues,
+  defaultValues,
 }: TransactionFormProps) {
   const {
     formProps: {
@@ -50,7 +51,7 @@ export function TransactionForm({
     onRecurrenceChange,
     purpose,
     recurrence,
-  } = useTransactionForm({ onSubmit, getDefaultValues });
+  } = useTransactionForm({ onSubmit, defaultValues });
 
   return (
     <Form.Root onSubmit={handleOnSubmit} mt="10">
