@@ -21,7 +21,7 @@ export function useMonthSavedMoneyCard() {
 
   const { data: purposesSummaryMonth, isLoading: isPurposesSummaryLoading } =
     useQuery<PurposesSummary>(
-      queryKeys.PURPOSES_SUMMARY,
+      queryKeys.PURPOSES_SUMMARY_MONTH,
       async () =>
         await getTransactionsPurposesSummary(supabaseClient, {
           startDate: new Date(

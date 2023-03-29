@@ -1,6 +1,7 @@
 export const queryKeys = {
   TRANSACTIONS: "transactions",
   PURPOSES_SUMMARY: "purposes_summary",
+  PURPOSES_SUMMARY_MONTH: "purposes_summary_month",
   PURPOSES_SUMMARY_HALF_YEAR: "purposes_summary_half_year",
   PURPOSES_SUMMARY_YEAR: "purposes_summary_year",
   CATEGORIES: "categories",
