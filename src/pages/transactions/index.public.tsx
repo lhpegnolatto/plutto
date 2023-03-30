@@ -25,7 +25,7 @@ import { FiFilter } from "react-icons/fi";
 import { NextPageWithLayout } from "pages/_app.public";
 
 import { addRouteParam, routes } from "constants/routes";
-import { TransactionItem, useTransactions } from "./hook";
+import { useTransactions } from "./hook";
 import {
   HiArrowTrendingDown,
   HiArrowTrendingUp,
@@ -33,6 +33,8 @@ import {
   HiOutlineTrash,
 } from "react-icons/hi2";
 import { ConfirmationAlertDialog } from "components/ConfirmationAlertDialog";
+import { FiltersModal } from "./components/FiltersModal";
+import { Fragment } from "react";
 
 const Transactions: NextPageWithLayout = () => {
   const {
@@ -44,30 +46,15 @@ const Transactions: NextPageWithLayout = () => {
     formattedEndDate,
     onDelete,
     isDeleting,
+    getTransactionRecurrenceColumn,
+    getSummaryValuePercentage,
+    isFiltersModalOpen,
+    onFiltersModalOpen,
+    onFiltersModalClose,
+    currentFilters,
+    onFiltersChange,
+    getTransactionMonth,
   } = useTransactions();
-
-  function getTransactionRecurrenceColumn({
-    recurrence,
-    installment_label,
-    frequency,
-  }: TransactionItem) {
-    switch (recurrence) {
-      case "fixed_periodic":
-        return `Repeat ${frequency}`;
-      case "installment_based":
-        return `Installment ${installment_label}`;
-      default:
-        return "";
-    }
-  }
-
-  function getSummaryValuePercentage(value: number) {
-    return Number(
-      (value /
-        (purposesSummary.expensesAmount + purposesSummary.revenuesAmount)) *
-        100
-    ).toFixed(2);
-  }
 
   return (
     <Box as="main">
@@ -86,9 +73,16 @@ const Transactions: NextPageWithLayout = () => {
         </Box>
 
         <HStack spacing="4">
+          <FiltersModal
+            isOpen={isFiltersModalOpen}
+            onClose={onFiltersModalClose}
+            currentFilters={currentFilters.current}
+            onFiltersChange={onFiltersChange}
+          />
           <Button
             leftIcon={<Icon as={FiFilter} />}
             isDisabled={isTransactionsLoading}
+            onClick={onFiltersModalOpen}
           >
             Filters
           </Button>
@@ -155,12 +149,8 @@ const Transactions: NextPageWithLayout = () => {
         </Skeleton>
       </Stack>
 
-      <Heading as="h2" fontSize="md" mt="12" mb="3" color="gray.400">
-        Feb 2023
-      </Heading>
-
       <Flex as="ul" gap="3" flexDirection="column">
-        {transactions.map((transaction) => {
+        {transactions.map((transaction, index) => {
           const {
             id,
             purpose,
@@ -173,119 +163,126 @@ const Transactions: NextPageWithLayout = () => {
             occurred_at,
           } = transaction;
 
+          const monthText = getTransactionMonth(transaction, index);
           const recurrenceText = getTransactionRecurrenceColumn(transaction);
 
           return (
-            <Card
-              key={id}
-              py="4"
-              px="6"
-              w="full"
-              flexDirection="row"
-              alignItems="center"
-              justifyContent="space-between"
-              gap="3"
-              as="li"
-            >
-              <Flex alignItems="center" gap="3" h="full">
-                <Icon
-                  as={
-                    purpose === "expense"
-                      ? HiArrowTrendingDown
-                      : HiArrowTrendingUp
-                  }
-                  color={purpose === "expense" ? "red.400" : "green.300"}
-                  boxSize="6"
-                />
+            <Fragment key={id}>
+              {monthText && (
+                <Text fontSize="md" mt="12" mb="3" color="gray.400">
+                  {monthText}
+                </Text>
+              )}
+              <Card
+                py="4"
+                px="6"
+                w="full"
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="space-between"
+                gap="3"
+                as="li"
+              >
+                <Flex alignItems="center" gap="3" h="full">
+                  <Icon
+                    as={
+                      purpose === "expense"
+                        ? HiArrowTrendingDown
+                        : HiArrowTrendingUp
+                    }
+                    color={purpose === "expense" ? "red.400" : "green.300"}
+                    boxSize="6"
+                  />
 
-                <Divider orientation="vertical" height="8" />
+                  <Divider orientation="vertical" height="8" />
 
-                <Flex flexDirection="column" gap="1">
-                  <Flex alignItems="center" gap="2">
-                    <Text fontSize="sm">{description}</Text>
+                  <Flex flexDirection="column" gap="1">
+                    <Flex alignItems="center" gap="2">
+                      <Text fontSize="sm">{description}</Text>
 
-                    <Circle size="4px" bg="gray.500" />
+                      <Circle size="4px" bg="gray.500" />
 
-                    <Flex gap="2">
-                      <Tag
-                        colorScheme={category_color}
-                        size="sm"
-                        lineHeight="none"
-                      >
-                        {category_title}
-                      </Tag>
-                      {payment_method_title && (
+                      <Flex gap="2">
                         <Tag
-                          colorScheme={payment_method_color}
+                          colorScheme={category_color}
                           size="sm"
                           lineHeight="none"
                         >
-                          {payment_method_title}
+                          {category_title}
                         </Tag>
+                        {payment_method_title && (
+                          <Tag
+                            colorScheme={payment_method_color}
+                            size="sm"
+                            lineHeight="none"
+                          >
+                            {payment_method_title}
+                          </Tag>
+                        )}
+                      </Flex>
+                    </Flex>
+
+                    <Flex alignItems="center" gap="2">
+                      <Text color="gray.500" fontSize="xs">
+                        {occurred_at}
+                      </Text>
+
+                      {recurrenceText && (
+                        <>
+                          <Circle size="4px" bg="gray.500" />
+
+                          <Text color="gray.500" fontSize="xs">
+                            {recurrenceText}
+                          </Text>
+                        </>
                       )}
                     </Flex>
                   </Flex>
+                </Flex>
 
-                  <Flex alignItems="center" gap="2">
-                    <Text color="gray.500" fontSize="xs">
-                      {occurred_at}
-                    </Text>
+                <Flex alignItems="center" gap="4">
+                  <Text
+                    fontSize="sm"
+                    textAlign="end"
+                    color={purpose === "expense" ? "red.400" : "green.300"}
+                  >
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(amount * (purpose === "expense" ? -1 : 1))}
+                  </Text>
 
-                    {recurrenceText && (
-                      <>
-                        <Circle size="4px" bg="gray.500" />
+                  <Divider orientation="vertical" height="8" />
 
-                        <Text color="gray.500" fontSize="xs">
-                          {recurrenceText}
-                        </Text>
-                      </>
-                    )}
+                  <Flex gap="2">
+                    <IconButton
+                      as={Link}
+                      href={addRouteParam(routes.EDIT_TRANSACTION, {
+                        transactionId: id,
+                      })}
+                      aria-label="Edit category"
+                      icon={<Icon as={HiOutlinePencil} />}
+                      size="xs"
+                      isDisabled={isDeleting}
+                    />
+                    <ConfirmationAlertDialog
+                      onConfirm={() => onDelete(id)}
+                      confirmButtonText="Delete"
+                    >
+                      {(onClick) => (
+                        <IconButton
+                          aria-label="Delete category"
+                          icon={<Icon as={HiOutlineTrash} />}
+                          size="xs"
+                          onClick={onClick}
+                          isLoading={isDeleting}
+                        />
+                      )}
+                    </ConfirmationAlertDialog>
                   </Flex>
                 </Flex>
-              </Flex>
-
-              <Flex alignItems="center" gap="4">
-                <Text
-                  fontSize="sm"
-                  textAlign="end"
-                  color={purpose === "expense" ? "red.400" : "green.300"}
-                >
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(amount * (purpose === "expense" ? -1 : 1))}
-                </Text>
-
-                <Divider orientation="vertical" height="8" />
-
-                <Flex gap="2">
-                  <IconButton
-                    as={Link}
-                    href={addRouteParam(routes.EDIT_TRANSACTION, {
-                      transactionId: id,
-                    })}
-                    aria-label="Edit category"
-                    icon={<Icon as={HiOutlinePencil} />}
-                    size="xs"
-                    isDisabled={isDeleting}
-                  />
-                  <ConfirmationAlertDialog
-                    onConfirm={() => onDelete(id)}
-                    confirmButtonText="Delete"
-                  >
-                    {(onClick) => (
-                      <IconButton
-                        aria-label="Delete category"
-                        icon={<Icon as={HiOutlineTrash} />}
-                        size="xs"
-                        onClick={onClick}
-                        isLoading={isDeleting}
-                      />
-                    )}
-                  </ConfirmationAlertDialog>
-                </Flex>
-              </Flex>
-            </Card>
+              </Card>
+            </Fragment>
           );
         })}
         {!isTransactionsLoading && transactions.length === 0 && (

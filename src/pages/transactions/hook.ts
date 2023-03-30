@@ -1,11 +1,14 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useCallback, useRef } from "react";
 
 import { Database } from "types/supabase.types";
 
 import { getAllTransactions } from "services/transactions/getAll";
 import { getTransactionsPurposesSummary } from "services/transactions/getPurposesSummary";
 import { queryKeys } from "constants/queryKeys";
+import { useDisclosure } from "@chakra-ui/react";
+import { TransactionsFilters } from "./components/FiltersModal";
 
 export type TransactionItem = {
   id: string;
@@ -30,21 +33,39 @@ type PurposesSummary = {
 };
 
 export function useTransactions() {
-  const today = new Date();
-  const endDate = new Date(today.getFullYear(), today.getMonth(), 0);
-  const startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+  const {
+    isOpen: isFiltersModalOpen,
+    onOpen: onFiltersModalOpen,
+    onClose: onFiltersModalClose,
+  } = useDisclosure();
+  const currentFilters = useRef<TransactionsFilters>(
+    (() => {
+      const today = new Date();
+      const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+      const endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
-  const formattedStartDate = startDate.toLocaleString("en-US", {
-    day: "numeric",
-    month: "short",
-  });
-  const formattedEndDate = endDate.toLocaleString("en-US", {
-    day: "numeric",
-    month: "short",
-  });
+      return { startDate, endDate };
+    })()
+  );
+
+  const queryClient = useQueryClient();
+
+  const formattedStartDate = currentFilters.current.startDate.toLocaleString(
+    "en-US",
+    {
+      day: "numeric",
+      month: "short",
+    }
+  );
+  const formattedEndDate = currentFilters.current.endDate.toLocaleString(
+    "en-US",
+    {
+      day: "numeric",
+      month: "short",
+    }
+  );
 
   const supabaseClient = useSupabaseClient<Database>();
-  const queryClient = useQueryClient();
 
   const { mutateAsync: onDelete, isLoading: isDeleting } = useMutation(
     async (transactionId: string) => {
@@ -56,22 +77,40 @@ export function useTransactions() {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(queryKeys.TRANSACTIONS);
+        queryClient.invalidateQueries(queryKeys.PURPOSES_SUMMARY);
       },
     }
   );
 
+  function getFiltersQueryKey() {
+    const startDateAsString = currentFilters.current.startDate.toISOString();
+    const endDateAsString = currentFilters.current.endDate.toISOString();
+
+    return `${startDateAsString}-${endDateAsString}`;
+  }
+
   const { data: transactions = [], isLoading: isTransactionsLoading } =
     useQuery<TransactionItem[]>(
-      queryKeys.TRANSACTIONS,
+      [queryKeys.TRANSACTIONS, getFiltersQueryKey()],
       async () =>
         await getAllTransactions(supabaseClient, {
-          startDate: startDate.toISOString(),
-          endDate: endDate.toISOString(),
+          startDate: currentFilters.current.startDate.toISOString(),
+          endDate: currentFilters.current.endDate.toISOString(),
         }),
       {
         staleTime: 1000 * 60, // 1 minute
       }
     );
+
+  const onFiltersChange = useCallback(
+    (newFilters: TransactionsFilters) => {
+      currentFilters.current = newFilters;
+      // refetchTransactions();
+
+      onFiltersModalClose();
+    },
+    [onFiltersModalClose]
+  );
 
   const {
     data: purposesSummary = {
@@ -81,16 +120,62 @@ export function useTransactions() {
     },
     isLoading: isPurposesSummaryLoading,
   } = useQuery<PurposesSummary>(
-    queryKeys.PURPOSES_SUMMARY,
+    [queryKeys.PURPOSES_SUMMARY, getFiltersQueryKey()],
     async () =>
       await getTransactionsPurposesSummary(supabaseClient, {
-        startDate: startDate.toISOString(),
-        endDate: endDate.toISOString(),
+        startDate: currentFilters.current.startDate.toISOString(),
+        endDate: currentFilters.current.endDate.toISOString(),
       }),
     {
       staleTime: 1000 * 60, // 1 minute
     }
   );
+
+  function getTransactionRecurrenceColumn({
+    recurrence,
+    installment_label,
+    frequency,
+  }: TransactionItem) {
+    switch (recurrence) {
+      case "fixed_periodic":
+        return `Repeat ${frequency}`;
+      case "installment_based":
+        return `Installment ${installment_label}`;
+      default:
+        return "";
+    }
+  }
+
+  function getTransactionMonth(
+    { occurred_at }: TransactionItem,
+    index: number
+  ) {
+    const previousItem = transactions[index - 1];
+    const previousMonthText =
+      previousItem?.occurred_at && index > 0
+        ? new Date(previousItem.occurred_at).toLocaleString("en-US", {
+            month: "short",
+            year: "numeric",
+          })
+        : "";
+
+    const monthText = occurred_at
+      ? new Date(occurred_at).toLocaleString("en-US", {
+          month: "short",
+          year: "numeric",
+        })
+      : "";
+
+    return monthText !== previousMonthText ? monthText : "";
+  }
+
+  function getSummaryValuePercentage(value: number) {
+    return Number(
+      (value /
+        (purposesSummary.expensesAmount + purposesSummary.revenuesAmount)) *
+        100
+    ).toFixed(2);
+  }
 
   return {
     transactions,
@@ -101,5 +186,13 @@ export function useTransactions() {
     formattedEndDate,
     onDelete,
     isDeleting,
+    getTransactionRecurrenceColumn,
+    getSummaryValuePercentage,
+    isFiltersModalOpen,
+    onFiltersModalOpen,
+    onFiltersModalClose,
+    currentFilters,
+    onFiltersChange,
+    getTransactionMonth,
   };
 }
