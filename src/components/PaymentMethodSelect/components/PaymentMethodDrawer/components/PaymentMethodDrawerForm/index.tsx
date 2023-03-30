@@ -61,7 +61,6 @@ export function PaymentMethodDrawerForm({
           label="Title"
           size="sm"
           errorMessage={errors["title"]?.message?.toString()}
-          errorMessageSize="xs"
         >
           <Input
             ref={titleInputMergedRefs}
@@ -76,7 +75,6 @@ export function PaymentMethodDrawerForm({
           mt="6"
           size="sm"
           errorMessage={errors["color"]?.message?.toString()}
-          errorMessageSize="xs"
         >
           <Select
             name="color"

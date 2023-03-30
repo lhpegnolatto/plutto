@@ -59,7 +59,6 @@ export function CategoryDrawerForm({
           label="Title"
           size="sm"
           errorMessage={errors["title"]?.message?.toString()}
-          errorMessageSize="xs"
         >
           <Input
             ref={titleInputMergedRefs}
@@ -74,7 +73,6 @@ export function CategoryDrawerForm({
           mt="6"
           size="sm"
           errorMessage={errors["color"]?.message?.toString()}
-          errorMessageSize="xs"
         >
           <Select
             name="color"
