@@ -3,7 +3,6 @@ import {
   FormControlProps,
   FormHelperText,
   FormLabel,
-  ResponsiveValue,
   useColorModeValue,
 } from "@chakra-ui/react";
 
@@ -11,7 +10,6 @@ interface FormFieldProps extends FormControlProps {
   children: React.ReactNode;
   label: string;
   errorMessage?: string;
-  errorMessageSize?: ResponsiveValue<string>;
   helperMessage?: string;
 }
 
@@ -19,7 +17,6 @@ function FormField({
   children,
   label,
   errorMessage = "",
-  errorMessageSize = "xs",
   helperMessage = "",
   size = "sm",
   ...rest

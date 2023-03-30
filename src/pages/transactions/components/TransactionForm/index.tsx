@@ -1,15 +1,5 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Icon,
-  IconButton,
-  Input,
-  Skeleton,
-} from "@chakra-ui/react";
+import { Button, Flex, Input } from "@chakra-ui/react";
 import Link from "next/link";
-import { FiArrowLeft } from "react-icons/fi";
 
 import { Form } from "components/Form";
 import { Select, tagSelectComponents } from "components/Select";
