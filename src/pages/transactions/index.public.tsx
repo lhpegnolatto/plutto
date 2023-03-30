@@ -68,7 +68,7 @@ const Transactions: NextPageWithLayout = () => {
             Summary of your transactions
           </Heading>
           <Tag mt="2">
-            {formattedStartDate} - {formattedEndDate}
+            {`from ${formattedStartDate} to ${formattedEndDate}`}
           </Tag>
         </Box>
 

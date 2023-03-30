@@ -55,6 +55,7 @@ export function useTransactions() {
     {
       day: "numeric",
       month: "short",
+      year: "numeric",
     }
   );
   const formattedEndDate = currentFilters.current.endDate.toLocaleString(
@@ -62,6 +63,7 @@ export function useTransactions() {
     {
       day: "numeric",
       month: "short",
+      year: "numeric",
     }
   );
 
