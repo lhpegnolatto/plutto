@@ -19,6 +19,7 @@ import {
   StatNumber,
   Tag,
   Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { FiFilter } from "react-icons/fi";
 
@@ -55,6 +56,8 @@ const Transactions: NextPageWithLayout = () => {
     onFiltersChange,
     getTransactionMonth,
   } = useTransactions();
+
+  const actionButtonsSize = useBreakpointValue({ base: "sm", md: "xs" });
 
   return (
     <Box as="main">
@@ -178,12 +181,19 @@ const Transactions: NextPageWithLayout = () => {
                 px="6"
                 w="full"
                 flexDirection="row"
-                alignItems="center"
-                justifyContent="space-between"
+                alignItems={{ base: "space-between", md: "center" }}
+                justifyContent={{ base: "center", md: "space-between" }}
                 gap="3"
                 as="li"
+                position="relative"
               >
-                <Flex alignItems="center" gap="3" h="full">
+                <Flex
+                  alignItems={{ base: "flex-start", md: "center" }}
+                  gap="3"
+                  h="full"
+                  w="full"
+                  flexDirection={{ base: "column", md: "row" }}
+                >
                   <Icon
                     as={
                       purpose === "expense"
@@ -194,9 +204,17 @@ const Transactions: NextPageWithLayout = () => {
                     boxSize="6"
                   />
 
-                  <Divider orientation="vertical" height="8" />
+                  <Divider
+                    orientation="vertical"
+                    height="8"
+                    display={{ base: "none", md: "initial" }}
+                  />
 
-                  <Flex flexDirection="column" gap="1">
+                  <Flex
+                    flexDirection="column"
+                    gap="1"
+                    pt={{ base: "1", md: "0" }}
+                  >
                     <Flex alignItems="center" gap="2">
                       <Text fontSize="sm">{description}</Text>
 
@@ -240,7 +258,15 @@ const Transactions: NextPageWithLayout = () => {
                   </Flex>
                 </Flex>
 
-                <Flex alignItems="center" gap="4">
+                <Flex
+                  alignItems="center"
+                  gap="4"
+                  justifyContent={{ base: "space-between", md: "center" }}
+                  position={{ base: "absolute", md: "initial" }}
+                  w={{ base: "full", md: "auto" }}
+                  pl="16"
+                  pr="6"
+                >
                   <Text
                     fontSize="sm"
                     textAlign="end"
@@ -252,7 +278,11 @@ const Transactions: NextPageWithLayout = () => {
                     }).format(amount * (purpose === "expense" ? -1 : 1))}
                   </Text>
 
-                  <Divider orientation="vertical" height="8" />
+                  <Divider
+                    orientation="vertical"
+                    height="8"
+                    display={{ base: "none", md: "initial" }}
+                  />
 
                   <Flex gap="2">
                     <IconButton
@@ -262,7 +292,7 @@ const Transactions: NextPageWithLayout = () => {
                       })}
                       aria-label="Edit category"
                       icon={<Icon as={HiOutlinePencil} />}
-                      size="xs"
+                      size={actionButtonsSize}
                       isDisabled={isDeleting}
                     />
                     <ConfirmationAlertDialog
@@ -273,7 +303,7 @@ const Transactions: NextPageWithLayout = () => {
                         <IconButton
                           aria-label="Delete category"
                           icon={<Icon as={HiOutlineTrash} />}
-                          size="xs"
+                          size={actionButtonsSize}
                           onClick={onClick}
                           isLoading={isDeleting}
                         />
