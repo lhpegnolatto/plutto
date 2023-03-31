@@ -78,6 +78,7 @@ export function Sidebar() {
       py={{ base: "2", md: "4" }}
       bg={sidebarBackgroundColor}
       justifyContent={{ base: "center", md: "flex-start" }}
+      zIndex="banner"
     >
       {!isMobile && (
         <>

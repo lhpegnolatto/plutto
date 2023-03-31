@@ -264,8 +264,8 @@ const Transactions: NextPageWithLayout = () => {
                   justifyContent={{ base: "space-between", md: "center" }}
                   position={{ base: "absolute", md: "initial" }}
                   w={{ base: "full", md: "auto" }}
-                  pl="16"
-                  pr="6"
+                  pl={{ base: "16", md: "0" }}
+                  pr={{ base: "6", md: "0" }}
                 >
                   <Text
                     fontSize="sm"
