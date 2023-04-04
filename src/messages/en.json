@@ -1,8 +1,6 @@
 {
-  "locale": "en-US",
-  "currency": "USD",
   "home": {
-    "title": "Welcome {{userName, string}}!",
+    "title": "Welcome {userName}!",
     "subtitle": "Let's see a summary of your transactions",
     "fastActions": {
       "addNewRevenue": "add new revenue",

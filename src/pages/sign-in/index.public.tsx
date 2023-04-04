@@ -9,13 +9,11 @@ import {
 } from "@chakra-ui/react";
 import { FiFacebook, FiGithub } from "react-icons/fi";
 import { IoLogoGoogle } from "react-icons/io";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { NextPageWithLayout } from "../_app.public";
 import { PluttoLogo, PluttoText } from "components/icons";
 import { AuthLayout } from "components/AuthLayout";
 import { useSignIn } from "./hook";
-import { GetStaticProps } from "next";
 
 const AuthPage: NextPageWithLayout = () => {
   const { isAppLoading, isSubmitting, handleSignIn } = useSignIn();
@@ -88,11 +86,5 @@ const AuthPage: NextPageWithLayout = () => {
 };
 
 AuthPage.layout = "auth";
-
-export const getStaticProps: GetStaticProps = async ({ locale = "pt-BR" }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ["common"])),
-  },
-});
 
 export default AuthPage;

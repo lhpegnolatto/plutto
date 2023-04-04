@@ -36,17 +36,12 @@ export function useMonthSavedMoneyCard() {
       }
     );
 
-  const {
-    expensesAmount: expensesAmount,
-    revenuesAmount: revenuesAmount,
-    savedMoneyAmount: savedMoneyAmount,
-  } = purposesSummaryMonth
-    ? purposesSummaryMonth
-    : { expensesAmount: 0, revenuesAmount: 0, savedMoneyAmount: 0 };
+  const { revenuesAmount: revenuesAmount, savedMoneyAmount: savedMoneyAmount } =
+    purposesSummaryMonth
+      ? purposesSummaryMonth
+      : { revenuesAmount: 0, savedMoneyAmount: 0 };
 
-  const savedMoneyPercentage = Number(
-    (savedMoneyAmount / (expensesAmount + revenuesAmount)) * 100
-  ).toFixed(2);
+  const savedMoneyPercentage = (100 * savedMoneyAmount) / revenuesAmount;
 
   return {
     savedMoneyPercentage,

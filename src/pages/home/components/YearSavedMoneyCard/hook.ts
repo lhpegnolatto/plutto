@@ -37,16 +37,14 @@ export function useYearSavedMoneyCard() {
     );
 
   const {
-    expensesAmount: expensesYearAmount,
     revenuesAmount: revenuesYearAmount,
     savedMoneyAmount: savedMoneyYearAmount,
   } = purposesSummaryYear
     ? purposesSummaryYear
-    : { expensesAmount: 0, revenuesAmount: 0, savedMoneyAmount: 0 };
+    : { revenuesAmount: 0, savedMoneyAmount: 0 };
 
-  const savedMoneyYearPercentage = Number(
-    (savedMoneyYearAmount / (expensesYearAmount + revenuesYearAmount)) * 100
-  ).toFixed(2);
+  const savedMoneyYearPercentage =
+    (100 * savedMoneyYearAmount) / revenuesYearAmount;
 
   return {
     savedMoneyYearPercentage,

@@ -7,8 +7,7 @@ import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-
-import i18NextConfig from "../../next-i18next.config";
+import { NextIntlProvider } from "next-intl";
 
 import { AppLayout, AppLayoutProps } from "components/AppLayout";
 import { BreadcrumbItem } from "components/Header/components/HeaderBreadcrumb";
@@ -18,7 +17,6 @@ import { AppLoaderProvider } from "contexts/AppLoaderContext";
 import { queryClient } from "services/queryClient";
 
 import { theme } from "theme";
-import { appWithTranslation } from "next-i18next";
 
 export type NextPageWithLayout = NextPage & {
   layout?: "app" | "auth";
@@ -34,40 +32,40 @@ const AppLayouts = {
   auth: ({ children }: any) => <Fragment>{children}</Fragment>,
 };
 
-const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
   const Layout = AppLayouts[Component.layout || "app"];
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <SessionContextProvider
-        supabaseClient={supabaseClient}
-        initialSession={pageProps.initialSession}
-      >
-        <ChakraProvider theme={theme}>
-          <Head>
-            <title>Plutto</title>
-            <meta
-              name="description"
-              content="Plutto is a simple personal finance helper for organizing and planning expenses."
-            />
-            <link rel="icon" href="/favicon.svg" />
-          </Head>
+    <NextIntlProvider messages={pageProps.messages}>
+      <QueryClientProvider client={queryClient}>
+        <SessionContextProvider
+          supabaseClient={supabaseClient}
+          initialSession={pageProps.initialSession}
+        >
+          <ChakraProvider theme={theme}>
+            <Head>
+              <title>Plutto</title>
+              <meta
+                name="description"
+                content="Plutto is a simple personal finance helper for organizing and planning expenses."
+              />
+              <link rel="icon" href="/favicon.svg" />
+            </Head>
 
-          <AppLoaderProvider>
-            <AppLoader />
+            <AppLoaderProvider>
+              <AppLoader />
 
-            <Layout breadcrumbItems={Component.breadcrumbItems || []}>
-              <Component {...pageProps} />
-            </Layout>
-          </AppLoaderProvider>
-        </ChakraProvider>
-      </SessionContextProvider>
+              <Layout breadcrumbItems={Component.breadcrumbItems || []}>
+                <Component {...pageProps} />
+              </Layout>
+            </AppLoaderProvider>
+          </ChakraProvider>
+        </SessionContextProvider>
 
-      <ReactQueryDevtools />
-    </QueryClientProvider>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </NextIntlProvider>
   );
-};
-
-export default appWithTranslation(App, i18NextConfig);
+}

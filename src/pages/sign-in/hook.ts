@@ -4,13 +4,10 @@ import { useEffect, useState } from "react";
 
 import { useAppLoaderContext } from "contexts/AppLoaderContext";
 import { routes } from "constants/routes";
-import { useTranslation } from "react-i18next";
 
 export function useSignIn() {
   const router = useRouter();
   const supabaseClient = useSupabaseClient();
-
-  const { i18n } = useTranslation();
 
   const { isAppLoading, setIsAppLoading } = useAppLoaderContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,7 +16,7 @@ export function useSignIn() {
     setIsAppLoading(true);
     setIsSubmitting(true);
 
-    const hasEnglishLocalePath = i18n.language === "en";
+    const hasEnglishLocalePath = router.locale === "en";
     const localePathPrefix = hasEnglishLocalePath ? "/en" : "";
 
     await supabaseClient.auth.signInWithOAuth({

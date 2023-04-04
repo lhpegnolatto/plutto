@@ -1,15 +1,15 @@
 import { Box, Card, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 export function FastInsightsCard() {
-  const { t } = useTranslation();
+  const t = useTranslations("home");
 
   return (
     <GridItem colSpan={{ base: 1, lg: 2 }}>
       <Card h="full" position="relative">
         <Flex alignItems="center" p="6" gap="3">
           <Text fontWeight="semibold" filter="blur(2px)">
-            {t("home.cards.fastInsights.title")}
+            {t("cards.fastInsights.title")}
           </Text>
         </Flex>
         <Text
@@ -24,7 +24,7 @@ export function FastInsightsCard() {
           py="2"
           borderRadius="md"
         >
-          {t("home.cards.fastInsights.tooltip")}
+          {t("cards.fastInsights.tooltip")}
         </Text>
 
         <Flex filter="blur(4px)" p="6" gap="4">

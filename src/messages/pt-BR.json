@@ -1,8 +1,6 @@
 {
-  "locale": "pt-BR",
-  "currency": "BRL",
   "home": {
-    "title": "Olá {{userName, string}}!",
+    "title": "Olá {userName}!",
     "subtitle": "Aqui vai um resumo sobre suas transações :)",
     "fastActions": {
       "addNewRevenue": "adicionar nova receita",

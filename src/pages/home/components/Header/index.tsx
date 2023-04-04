@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { HiArrowTrendingDown, HiArrowTrendingUp } from "react-icons/hi2";
 import { useHomeHeader } from "./hook";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 export function HomeHeader() {
   const { userFirstName, handleOnNewRevenueClick, handleOnNewExpenseClick } =
@@ -21,40 +21,40 @@ export function HomeHeader() {
 
   const hasFastActions = useBreakpointValue({ base: false, md: true });
 
-  const { t } = useTranslation();
+  const t = useTranslations("home");
 
   return (
     <Flex justifyContent="space-between" mb="8">
       <Flex flexDirection="column">
         <Heading as="h1" fontSize="xl">
-          {userFirstName && t("home.title", { userName: userFirstName })}
+          {userFirstName && t("title", { userName: userFirstName })}
         </Heading>
         <Text fontSize="sm" color="gray.400">
-          {t("home.subtitle")}
+          {t("subtitle")}
         </Text>
       </Flex>
 
       {hasFastActions && (
         <Flex gap="4">
           <Tooltip
-            label={t("home.fastActions.addNewRevenue")}
+            label={t("fastActions.addNewRevenue")}
             bg={tooltipBg}
             color={tooltipColor}
           >
             <IconButton
-              aria-label={t("home.fastActions.addNewRevenue")}
+              aria-label={t("fastActions.addNewRevenue")}
               icon={<Icon as={HiArrowTrendingUp} />}
               _hover={{ color: "green.400" }}
               onClick={handleOnNewRevenueClick}
             />
           </Tooltip>
           <Tooltip
-            label={t("home.fastActions.addNewExpense")}
+            label={t("fastActions.addNewExpense")}
             bg={tooltipBg}
             color={tooltipColor}
           >
             <IconButton
-              aria-label={t("home.fastActions.addNewExpense")}
+              aria-label={t("fastActions.addNewExpense")}
               icon={<Icon as={HiArrowTrendingDown} />}
               _hover={{ color: "red.400" }}
               onClick={handleOnNewExpenseClick}

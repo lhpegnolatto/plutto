@@ -1,18 +1,17 @@
 import { Card, Flex, Square, Text } from "@chakra-ui/react";
 import { useMonthSavedMoneyCard } from "./hook";
-import { useTranslation } from "react-i18next";
+import { useFormatter, useTranslations } from "next-intl";
 
 export function MonthSavedMoneyCard() {
   const { savedMoneyPercentage, savedMoneyAmount } = useMonthSavedMoneyCard();
 
-  const { t } = useTranslation();
+  const format = useFormatter();
+  const t = useTranslations("home");
 
   return (
     <Card>
       <Flex alignItems="center" p="6" gap="3">
-        <Text fontWeight="semibold">
-          {t("home.cards.savedMoneyMonth.title")}
-        </Text>
+        <Text fontWeight="semibold">{t("cards.savedMoneyMonth.title")}</Text>
       </Flex>
 
       <Flex
@@ -22,50 +21,54 @@ export function MonthSavedMoneyCard() {
         h="full"
         mb="6"
       >
-        <Text>{t("home.cards.percentPrefix")}</Text>
+        <Text>{t("cards.percentPrefix")}</Text>
         <Text
           fontSize="4xl"
           mt="3"
           lineHeight="none"
           color={
-            parseFloat(savedMoneyPercentage) >= 10
+            savedMoneyPercentage >= 10
               ? "green.400"
-              : parseFloat(savedMoneyPercentage) > 0
+              : savedMoneyPercentage > 0
               ? "yellow.400"
               : "red.400"
           }
         >
-          {`${savedMoneyPercentage}%`}
+          {format.number(savedMoneyPercentage, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+          %
         </Text>
         <Text
           fontSize="xs"
           color={
-            parseFloat(savedMoneyPercentage) >= 10
+            savedMoneyPercentage >= 10
               ? "green.400"
-              : parseFloat(savedMoneyPercentage) >= 5
+              : savedMoneyPercentage >= 5
               ? "yellow.400"
               : "red.400"
           }
         >
-          {new Intl.NumberFormat(t("locale", "en-US") as string, {
+          {format.number(savedMoneyAmount, {
             style: "currency",
-            currency: t("currency", "USD") as string,
-          }).format(savedMoneyAmount)}
+            currency: "USD",
+          })}
         </Text>
-        <Text mt="3">{t("home.cards.percentSuffix")}</Text>
+        <Text mt="3">{t("cards.percentSuffix")}</Text>
 
         <Flex flexDirection="column" mt="8" gap="1">
           <Flex alignItems="center" gap="2">
             <Square size="8px" borderRadius="2px" bg="green.400" />
-            <Text fontSize="xs">{t("home.cards.goals.green")}</Text>
+            <Text fontSize="xs">{t("cards.goals.green")}</Text>
           </Flex>
           <Flex alignItems="center" gap="2">
             <Square size="8px" borderRadius="2px" bg="yellow.400" />
-            <Text fontSize="xs">{t("home.cards.goals.yellow")}</Text>
+            <Text fontSize="xs">{t("cards.goals.yellow")}</Text>
           </Flex>
           <Flex alignItems="center" gap="2">
             <Square size="8px" borderRadius="2px" bg="red.400" />
-            <Text fontSize="xs">{t("home.cards.goals.red")}</Text>
+            <Text fontSize="xs">{t("cards.goals.red")}</Text>
           </Flex>
         </Flex>
       </Flex>

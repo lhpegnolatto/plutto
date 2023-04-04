@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
   pageExtensions: ["public.ts", "public.tsx"],
   reactStrictMode: true,
   redirects: () => [
@@ -9,7 +9,8 @@ const nextConfig = {
       permanent: true,
     },
   ],
-  i18n: { locales: ["en", "pt-BR"], defaultLocale: "pt-BR" },
+  i18n: {
+    locales: ["pt-BR", "en"],
+    defaultLocale: "pt-BR",
+  },
 };
-
-module.exports = nextConfig;

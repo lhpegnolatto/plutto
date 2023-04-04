@@ -1,12 +1,10 @@
 import { Html, Head, Main, NextScript, DocumentProps } from "next/document";
 import { ColorModeScript } from "@chakra-ui/react";
 
-import { i18n } from "../../next-i18next.config";
-
 import { theme } from "theme";
 
 export default function Document(props: DocumentProps) {
-  const currentLocale = props.__NEXT_DATA__.locale || i18n.defaultLocale;
+  const currentLocale = props.__NEXT_DATA__.locale || "pt-BR";
 
   return (
     <Html lang={currentLocale}>

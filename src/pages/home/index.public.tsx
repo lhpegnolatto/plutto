@@ -8,6 +8,7 @@ import { HalfYearSavedMoneyCard } from "./components/HalfYearSavedMoneyCard";
 import { YearSavedMoneyCard } from "./components/YearSavedMoneyCard";
 import { MonthSavedMoneyCard } from "./components/MonthSavedMoneyCard";
 import { FastInsightsCard } from "./components/FastInsightsCard";
+import { getStaticMessageProps } from "utils/getStaticMessagesProps";
 
 const Home: NextPageWithLayout = () => {
   const hasFastInsightsCard = useBreakpointValue({ base: false, lg: true });
@@ -44,5 +45,7 @@ const Home: NextPageWithLayout = () => {
 Home.breadcrumbItems = [
   { title: "Home", path: routes.HOME, isCurrentPage: true },
 ];
+
+export const getStaticProps = getStaticMessageProps;
 
 export default Home;
