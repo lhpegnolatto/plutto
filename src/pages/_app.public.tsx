@@ -36,6 +36,8 @@ const AppLayouts = {
 };
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+  document.doctype?.remove();
+
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
   const Layout = AppLayouts[Component.layout || "app"];
@@ -71,4 +73,10 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   );
 };
 
-export default App;
+export default appWithTranslation(App, {
+  i18n: { locales: ["en", "pt-BR"], defaultLocale: "pt-BR" },
+  use: [Backend, LanguageDetector],
+  interpolation: {
+    escapeValue: false,
+  },
+});
