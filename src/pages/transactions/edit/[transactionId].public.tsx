@@ -11,7 +11,7 @@ import {
   TransactionFormData,
   transactionFormDefaultValues,
 } from "../components/TransactionForm/hook";
-import { getStaticMessageProps } from "utils/getStaticMessagesProps";
+import { getServerSideMessagesProps } from "utils/getServerSideMessagesProps";
 
 const NewTransaction: NextPageWithLayout = () => {
   const { onSubmit, defaultValues, isSubmitting } = useNewTransaction();
@@ -47,6 +47,6 @@ NewTransaction.breadcrumbItems = [
   { title: "Edit", path: routes.EDIT_TRANSACTION, isCurrentPage: true },
 ];
 
-export const getStaticProps = getStaticMessageProps;
+export const getServerSideProps = getServerSideMessagesProps;
 
 export default NewTransaction;
