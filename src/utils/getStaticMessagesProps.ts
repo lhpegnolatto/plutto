@@ -1,7 +1,7 @@
 import { GetStaticPropsContext } from "next";
 
 export async function getStaticMessageProps({
-  locale = "pt-BR",
+  locale = "pt",
 }: GetStaticPropsContext) {
   return {
     props: {

@@ -1,2 +1,2 @@
-type Messages = typeof import("./messages/pt-BR.json");
+type Messages = typeof import("./messages/pt.json");
 type IntlMessages = Messages;

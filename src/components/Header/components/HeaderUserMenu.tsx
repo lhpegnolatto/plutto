@@ -151,7 +151,7 @@ export function HeaderUserMenu() {
               fontSize="xs"
               pl="6"
               color={colorMode === "light" ? "gray.600" : "gray.300"}
-              onClick={() => onLanguageChange("pt-BR")}
+              onClick={() => onLanguageChange("pt")}
             >
               Portuguese
             </MenuItem>

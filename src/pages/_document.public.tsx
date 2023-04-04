@@ -4,7 +4,7 @@ import { ColorModeScript } from "@chakra-ui/react";
 import { theme } from "theme";
 
 export default function Document(props: DocumentProps) {
-  const currentLocale = props.__NEXT_DATA__.locale || "pt-BR";
+  const currentLocale = props.__NEXT_DATA__.locale || "pt";
 
   return (
     <Html lang={currentLocale}>
