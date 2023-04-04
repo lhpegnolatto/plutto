@@ -5,7 +5,7 @@ import { theme } from "theme";
 
 export default function Document() {
   return (
-    <Html lang="pt-BR">
+    <Html lang="en">
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
