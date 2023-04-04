@@ -8,8 +8,7 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
-import Backend from "i18next-http-backend";
-import LanguageDetector from "i18next-browser-languagedetector";
+import i18NextConfig from "../../next-i18next.config";
 
 import { AppLayout, AppLayoutProps } from "components/AppLayout";
 import { BreadcrumbItem } from "components/Header/components/HeaderBreadcrumb";
@@ -71,10 +70,4 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   );
 };
 
-export default appWithTranslation(App, {
-  i18n: { locales: ["en", "pt-BR"], defaultLocale: "pt-BR" },
-  use: [Backend, LanguageDetector],
-  interpolation: {
-    escapeValue: false,
-  },
-});
+export default appWithTranslation(App, i18NextConfig);
