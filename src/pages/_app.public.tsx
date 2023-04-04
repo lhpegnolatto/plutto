@@ -71,10 +71,4 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   );
 };
 
-export default appWithTranslation(App, {
-  i18n: { locales: ["en", "pt-BR"], defaultLocale: "pt-BR" },
-  use: [Backend, LanguageDetector],
-  interpolation: {
-    escapeValue: false,
-  },
-});
+export default App;
