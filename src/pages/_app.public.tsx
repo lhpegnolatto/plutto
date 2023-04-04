@@ -36,8 +36,6 @@ const AppLayouts = {
 };
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
-  document.doctype?.remove();
-
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
   const Layout = AppLayouts[Component.layout || "app"];
