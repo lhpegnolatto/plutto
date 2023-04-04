@@ -5,7 +5,7 @@ import { useFormatter, useTranslations } from "next-intl";
 
 export function CalendarCard() {
   const format = useFormatter();
-  const t = useTranslations("home");
+  const t = useTranslations();
 
   const quote = useMemo(() => {
     const randomIndex = Math.floor(Math.random() * calendarCardQuotes.length);

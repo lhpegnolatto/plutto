@@ -36,6 +36,7 @@ import {
 import { ConfirmationAlertDialog } from "components/ConfirmationAlertDialog";
 import { FiltersModal } from "./components/FiltersModal";
 import { Fragment } from "react";
+import { getStaticMessageProps } from "utils/getStaticMessagesProps";
 
 const Transactions: NextPageWithLayout = () => {
   const {
@@ -341,5 +342,7 @@ Transactions.breadcrumbItems = [
     isCurrentPage: true,
   },
 ];
+
+export const getStaticProps = getStaticMessageProps;
 
 export default Transactions;
