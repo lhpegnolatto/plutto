@@ -13,18 +13,11 @@ module.exports = {
     locales: ["pt", "en"],
     defaultLocale: "pt",
     localeDetection: true,
-  },
-  async headers() {
-    return [
+    domains: [
       {
-        source: "/static/js/(.*)",
-        headers: [
-          {
-            key: "Content-Type",
-            value: "text/javascript",
-          },
-        ],
+        domain: "plutto.com.br",
+        defaultLocale: "pt",
       },
-    ];
+    ],
   },
 };
