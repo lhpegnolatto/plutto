@@ -14,6 +14,7 @@ import { NextPageWithLayout } from "../_app.public";
 import { PluttoLogo, PluttoText } from "components/icons";
 import { AuthLayout } from "components/AuthLayout";
 import { useSignIn } from "./hook";
+import { getStaticMessageProps } from "utils/getStaticMessagesProps";
 
 const AuthPage: NextPageWithLayout = () => {
   const { isAppLoading, isSubmitting, handleSignIn } = useSignIn();
@@ -86,5 +87,7 @@ const AuthPage: NextPageWithLayout = () => {
 };
 
 AuthPage.layout = "auth";
+
+export const getStaticProps = getStaticMessageProps;
 
 export default AuthPage;
