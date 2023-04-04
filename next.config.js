@@ -2,7 +2,17 @@
 const nextConfig = {
   pageExtensions: ["public.ts", "public.tsx"],
   reactStrictMode: true,
-  rewrites: [{ source: "/", destination: "/home" }],
+  redirects: () => [
+    {
+      source: "/",
+      destination: "/home",
+      permanent: true,
+    },
+  ],
+  i18n: {
+    defaultLocale: "pt-BR",
+    locales: ["en", "pt-BR"],
+  },
 };
 
 module.exports = nextConfig;

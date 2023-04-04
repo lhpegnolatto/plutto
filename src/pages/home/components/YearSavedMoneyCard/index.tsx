@@ -1,14 +1,19 @@
 import { Card, Flex, Square, Text } from "@chakra-ui/react";
 import { useYearSavedMoneyCard } from "./hook";
+import { useTranslation } from "react-i18next";
 
 export function YearSavedMoneyCard() {
   const { savedMoneyYearPercentage, savedMoneyYearAmount } =
     useYearSavedMoneyCard();
 
+  const { t } = useTranslation();
+
   return (
     <Card>
       <Flex alignItems="center" p="6" gap="3">
-        <Text fontWeight="semibold">Saved money on a year ago</Text>
+        <Text fontWeight="semibold">
+          {t("home.cards.savedMoneyYear.title")}
+        </Text>
       </Flex>
 
       <Flex
@@ -18,7 +23,7 @@ export function YearSavedMoneyCard() {
         h="full"
         mb="6"
       >
-        <Text>You are saving</Text>
+        <Text>{t("home.cards.percentPrefix")}</Text>
         <Text
           fontSize="4xl"
           mt="3"
@@ -43,25 +48,25 @@ export function YearSavedMoneyCard() {
               : "red.400"
           }
         >
-          {new Intl.NumberFormat("en-US", {
+          {new Intl.NumberFormat(t("locale", "en-US") as string, {
             style: "currency",
-            currency: "USD",
+            currency: t("currency", "USD") as string,
           }).format(savedMoneyYearAmount)}
         </Text>
-        <Text mt="3">of your money!</Text>
+        <Text mt="3">{t("home.cards.percentSuffix")}</Text>
 
         <Flex flexDirection="column" mt="8" gap="1">
           <Flex alignItems="center" gap="2">
             <Square size="8px" borderRadius="2px" bg="green.400" />
-            <Text fontSize="xs">{`very good job! (10% or more)`}</Text>
+            <Text fontSize="xs">{t("home.cards.goals.green")}</Text>
           </Flex>
           <Flex alignItems="center" gap="2">
             <Square size="8px" borderRadius="2px" bg="yellow.400" />
-            <Text fontSize="xs">{`you can do better! (at least 5%)`}</Text>
+            <Text fontSize="xs">{t("home.cards.goals.yellow")}</Text>
           </Flex>
           <Flex alignItems="center" gap="2">
             <Square size="8px" borderRadius="2px" bg="red.400" />
-            <Text fontSize="xs">{`too expensive life. (less than 5%)`}</Text>
+            <Text fontSize="xs">{t("home.cards.goals.red")}</Text>
           </Flex>
         </Flex>
       </Flex>

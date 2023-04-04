@@ -1,0 +1,47 @@
+{
+  "locale": "en-US",
+  "currency": "USD",
+  "home": {
+    "title": "Welcome {{userName, string}}!",
+    "subtitle": "Let's see a summary of your transactions",
+    "fastActions": {
+      "addNewRevenue": "add new revenue",
+      "addNewExpense": "add new expense"
+    },
+    "cards": {
+      "savedMoneyMonth": {
+        "title": "Saved money on current month"
+      },
+      "savedMoneyHalfYear": {
+        "title": "Saved money on a half-year ago"
+      },
+      "savedMoneyYear": {
+        "title": "Saved money on a year ago"
+      },
+      "percentPrefix": "You are saving",
+      "percentSuffix": "of your money",
+      "goals": {
+        "green": "very good job! (10% or more)",
+        "yellow": "you can do better! (at least 5%)",
+        "red": "too expensive life. (less than 5%)"
+      },
+      "fastInsights": {
+        "title": "Fast insights",
+        "tooltip": "coming soon"
+      },
+      "quotes": {
+        "0": "\"A budget is telling your money where to go instead of wondering where it went.\"",
+        "1": "\"If you don't find a way to make money while you sleep, you will work until you die.\"",
+        "2": "\"Money is only a tool. It will take you wherever you wish, but it will not replace you as the driver.\"",
+        "3": "\"The lack of money is the root of all evil.\"",
+        "4": "\"Money is a terrible master but an excellent servant.\"",
+        "5": "\"A penny saved is a penny earned.\"",
+        "6": "\"It's not your salary that makes you rich, it's your spending habits.\"",
+        "7": "\"The more you learn, the more you earn.\"",
+        "8": "\"Every time you borrow money, you're robbing your future self.\"",
+        "9": "\"Money often costs too much.\"",
+        "10": "\"The only way to get ahead is to find errors in conventional wisdom.\""
+      }
+    }
+  }
+}

@@ -10,6 +10,11 @@ export async function middleware(req: NextRequest) {
     return res;
   }
 
+  const hasEnglishLocalePath = req.nextUrl.href
+    .replace(req.nextUrl.origin, "")
+    .startsWith("/en");
+  const localePathPrefix = hasEnglishLocalePath ? "/en" : "";
+
   const supabaseClient = createMiddlewareSupabaseClient({ req, res });
 
   const {
@@ -18,17 +23,23 @@ export async function middleware(req: NextRequest) {
 
   if (session) {
     if (req.nextUrl.pathname === "/") {
-      const homeUrl = new URL(routes.HOME, req.nextUrl.origin);
+      const homeUrl = new URL(
+        `${localePathPrefix}${routes.HOME}`,
+        req.nextUrl.origin
+      );
       return NextResponse.redirect(homeUrl);
     }
 
     return res;
   }
 
-  const signInUrl = new URL(routes.SIGN_IN, req.nextUrl.origin);
+  const signInUrl = new URL(
+    `${localePathPrefix}${routes.SIGN_IN}`,
+    req.nextUrl.origin
+  );
   return NextResponse.redirect(signInUrl);
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|favicon.svg).*)"],
+  matcher: ["/((?!api|_next/static|favicon.svg|locales).*)"],
 };

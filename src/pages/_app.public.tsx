@@ -8,6 +8,9 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
+import Backend from "i18next-http-backend";
+import LanguageDetector from "i18next-browser-languagedetector";
+
 import { AppLayout, AppLayoutProps } from "components/AppLayout";
 import { BreadcrumbItem } from "components/Header/components/HeaderBreadcrumb";
 import { AppLoader } from "components/AppLoader";
@@ -16,6 +19,7 @@ import { AppLoaderProvider } from "contexts/AppLoaderContext";
 import { queryClient } from "services/queryClient";
 
 import { theme } from "theme";
+import { appWithTranslation } from "next-i18next";
 
 export type NextPageWithLayout = NextPage & {
   layout?: "app" | "auth";
@@ -31,7 +35,7 @@ const AppLayouts = {
   auth: ({ children }: any) => <Fragment>{children}</Fragment>,
 };
 
-export default function App({ Component, pageProps }: AppPropsWithLayout) {
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
   const Layout = AppLayouts[Component.layout || "app"];
@@ -65,4 +69,12 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       <ReactQueryDevtools />
     </QueryClientProvider>
   );
-}
+};
+
+export default appWithTranslation(App, {
+  i18n: { locales: ["en", "pt-BR"], defaultLocale: "pt-BR" },
+  use: [Backend, LanguageDetector],
+  interpolation: {
+    escapeValue: false,
+  },
+});

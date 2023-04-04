@@ -1,46 +1,46 @@
 export const calendarCardQuotes = [
   {
-    text: `"A budget is telling your money where to go instead of wondering where it went."`,
+    text: "home.cards.quotes.0",
     author: "Dave Ramsey",
   },
   {
-    text: `"If you don't find a way to make money while you sleep, you will work until you die."`,
+    text: "home.cards.quotes.1",
     author: "Warren Buffett",
   },
   {
-    text: `"Money is only a tool. It will take you wherever you wish, but it will not replace you as the driver."`,
+    text: "home.cards.quotes.2",
     author: "Ayn Rand",
   },
   {
-    text: `"The lack of money is the root of all evil."`,
+    text: "home.cards.quotes.3",
     author: "Mark Twain",
   },
   {
-    text: `"Money is a terrible master but an excellent servant."`,
+    text: "home.cards.quotes.4",
     author: "P.T. Barnum",
   },
   {
-    text: `"A penny saved is a penny earned."`,
+    text: "home.cards.quotes.5",
     author: "Benjamin Franklin",
   },
   {
-    text: `"It's not your salary that makes you rich, it's your spending habits."`,
+    text: "home.cards.quotes.6",
     author: "Charles A. Jaffe",
   },
   {
-    text: `"The more you learn, the more you earn."`,
+    text: "home.cards.quotes.7",
     author: "Warren Buffett",
   },
   {
-    text: `"Every time you borrow money, you're robbing your future self."`,
+    text: "home.cards.quotes.8",
     author: "Nathan W. Morris",
   },
   {
-    text: `"Money often costs too much."`,
+    text: "home.cards.quotes.9",
     author: "Ralph Waldo Emerson",
   },
   {
-    text: `"The only way to get ahead is to find errors in conventional wisdom."`,
+    text: "home.cards.quotes.10",
     author: "Larry Ellison",
   },
 ];

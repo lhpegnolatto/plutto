@@ -1,0 +1,47 @@
+{
+  "locale": "pt-BR",
+  "currency": "BRL",
+  "home": {
+    "title": "Olá {{userName, string}}!",
+    "subtitle": "Aqui vai um resumo sobre suas transações :)",
+    "fastActions": {
+      "addNewRevenue": "adicionar nova receita",
+      "addNewExpense": "adicionar nova despesa"
+    },
+    "cards": {
+      "savedMoneyMonth": {
+        "title": "Dinheiro poupado neste mês"
+      },
+      "savedMoneyHalfYear": {
+        "title": "Dinheiro poupado neste semestre"
+      },
+      "savedMoneyYear": {
+        "title": "Dinheiro poupado neste ano"
+      },
+      "percentPrefix": "Você está poupando",
+      "percentSuffix": "do seu dinheiro",
+      "goals": {
+        "green": "ótimo trabalho! (10% ou mais)",
+        "yellow": "você pode fazer melhor! (pelo menos 5%)",
+        "red": "despesas muito altas. (menos que 5%)"
+      },
+      "fastInsights": {
+        "title": "Dicas rápidas",
+        "tooltip": "em breve"
+      },
+      "quotes": {
+        "0": "\"Um orçamento é dizer ao seu dinheiro para onde ir, em vez de se perguntar para onde foi.\"",
+        "1": "\"Se você não encontrar uma maneira de ganhar dinheiro enquanto dorme, trabalhará até morrer.\"",
+        "2": "\"O dinheiro é apenas uma ferramenta. Ele levará você aonde desejar, mas não o substituirá como condutor.\"",
+        "3": "\"A falta de dinheiro é a raiz de todo mal.\"",
+        "4": "\"O dinheiro é um mestre terrível, mas um excelente servo.\"",
+        "5": "\"Um centavo economizado é um centavo ganho.\"",
+        "6": "\"Não é o seu salário que o torna rico, são seus hábitos de gastos.\"",
+        "7": "\"Quanto mais você aprende, mais ganha.\"",
+        "8": "\"Toda vez que você pede dinheiro emprestado, está roubando de si mesmo no futuro.\"",
+        "9": "\"O dinheiro muitas vezes custa muito caro.\"",
+        "10": "\"A única maneira de se destacar é encontrar erros na sabedoria convencional.\""
+      }
+    }
+  }
+}
