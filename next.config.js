@@ -9,29 +9,42 @@ module.exports = {
       permanent: true,
     },
   ],
+  i18n: {
+    locales: ["pt", "en"],
+    defaultLocale: "pt",
+  },
   async rewrites() {
     return [
-      // PT routes
       {
         source: "/:slug_pt.public",
         destination: "/:slug_pt",
       },
-      // EN routes
       {
         source: "/:slug_en.public",
         destination: "/:slug_en",
       },
     ];
   },
-  i18n: {
-    locales: ["pt", "en"],
-    defaultLocale: "pt",
-    localeDetection: true,
-    domains: [
+  async headers() {
+    return [
       {
-        domain: "plutto.com.br",
-        defaultLocale: "pt",
+        source: "/:slug_pt.public",
+        headers: [
+          {
+            key: "Accept-Language",
+            value: "pt-BR",
+          },
+        ],
       },
-    ],
+      {
+        source: "/:slug_en.public",
+        headers: [
+          {
+            key: "Accept-Language",
+            value: "en-US",
+          },
+        ],
+      },
+    ];
   },
 };
