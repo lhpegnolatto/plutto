@@ -9,6 +9,20 @@ module.exports = {
       permanent: true,
     },
   ],
+  async rewrites() {
+    return [
+      // PT routes
+      {
+        source: "/:slug_pt.public",
+        destination: "/:slug_pt",
+      },
+      // EN routes
+      {
+        source: "/:slug_en.public",
+        destination: "/:slug_en",
+      },
+    ];
+  },
   i18n: {
     locales: ["pt", "en"],
     defaultLocale: "pt",
