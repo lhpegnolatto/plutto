@@ -9,10 +9,7 @@ const nextConfig = {
       permanent: true,
     },
   ],
-  i18n: {
-    defaultLocale: "pt-BR",
-    locales: ["en", "pt-BR"],
-  },
+  i18n: { locales: ["en", "pt-BR"], defaultLocale: "pt-BR" },
 };
 
 module.exports = nextConfig;
