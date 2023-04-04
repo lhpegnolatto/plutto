@@ -6,7 +6,6 @@ import { routes } from "constants/routes";
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
 
-  console.log(req.nextUrl.pathname);
   if (
     req.nextUrl.pathname.includes(routes.SIGN_IN) ||
     req.nextUrl.pathname.startsWith("/_next")
