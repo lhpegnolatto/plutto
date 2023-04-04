@@ -14,4 +14,17 @@ module.exports = {
     defaultLocale: "pt",
     localeDetection: true,
   },
+  async headers() {
+    return [
+      {
+        source: "/static/js/(.*)",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "text/javascript",
+          },
+        ],
+      },
+    ];
+  },
 };
