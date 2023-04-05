@@ -46,7 +46,7 @@ export function useHalfYearSavedMoneyCard() {
     : { revenuesAmount: 0, savedMoneyAmount: 0 };
 
   const savedMoneyHalfYearPercentage =
-    (100 * savedMoneyHalfYearAmount) / revenuesHalfYearAmount;
+    (100 * savedMoneyHalfYearAmount) / revenuesHalfYearAmount / 100;
 
   return {
     savedMoneyHalfYearPercentage,

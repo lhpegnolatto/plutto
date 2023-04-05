@@ -113,48 +113,33 @@ const Transactions: NextPageWithLayout = () => {
                 <StatHelpText>
                   {format.number(
                     getSummaryValuePercentage(purposesSummary.savedMoneyAmount),
-                    "default"
+                    "percent"
                   )}
-                  %
                 </StatHelpText>
               </Stat>
             </CardBody>
           </Card>
         </Skeleton>
         <Skeleton isLoaded={!isPurposesSummaryLoading} w="full">
-          <Card w="full">
+          <Card w="full" h="full">
             <CardBody>
               <Stat>
                 <StatLabel>{t("summary.revenues")}</StatLabel>
                 <StatNumber>
                   {format.number(purposesSummary.revenuesAmount, "currency")}
                 </StatNumber>
-                <StatHelpText>
-                  {format.number(
-                    getSummaryValuePercentage(purposesSummary.revenuesAmount),
-                    "default"
-                  )}
-                  %
-                </StatHelpText>
               </Stat>
             </CardBody>
           </Card>
         </Skeleton>
         <Skeleton isLoaded={!isPurposesSummaryLoading} w="full">
-          <Card w="full">
+          <Card w="full" h="full">
             <CardBody>
               <Stat>
                 <StatLabel>{t("summary.expenses")}</StatLabel>
                 <StatNumber>
                   {format.number(purposesSummary.expensesAmount, "currency")}
                 </StatNumber>
-                <StatHelpText>
-                  {format.number(
-                    getSummaryValuePercentage(purposesSummary.expensesAmount),
-                    "default"
-                  )}
-                  %
-                </StatHelpText>
               </Stat>
             </CardBody>
           </Card>

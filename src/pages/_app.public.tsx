@@ -52,6 +52,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           },
+          percent: {
+            style: "percent",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          },
         },
         dateTime: {
           short: {

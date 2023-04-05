@@ -10,6 +10,13 @@ export function HalfYearSavedMoneyCard() {
   const format = useFormatter();
   const t = useTranslations("home");
 
+  const statusColor =
+    savedMoneyHalfYearPercentage >= 0.1
+      ? "green.400"
+      : savedMoneyHalfYearPercentage >= 0.05
+      ? "yellow.400"
+      : "red.400";
+
   return (
     <Card h="full">
       <Flex alignItems="center" p="6" gap="3">
@@ -24,30 +31,10 @@ export function HalfYearSavedMoneyCard() {
         mb="6"
       >
         <Text>{t("cards.percentPrefix")}</Text>
-        <Text
-          fontSize="4xl"
-          mt="3"
-          lineHeight="none"
-          color={
-            savedMoneyHalfYearPercentage >= 10
-              ? "green.400"
-              : savedMoneyHalfYearPercentage > 0
-              ? "yellow.400"
-              : "red.400"
-          }
-        >
-          {format.number(savedMoneyHalfYearPercentage, "default")}%
+        <Text fontSize="4xl" mt="3" lineHeight="none" color={statusColor}>
+          {format.number(savedMoneyHalfYearPercentage, "percent")}
         </Text>
-        <Text
-          fontSize="xs"
-          color={
-            savedMoneyHalfYearPercentage >= 10
-              ? "green.400"
-              : savedMoneyHalfYearPercentage >= 5
-              ? "yellow.400"
-              : "red.400"
-          }
-        >
+        <Text fontSize="xs" color={statusColor}>
           {format.number(savedMoneyHalfYearAmount, "currency")}
         </Text>
         <Text mt="3">{t("cards.percentSuffix")}</Text>

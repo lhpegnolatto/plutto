@@ -166,11 +166,7 @@ export function useTransactions() {
   }
 
   function getSummaryValuePercentage(value: number) {
-    return (
-      (value /
-        (purposesSummary.expensesAmount + purposesSummary.revenuesAmount)) *
-      100
-    );
+    return ((value / purposesSummary.revenuesAmount) * 100) / 100;
   }
 
   return {

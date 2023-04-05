@@ -9,6 +9,13 @@ export function YearSavedMoneyCard() {
   const format = useFormatter();
   const t = useTranslations("home");
 
+  const statusColor =
+    savedMoneyYearPercentage >= 0.1
+      ? "green.400"
+      : savedMoneyYearPercentage >= 0.05
+      ? "yellow.400"
+      : "red.400";
+
   return (
     <Card>
       <Flex alignItems="center" p="6" gap="3">
@@ -23,30 +30,10 @@ export function YearSavedMoneyCard() {
         mb="6"
       >
         <Text>{t("cards.percentPrefix")}</Text>
-        <Text
-          fontSize="4xl"
-          mt="3"
-          lineHeight="none"
-          color={
-            savedMoneyYearPercentage >= 10
-              ? "green.400"
-              : savedMoneyYearPercentage > 0
-              ? "yellow.400"
-              : "red.400"
-          }
-        >
-          {format.number(savedMoneyYearPercentage, "default")}%
+        <Text fontSize="4xl" mt="3" lineHeight="none" color={statusColor}>
+          {format.number(savedMoneyYearPercentage, "percent")}
         </Text>
-        <Text
-          fontSize="xs"
-          color={
-            savedMoneyYearPercentage >= 10
-              ? "green.400"
-              : savedMoneyYearPercentage >= 5
-              ? "yellow.400"
-              : "red.400"
-          }
-        >
+        <Text fontSize="xs" color={statusColor}>
           {format.number(savedMoneyYearAmount, "currency")}
         </Text>
         <Text mt="3">{t("cards.percentSuffix")}</Text>
