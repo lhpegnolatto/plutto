@@ -28,7 +28,7 @@ export function useHalfYearSavedMoneyCard() {
       await getTransactionsPurposesSummary(supabaseClient, {
         startDate: new Date(
           startDate.getFullYear(),
-          startDate.getMonth() - 5,
+          startDate.getMonth(),
           1
         ).toISOString(),
         endDate: endDate.toISOString(),
