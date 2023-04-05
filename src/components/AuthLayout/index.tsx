@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Icon, IconButton } from "@chakra-ui/react";
 
 import { Rocket } from "components/icons";
 import {
@@ -13,6 +13,8 @@ import {
   starsGroup1Animation,
   starsGroup2Animation,
 } from "./animations";
+import { LanguageModal } from "components/LanguageModal";
+import { FiGlobe } from "react-icons/fi";
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -30,6 +32,21 @@ export function AuthLayout({ children, launchNow = false }: AuthLayoutProps) {
       bg="gray.800"
       overflow="hidden"
     >
+      <LanguageModal hasCurrency>
+        {({ onOpen }) => (
+          <IconButton
+            size="md"
+            onClick={onOpen}
+            aria-label="change language"
+            icon={<Icon as={FiGlobe} />}
+            position="absolute"
+            top="6"
+            right="6"
+            zIndex="overlay"
+          />
+        )}
+      </LanguageModal>
+
       <Box position="fixed" h="100vh" w="2000px">
         <Box
           w="1px"

@@ -7,6 +7,8 @@ import {
   ModalOverlay,
   useDisclosure,
   Button,
+  useBreakpointValue,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 import { ReactNode, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
@@ -67,16 +69,19 @@ export function LanguageModal({
     }
   }, [getDefaultValues, isOpen, reset]);
 
+  const modalSize = useBreakpointValue({ base: "full", md: "md" });
+
   return (
     <>
       {children({ isOpen, onOpen })}
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size={modalSize}>
         <ModalOverlay>
           <ModalContent>
             <ModalHeader fontSize="lg" fontWeight="bold">
               Configurações regionais
             </ModalHeader>
+            <ModalCloseButton />
 
             <ModalBody>
               <Form.Field label="Idioma" size="sm">
