@@ -20,10 +20,10 @@
         "title": "Dinheiro poupado neste mês"
       },
       "savedMoneyHalfYear": {
-        "title": "Dinheiro poupado neste semestre"
+        "title": "Dinheiro poupado nos últimos 6 meses"
       },
       "savedMoneyYear": {
-        "title": "Dinheiro poupado neste ano"
+        "title": "Dinheiro poupado nos últimos 12 meses"
       },
       "percentPrefix": "Você está poupando",
       "percentSuffix": "do seu dinheiro",

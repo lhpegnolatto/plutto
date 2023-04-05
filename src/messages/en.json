@@ -17,13 +17,13 @@
     },
     "cards": {
       "savedMoneyMonth": {
-        "title": "Saved money on current month"
+        "title": "Money saved this month"
       },
       "savedMoneyHalfYear": {
-        "title": "Saved money on a half-year ago"
+        "title": "Money saved in the last 6 months"
       },
       "savedMoneyYear": {
-        "title": "Saved money on a year ago"
+        "title": "Money saved in the last 12 months"
       },
       "percentPrefix": "You are saving",
       "percentSuffix": "of your money",
