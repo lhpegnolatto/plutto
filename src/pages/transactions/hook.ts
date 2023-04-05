@@ -9,7 +9,7 @@ import { getTransactionsPurposesSummary } from "services/transactions/getPurpose
 import { queryKeys } from "constants/queryKeys";
 import { useDisclosure } from "@chakra-ui/react";
 import { TransactionsFilters } from "./components/FiltersModal";
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 
 export type TransactionItem = {
   id: string;
@@ -34,6 +34,7 @@ type PurposesSummary = {
 };
 
 export function useTransactions() {
+  const format = useFormatter();
   const t = useTranslations("transactions");
 
   const {
@@ -148,14 +149,14 @@ export function useTransactions() {
     const previousItem = transactions[index - 1];
     const previousMonthText =
       previousItem?.occurred_at && index > 0
-        ? new Date(previousItem.occurred_at).toLocaleString("en-US", {
+        ? format.dateTime(new Date(previousItem.occurred_at), {
             month: "short",
             year: "numeric",
           })
         : "";
 
     const monthText = occurred_at
-      ? new Date(occurred_at).toLocaleString("en-US", {
+      ? format.dateTime(new Date(occurred_at), {
           month: "short",
           year: "numeric",
         })
