@@ -37,6 +37,7 @@ import { ConfirmationAlertDialog } from "components/ConfirmationAlertDialog";
 import { FiltersModal } from "./components/FiltersModal";
 import { Fragment } from "react";
 import { getStaticMessageProps } from "utils/getStaticMessagesProps";
+import { useFormatter, useTranslations } from "next-intl";
 
 const Transactions: NextPageWithLayout = () => {
   const {
@@ -44,8 +45,6 @@ const Transactions: NextPageWithLayout = () => {
     isTransactionsLoading,
     purposesSummary,
     isPurposesSummaryLoading,
-    formattedStartDate,
-    formattedEndDate,
     onDelete,
     isDeleting,
     getTransactionRecurrenceColumn,
@@ -60,6 +59,9 @@ const Transactions: NextPageWithLayout = () => {
 
   const actionButtonsSize = useBreakpointValue({ base: "sm", md: "xs" });
 
+  const format = useFormatter();
+  const t = useTranslations("transactions");
+
   return (
     <Box as="main">
       <Flex
@@ -69,10 +71,13 @@ const Transactions: NextPageWithLayout = () => {
       >
         <Box>
           <Heading as="h1" fontSize="xl">
-            Summary of your transactions
+            {t("title")}
           </Heading>
           <Tag mt="2">
-            {`from ${formattedStartDate} to ${formattedEndDate}`}
+            {t("tags.dates", {
+              startDate: currentFilters.current.startDate,
+              endDate: currentFilters.current.endDate,
+            })}
           </Tag>
         </Box>
 
@@ -88,10 +93,10 @@ const Transactions: NextPageWithLayout = () => {
             isDisabled={isTransactionsLoading}
             onClick={onFiltersModalOpen}
           >
-            Filters
+            {t("actions.filters")}
           </Button>
           <Button as={Link} href={routes.NEW_TRANSACTION} colorScheme="brand">
-            Create new
+            {t("actions.new")}
           </Button>
         </HStack>
       </Flex>
@@ -101,15 +106,16 @@ const Transactions: NextPageWithLayout = () => {
           <Card w="full">
             <CardBody>
               <Stat>
-                <StatLabel>Saved Money</StatLabel>
+                <StatLabel>{t("summary.savedMoney")}</StatLabel>
                 <StatNumber>
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(purposesSummary.savedMoneyAmount)}
+                  {format.number(purposesSummary.savedMoneyAmount, "currency")}
                 </StatNumber>
                 <StatHelpText>
-                  {getSummaryValuePercentage(purposesSummary.savedMoneyAmount)}%
+                  {format.number(
+                    getSummaryValuePercentage(purposesSummary.savedMoneyAmount),
+                    "default"
+                  )}
+                  %
                 </StatHelpText>
               </Stat>
             </CardBody>
@@ -119,15 +125,16 @@ const Transactions: NextPageWithLayout = () => {
           <Card w="full">
             <CardBody>
               <Stat>
-                <StatLabel>Revenues</StatLabel>
+                <StatLabel>{t("summary.revenues")}</StatLabel>
                 <StatNumber>
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(purposesSummary.revenuesAmount)}
+                  {format.number(purposesSummary.revenuesAmount, "currency")}
                 </StatNumber>
                 <StatHelpText>
-                  {getSummaryValuePercentage(purposesSummary.revenuesAmount)}%
+                  {format.number(
+                    getSummaryValuePercentage(purposesSummary.revenuesAmount),
+                    "default"
+                  )}
+                  %
                 </StatHelpText>
               </Stat>
             </CardBody>
@@ -137,15 +144,16 @@ const Transactions: NextPageWithLayout = () => {
           <Card w="full">
             <CardBody>
               <Stat>
-                <StatLabel>Expenses</StatLabel>
+                <StatLabel>{t("summary.expenses")}</StatLabel>
                 <StatNumber>
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(purposesSummary.expensesAmount)}
+                  {format.number(purposesSummary.expensesAmount, "currency")}
                 </StatNumber>
                 <StatHelpText>
-                  {getSummaryValuePercentage(purposesSummary.expensesAmount)}%
+                  {format.number(
+                    getSummaryValuePercentage(purposesSummary.expensesAmount),
+                    "default"
+                  )}
+                  %
                 </StatHelpText>
               </Stat>
             </CardBody>
@@ -243,7 +251,8 @@ const Transactions: NextPageWithLayout = () => {
 
                     <Flex alignItems="center" gap="2">
                       <Text color="gray.500" fontSize="xs">
-                        {occurred_at}
+                        {occurred_at &&
+                          format.dateTime(new Date(occurred_at), "short")}
                       </Text>
 
                       {recurrenceText && (
@@ -272,11 +281,12 @@ const Transactions: NextPageWithLayout = () => {
                     fontSize="sm"
                     textAlign="end"
                     color={purpose === "expense" ? "red.400" : "green.300"}
+                    whiteSpace="nowrap"
                   >
-                    {new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    }).format(amount * (purpose === "expense" ? -1 : 1))}
+                    {format.number(
+                      amount * (purpose === "expense" ? -1 : 1),
+                      "currency"
+                    )}
                   </Text>
 
                   <Divider
@@ -291,18 +301,18 @@ const Transactions: NextPageWithLayout = () => {
                       href={addRouteParam(routes.EDIT_TRANSACTION, {
                         transactionId: id,
                       })}
-                      aria-label="Edit category"
+                      aria-label={t("items.actions.edit")}
                       icon={<Icon as={HiOutlinePencil} />}
                       size={actionButtonsSize}
                       isDisabled={isDeleting}
                     />
                     <ConfirmationAlertDialog
                       onConfirm={() => onDelete(id)}
-                      confirmButtonText="Delete"
+                      confirmButtonText={t("items.actions.delete")}
                     >
                       {(onClick) => (
                         <IconButton
-                          aria-label="Delete category"
+                          aria-label={t("items.actions.delete")}
                           icon={<Icon as={HiOutlineTrash} />}
                           size={actionButtonsSize}
                           onClick={onClick}

@@ -38,7 +38,30 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const Layout = AppLayouts[Component.layout || "app"];
 
   return (
-    <NextIntlProvider messages={pageProps.messages}>
+    <NextIntlProvider
+      messages={pageProps.messages}
+      formats={{
+        number: {
+          default: {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          },
+          currency: {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          },
+        },
+        dateTime: {
+          short: {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          },
+        },
+      }}
+    >
       <QueryClientProvider client={queryClient}>
         <SessionContextProvider
           supabaseClient={supabaseClient}

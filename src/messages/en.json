@@ -54,5 +54,42 @@
   "sign-in": {
     "title": "Your finances with the precision of a commander in space!",
     "services": "Sign in using one of this services:"
+  },
+  "transactions": {
+    "title": "About your transactions",
+    "tags": {
+      "dates": "from {startDate, date, short} to {endDate, date, short}"
+    },
+    "actions": {
+      "filters": "Filters",
+      "new": "Create new"
+    },
+    "summary": {
+      "savedMoney": "Saved money",
+      "revenues": "Your revenues",
+      "expenses": "Your expenses"
+    },
+    "filters": {
+      "title": "Filter your transactions",
+      "submit": "Submit filters",
+      "startDate": "Start from",
+      "endDate": "To",
+      "close": "Close filters"
+    },
+    "items": {
+      "recurrence": {
+        "fixed_periodic": {
+          "monthly": "Repeat monthly",
+          "daily": "Repeat daily",
+          "weekly": "Repeat weekly",
+          "year": "Repeat year"
+        },
+        "installment_based": "Installment {current, number} of {total, number}"
+      },
+      "actions": {
+        "edit": "Edit",
+        "delete": "Delete"
+      }
+    }
   }
 }

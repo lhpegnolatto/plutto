@@ -17,6 +17,7 @@ import { useEffect, useCallback } from "react";
 
 import { Form } from "components/Form";
 import { getDateTimeInputDefaultValue } from "utils/getDateTimeInputDefaultValue";
+import { useTranslations } from "next-intl";
 
 const formValidations = {
   startDate: { required: "is required" },
@@ -46,6 +47,8 @@ export function FiltersModal({
   onFiltersChange,
   ...rest
 }: FiltersModalProps) {
+  const t = useTranslations("transactions");
+
   const getDefaultValues = useCallback(() => {
     const startDateInputValue = getDateTimeInputDefaultValue(
       currentFilters?.startDate
@@ -100,19 +103,19 @@ export function FiltersModal({
           >
             <Flex alignItems="center">
               <IconButton
-                aria-label="Close modal"
+                aria-label={t("filters.close")}
                 icon={<Icon as={HiXMark} />}
                 size="sm"
                 mr="4"
                 onClick={() => onClose()}
               />
               <Text fontSize="md" fontWeight="bold" mr="4">
-                Filter your transactions
+                {t("filters.title")}
               </Text>
             </Flex>
 
             <Button size="sm" colorScheme="brand" onClick={onSubmit}>
-              Submit filters
+              {t("filters.submit")}
             </Button>
           </Flex>
 
@@ -120,7 +123,7 @@ export function FiltersModal({
             <Form.Grid>
               <Form.Item colSpan={{ base: 12, md: 6 }}>
                 <Form.Field
-                  label="From"
+                  label={t("filters.startDate")}
                   errorMessage={errors["startDate"]?.message?.toString()}
                 >
                   <Input
@@ -131,7 +134,7 @@ export function FiltersModal({
               </Form.Item>
               <Form.Item colSpan={{ base: 12, md: 6 }}>
                 <Form.Field
-                  label="To"
+                  label={t("filters.endDate")}
                   errorMessage={errors["endDate"]?.message?.toString()}
                 >
                   <Input

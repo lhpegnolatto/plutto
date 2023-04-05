@@ -26,13 +26,7 @@ export async function getAllTransactions(
   if (data) {
     const transactions = data.map((transaction) => ({
       ...transaction,
-      occurred_at: transaction.occurred_at
-        ? new Date(transaction.occurred_at).toLocaleString("en-US", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })
-        : undefined,
+      occurred_at: transaction.occurred_at,
     }));
 
     return transactions;

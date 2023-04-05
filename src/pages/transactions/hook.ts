@@ -9,6 +9,7 @@ import { getTransactionsPurposesSummary } from "services/transactions/getPurpose
 import { queryKeys } from "constants/queryKeys";
 import { useDisclosure } from "@chakra-ui/react";
 import { TransactionsFilters } from "./components/FiltersModal";
+import { useTranslations } from "next-intl";
 
 export type TransactionItem = {
   id: string;
@@ -33,6 +34,8 @@ type PurposesSummary = {
 };
 
 export function useTransactions() {
+  const t = useTranslations("transactions");
+
   const {
     isOpen: isFiltersModalOpen,
     onOpen: onFiltersModalOpen,
@@ -49,23 +52,6 @@ export function useTransactions() {
   );
 
   const queryClient = useQueryClient();
-
-  const formattedStartDate = currentFilters.current.startDate.toLocaleString(
-    "en-US",
-    {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    }
-  );
-  const formattedEndDate = currentFilters.current.endDate.toLocaleString(
-    "en-US",
-    {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    }
-  );
 
   const supabaseClient = useSupabaseClient<Database>();
 
@@ -138,11 +124,18 @@ export function useTransactions() {
     installment_label,
     frequency,
   }: TransactionItem) {
+    const [currentInstallment, installmentsTotal] = (
+      installment_label || ""
+    ).split(" of ");
+
     switch (recurrence) {
       case "fixed_periodic":
-        return `Repeat ${frequency}`;
+        return t(`items.recurrence.fixed_periodic.${frequency}` as any);
       case "installment_based":
-        return `Installment ${installment_label}`;
+        return t("items.recurrence.installment_based", {
+          current: currentInstallment,
+          total: installmentsTotal,
+        });
       default:
         return "";
     }
@@ -172,11 +165,11 @@ export function useTransactions() {
   }
 
   function getSummaryValuePercentage(value: number) {
-    return Number(
+    return (
       (value /
         (purposesSummary.expensesAmount + purposesSummary.revenuesAmount)) *
-        100
-    ).toFixed(2);
+      100
+    );
   }
 
   return {
@@ -184,8 +177,6 @@ export function useTransactions() {
     isTransactionsLoading,
     purposesSummary,
     isPurposesSummaryLoading,
-    formattedStartDate,
-    formattedEndDate,
     onDelete,
     isDeleting,
     getTransactionRecurrenceColumn,

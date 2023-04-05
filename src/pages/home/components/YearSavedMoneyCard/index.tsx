@@ -35,11 +35,7 @@ export function YearSavedMoneyCard() {
               : "red.400"
           }
         >
-          {format.number(savedMoneyYearPercentage, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
-          %
+          {format.number(savedMoneyYearPercentage, "default")}%
         </Text>
         <Text
           fontSize="xs"
@@ -51,10 +47,7 @@ export function YearSavedMoneyCard() {
               : "red.400"
           }
         >
-          {format.number(savedMoneyYearAmount, {
-            style: "currency",
-            currency: "USD",
-          })}
+          {format.number(savedMoneyYearAmount, "currency")}
         </Text>
         <Text mt="3">{t("cards.percentSuffix")}</Text>
 
