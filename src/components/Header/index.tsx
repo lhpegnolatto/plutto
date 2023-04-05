@@ -1,9 +1,12 @@
 import {
   Box,
+  Button,
   Divider,
   Flex,
+  Icon,
   useBreakpointValue,
   useColorModeValue,
+  Text,
 } from "@chakra-ui/react";
 
 import {
@@ -11,7 +14,10 @@ import {
   HeaderBreadcrumb,
 } from "./components/HeaderBreadcrumb";
 import { HeaderUserMenu } from "./components/HeaderUserMenu";
-import { PluttoLogo } from "components/icons";
+import { BrFlag, PluttoLogo, UsaFlag } from "components/icons";
+import { useRouter } from "next/router";
+import { LanguageModal } from "components/LanguageModal";
+import { useCurrencyContext } from "contexts/CurrencyContext";
 
 interface HeaderProps {
   breadcrumbItems: Array<BreadcrumbItem>;
@@ -24,6 +30,11 @@ export function Header({ breadcrumbItems }: HeaderProps) {
   );
 
   const isMobile = useBreakpointValue({ base: true, md: false });
+
+  const router = useRouter();
+
+  const locale = router.locale;
+  const { currentCurrency } = useCurrencyContext();
 
   return (
     <Box as="header" px="2">
@@ -40,7 +51,27 @@ export function Header({ breadcrumbItems }: HeaderProps) {
           <HeaderBreadcrumb items={breadcrumbItems} />
         </Flex>
 
-        <HeaderUserMenu />
+        <Flex gap="4">
+          <LanguageModal hasCurrency>
+            {({ onOpen }) => (
+              <Button
+                size="md"
+                minW="0"
+                px={{ base: "3", md: "4" }}
+                borderRadius={{ base: "xl", md: "md" }}
+                onClick={onOpen}
+              >
+                <Flex alignItems="center" py="2" gap="2">
+                  <Icon as={locale === "en" ? UsaFlag : BrFlag} />
+                  <Divider orientation="vertical" h="4" />
+                  <Text fontSize="xs">{currentCurrency}</Text>
+                </Flex>
+              </Button>
+            )}
+          </LanguageModal>
+
+          <HeaderUserMenu />
+        </Flex>
       </Flex>
 
       <Divider borderColor={dividerBorderColor} />

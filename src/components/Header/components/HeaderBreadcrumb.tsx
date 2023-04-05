@@ -25,7 +25,7 @@ export function HeaderBreadcrumb({ items }: HeaderBreadcrumbProps) {
 
   return (
     <Breadcrumb
-      spacing="3"
+      spacing={{ base: "1.5", md: "3" }}
       separator={<Text color={separatorColor}>/</Text>}
       sx={{ "li > span": { display: "flex" } }}
     >

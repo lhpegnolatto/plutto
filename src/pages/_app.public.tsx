@@ -17,6 +17,7 @@ import { AppLoaderProvider } from "contexts/AppLoaderContext";
 import { queryClient } from "services/queryClient";
 
 import { theme } from "theme";
+import { CurrencyContext, CurrencyProvider } from "contexts/CurrencyContext";
 
 export type NextPageWithLayout = NextPage & {
   layout?: "app" | "auth";
@@ -38,62 +39,68 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const Layout = AppLayouts[Component.layout || "app"];
 
   return (
-    <NextIntlProvider
-      messages={pageProps.messages}
-      formats={{
-        number: {
-          default: {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          },
-          currency: {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          },
-          percent: {
-            style: "percent",
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          },
-        },
-        dateTime: {
-          short: {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-          },
-        },
-      }}
-    >
-      <QueryClientProvider client={queryClient}>
-        <SessionContextProvider
-          supabaseClient={supabaseClient}
-          initialSession={pageProps.initialSession}
-        >
-          <ChakraProvider theme={theme}>
-            <Head>
-              <title>Plutto</title>
-              <meta
-                name="description"
-                content="Plutto is a simple personal finance helper for organizing and planning expenses."
-              />
-              <link rel="icon" href="/favicon.svg" />
-            </Head>
+    <CurrencyProvider>
+      <CurrencyContext.Consumer>
+        {({ currentCurrency }) => (
+          <NextIntlProvider
+            messages={pageProps.messages}
+            formats={{
+              number: {
+                default: {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                },
+                currency: {
+                  style: "currency",
+                  currency: currentCurrency,
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                },
+                percent: {
+                  style: "percent",
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                },
+              },
+              dateTime: {
+                short: {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                },
+              },
+            }}
+          >
+            <QueryClientProvider client={queryClient}>
+              <SessionContextProvider
+                supabaseClient={supabaseClient}
+                initialSession={pageProps.initialSession}
+              >
+                <ChakraProvider theme={theme}>
+                  <Head>
+                    <title>Plutto</title>
+                    <meta
+                      name="description"
+                      content="Plutto is a simple personal finance helper for organizing and planning expenses."
+                    />
+                    <link rel="icon" href="/favicon.svg" />
+                  </Head>
 
-            <AppLoaderProvider>
-              <AppLoader />
+                  <AppLoaderProvider>
+                    <AppLoader />
 
-              <Layout breadcrumbItems={Component.breadcrumbItems || []}>
-                <Component {...pageProps} />
-              </Layout>
-            </AppLoaderProvider>
-          </ChakraProvider>
-        </SessionContextProvider>
+                    <Layout breadcrumbItems={Component.breadcrumbItems || []}>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </AppLoaderProvider>
+                </ChakraProvider>
+              </SessionContextProvider>
 
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </NextIntlProvider>
+              <ReactQueryDevtools />
+            </QueryClientProvider>
+          </NextIntlProvider>
+        )}
+      </CurrencyContext.Consumer>
+    </CurrencyProvider>
   );
 }
