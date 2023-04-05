@@ -30,7 +30,7 @@ const supportedCurrencies = [
   { value: "BRL", label: "BRL - R$" },
   { value: "USD", label: "USD - $" },
   { value: "EUR", label: "EUR - €" },
-  { value: "GPB", label: "GPB - £" },
+  { value: "GBP", label: "GBP - £" },
 ];
 
 export function LanguageModal({
