@@ -41,7 +41,10 @@ export function useMonthSavedMoneyCard() {
       ? purposesSummaryMonth
       : { revenuesAmount: 0, savedMoneyAmount: 0 };
 
-  const savedMoneyPercentage = (100 * savedMoneyAmount) / revenuesAmount / 100;
+  const savedMoneyPercentage =
+    savedMoneyAmount === 0 || revenuesAmount === 0
+      ? 0
+      : (100 * savedMoneyAmount) / revenuesAmount / 100;
 
   return {
     savedMoneyPercentage,
