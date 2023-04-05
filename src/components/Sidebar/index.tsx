@@ -20,33 +20,34 @@ import { routes } from "constants/routes";
 
 import { PluttoLogo } from "components/icons";
 import { SidebarIconButton } from "./components/SidebarIconButton";
+import { useTranslations } from "next-intl";
 
 const pages = [
   {
-    title: "Home",
+    titleKey: "home",
     path: routes.HOME,
     icon: <Icon as={HiOutlineHome} boxSize="5" />,
     shouldMatchExactHref: true,
   },
   {
-    title: "Transactions",
+    titleKey: "transactions",
     path: routes.TRANSACTIONS,
     icon: <Icon as={HiOutlineBanknotes} boxSize="5" />,
   },
   {
-    title: "Insights - (coming soon)",
+    titleKey: "insights",
     path: "/insights",
     icon: <Icon as={HiBeaker} boxSize="5" />,
     isDisabled: true,
   },
   {
-    title: "Goals - (coming soon)",
+    titleKey: "goals",
     path: "/goals",
     icon: <Icon as={HiOutlinePresentationChartLine} boxSize="5" />,
     isDisabled: true,
   },
   {
-    title: "Growing - (coming soon)",
+    titleKey: "growing",
     path: "/growing",
     icon: <Icon as={HiOutlineAcademicCap} boxSize="5" />,
     isDisabled: true,
@@ -63,6 +64,8 @@ export function Sidebar() {
   );
 
   const isMobile = useBreakpointValue({ base: true, md: false });
+
+  const t = useTranslations("pages");
 
   return (
     <VStack
@@ -95,10 +98,18 @@ export function Sidebar() {
           listStyleType="none"
         >
           {pages.map(
-            ({ title, path, icon, shouldMatchExactHref = false, ...rest }) => {
+            ({
+              titleKey,
+              path,
+              icon,
+              shouldMatchExactHref = false,
+              ...rest
+            }) => {
               const isCurrentPage = shouldMatchExactHref
                 ? asPath === path
                 : asPath.startsWith(path);
+
+              const title = t(titleKey as any);
 
               return (
                 <li key={path}>

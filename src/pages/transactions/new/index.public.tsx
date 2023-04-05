@@ -37,8 +37,12 @@ const NewTransaction: NextPageWithLayout = () => {
 };
 
 NewTransaction.breadcrumbItems = [
-  { title: "Transactions", path: routes.TRANSACTIONS },
-  { title: "New", path: routes.NEW_TRANSACTION, isCurrentPage: true },
+  { titleKey: "transactions", path: routes.TRANSACTIONS },
+  {
+    titleKey: "newTransaction",
+    path: routes.NEW_TRANSACTION,
+    isCurrentPage: true,
+  },
 ];
 
 export const getStaticProps = getStaticMessageProps;

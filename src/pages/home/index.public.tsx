@@ -43,7 +43,7 @@ const Home: NextPageWithLayout = () => {
 };
 
 Home.breadcrumbItems = [
-  { title: "Home", path: routes.HOME, isCurrentPage: true },
+  { titleKey: "home", path: routes.HOME, isCurrentPage: true },
 ];
 
 export const getStaticProps = getStaticMessageProps;

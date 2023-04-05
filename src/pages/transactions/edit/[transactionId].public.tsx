@@ -43,8 +43,12 @@ const NewTransaction: NextPageWithLayout = () => {
 };
 
 NewTransaction.breadcrumbItems = [
-  { title: "Transactions", path: routes.TRANSACTIONS },
-  { title: "Edit", path: routes.EDIT_TRANSACTION, isCurrentPage: true },
+  { titleKey: "transactions", path: routes.TRANSACTIONS },
+  {
+    titleKey: "editTransaction",
+    path: routes.EDIT_TRANSACTION,
+    isCurrentPage: true,
+  },
 ];
 
 export const getServerSideProps = getServerSideMessagesProps;

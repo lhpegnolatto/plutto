@@ -337,7 +337,7 @@ const Transactions: NextPageWithLayout = () => {
 
 Transactions.breadcrumbItems = [
   {
-    title: "Transactions",
+    titleKey: "transactions",
     path: routes.TRANSACTIONS,
     isCurrentPage: true,
   },

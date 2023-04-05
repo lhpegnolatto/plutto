@@ -1,4 +1,13 @@
 {
+  "pages": {
+    "home": "Home",
+    "transactions": "Transactions",
+    "newTransaction": "New",
+    "editTransaction": "Edit",
+    "insights": "Insights - (coming soon)",
+    "goals": "Goals - (coming soon)",
+    "growing": "Growing - (coming soon)"
+  },
   "home": {
     "title": "Welcome {userName}!",
     "subtitle": "Let's see a summary of your transactions",

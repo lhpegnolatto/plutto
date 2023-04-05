@@ -1,4 +1,13 @@
 {
+  "pages": {
+    "home": "Início",
+    "transactions": "Transações",
+    "newTransaction": "Nova",
+    "editTransaction": "Editar",
+    "insights": "Dicas - (em breve)",
+    "goals": "Metas - (em breve)",
+    "growing": "Aprendendo - (em breve)"
+  },
   "home": {
     "title": "Olá {userName}!",
     "subtitle": "Aqui vai um resumo sobre suas transações :)",

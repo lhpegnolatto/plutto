@@ -5,10 +5,11 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 export type BreadcrumbItem = {
-  title: string;
+  titleKey: string;
   path: string;
   isCurrentPage?: boolean;
 };
@@ -20,13 +21,17 @@ interface HeaderBreadcrumbProps {
 export function HeaderBreadcrumb({ items }: HeaderBreadcrumbProps) {
   const separatorColor = useColorModeValue("gray.400", "gray.600");
 
+  const t = useTranslations("pages");
+
   return (
     <Breadcrumb
       spacing="3"
       separator={<Text color={separatorColor}>/</Text>}
       sx={{ "li > span": { display: "flex" } }}
     >
-      {items.map(({ title, path, isCurrentPage }) => {
+      {items.map(({ titleKey, path, isCurrentPage }) => {
+        const title = t(titleKey as any);
+
         return (
           <BreadcrumbItem
             key={path}
