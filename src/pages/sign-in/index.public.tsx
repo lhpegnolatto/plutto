@@ -15,11 +15,14 @@ import { PluttoLogo, PluttoText } from "components/icons";
 import { AuthLayout } from "components/AuthLayout";
 import { useSignIn } from "./hook";
 import { getStaticMessageProps } from "utils/getStaticMessagesProps";
+import { useTranslations } from "next-intl";
 
 const AuthPage: NextPageWithLayout = () => {
   const { isAppLoading, isSubmitting, handleSignIn } = useSignIn();
 
   const cardBackground = useColorModeValue("gray.50", "gray.700");
+
+  const t = useTranslations("sign-in");
 
   return (
     <AuthLayout launchNow={isSubmitting}>
@@ -43,7 +46,7 @@ const AuthPage: NextPageWithLayout = () => {
           maxW={{ base: "220px", md: "1000px" }}
           textAlign="center"
         >
-          Our mission never ends. Let us help you with your!
+          {t("title")}
         </Heading>
 
         <Heading
@@ -53,7 +56,7 @@ const AuthPage: NextPageWithLayout = () => {
           mt={{ base: "6", md: "10" }}
           textAlign="center"
         >
-          Sign in using one of this services:
+          {t("services")}
         </Heading>
 
         <Stack direction={{ base: "column", md: "row" }} spacing="4" mt="4">

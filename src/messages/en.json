@@ -41,5 +41,9 @@
         "10": "\"The only way to get ahead is to find errors in conventional wisdom.\""
       }
     }
+  },
+  "sign-in": {
+    "title": "Your finances with the precision of a commander in space!",
+    "services": "Sign in using one of this services:"
   }
 }
