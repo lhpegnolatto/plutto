@@ -92,5 +92,62 @@
       },
       "empty": "We not found transactions :("
     }
-  }
+  },
+  "transactionForm": {
+    "description": {
+      "label": "Description",
+      "placeholder": "Type your description here"
+    },
+    "transactedAt": {
+      "label": "Transacted at",
+      "helperMessage": "the date of first installment"
+    },
+    "purpose": {
+      "label": "Purpose",
+      "options": {
+        "expense": "Expense",
+        "revenue": "Revenue"
+      }
+    },
+    "category": {
+      "label": "Category",
+      "placeholder": "Select a category here"
+    },
+    "paymentMethod": {
+      "label": "Payment method",
+      "placeholder": "Select a payment method here"
+    },
+    "recurrence": {
+      "label": "Recurrence",
+      "options": {
+        "unique": "Unique",
+        "fixedPeriodic": "Fixed periodic",
+        "installmentsBased": "Installments based"
+      }
+    },
+    "amount": {
+      "label": "Amount",
+      "placeholder": "{value, number, currency}",
+      "helperMessage": "per installment"
+    },
+    "frequency": {
+      "label": "Frequency",
+      "options": {
+        "monthly": "Monthly",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "yearly": "Yearly"
+      }
+    },
+    "installments": {
+      "label": "Installments",
+      "helperMessage": "minimum is 2"
+    },
+    "cancel": "Cancel"
+  },
+  "newTransaction": {
+    "title": "New transaction",
+    "submit": "Create transaction"
+  },
+  "editTransaction": { "title": "Edit transaction", "submit": "Save changes" }
 }

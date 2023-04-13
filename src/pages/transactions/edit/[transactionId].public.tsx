@@ -12,9 +12,12 @@ import {
   transactionFormDefaultValues,
 } from "../components/TransactionForm/hook";
 import { getServerSideMessagesProps } from "utils/getServerSideMessagesProps";
+import { useTranslations } from "next-intl";
 
 const NewTransaction: NextPageWithLayout = () => {
   const { onSubmit, defaultValues, isSubmitting } = useNewTransaction();
+
+  const t = useTranslations("editTransaction");
 
   return (
     <Box as="main">
@@ -27,12 +30,12 @@ const NewTransaction: NextPageWithLayout = () => {
           isDisabled={isSubmitting}
         />
         <Heading as="h1" fontSize="lg" ml="4">
-          Edit transaction
+          {t("title")}
         </Heading>
       </Flex>
 
       <TransactionForm
-        submitButtonText="Save"
+        submitButtonText={t("submit")}
         onSubmit={onSubmit}
         defaultValues={
           (defaultValues || transactionFormDefaultValues) as TransactionFormData

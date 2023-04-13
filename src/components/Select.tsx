@@ -8,6 +8,7 @@ import {
   GroupBase,
   chakraComponents,
 } from "chakra-react-select";
+import { useTranslations } from "next-intl";
 import { Control, useController, UseControllerProps } from "react-hook-form";
 
 export interface Option extends OptionBase {
@@ -35,6 +36,13 @@ export function Select({
   onChange: propOnChange = () => {},
   ...props
 }: SelectProps) {
+  const t = useTranslations();
+
+  const translatedOptions = (options || []).map((option) => ({
+    ...option,
+    label: t(option.label as any),
+  }));
+
   const {
     field: { onChange, onBlur, value, ref },
   } = useController({
@@ -45,14 +53,16 @@ export function Select({
   });
 
   const selectValue =
-    options && value ? options.find((option) => option.value === value) : null;
+    translatedOptions && value
+      ? translatedOptions.find((option) => option.value === value)
+      : null;
 
   return (
     <ReactSelect<Option>
       name={name}
       ref={ref}
       onBlur={onBlur}
-      options={options}
+      options={translatedOptions}
       onChange={(option, actionMeta) => {
         onChange(option?.value);
         propOnChange(option, actionMeta);

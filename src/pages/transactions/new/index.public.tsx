@@ -8,9 +8,12 @@ import { useNewTransaction } from "./hook";
 import { routes } from "constants/routes";
 import { TransactionForm } from "../components/TransactionForm";
 import { getStaticMessageProps } from "utils/getStaticMessagesProps";
+import { useTranslations } from "next-intl";
 
 const NewTransaction: NextPageWithLayout = () => {
   const { onSubmit, defaultValues, isSubmitting } = useNewTransaction();
+
+  const t = useTranslations("newTransaction");
 
   return (
     <Box as="main">
@@ -23,12 +26,12 @@ const NewTransaction: NextPageWithLayout = () => {
           isDisabled={isSubmitting}
         />
         <Heading as="h1" fontSize="lg" ml="4">
-          New transaction
+          {t("title")}
         </Heading>
       </Flex>
 
       <TransactionForm
-        submitButtonText="Create"
+        submitButtonText={t("submit")}
         onSubmit={onSubmit}
         defaultValues={defaultValues}
       />

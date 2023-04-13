@@ -92,5 +92,62 @@
       },
       "empty": "Não encontramos transações :("
     }
+  },
+  "transactionForm": {
+    "description": {
+      "label": "Descrição",
+      "placeholder": "Digite sua descrição aqui"
+    },
+    "transactedAt": {
+      "label": "Data da transação",
+      "helperMessage": "considere a data da primeira parcela"
+    },
+    "purpose": {
+      "label": "Finalidade",
+      "options": {
+        "expense": "Despesa",
+        "revenue": "Receita"
+      }
+    },
+    "category": {
+      "label": "Categoria",
+      "placeholder": "Selecione uma categoria aqui"
+    },
+    "paymentMethod": {
+      "label": "Forma de pagamento",
+      "placeholder": "Selecione uma forma de pagamento aqui"
+    },
+    "recurrence": {
+      "label": "Recorrência",
+      "options": {
+        "unique": "Única",
+        "fixedPeriodic": "Fixada periodicamente",
+        "installmentsBased": "Parcelado"
+      }
+    },
+    "amount": {
+      "label": "Valor",
+      "placeholder": "{value, number, currency}",
+      "helperMessage": "por parcela"
+    },
+    "frequency": {
+      "label": "Frequência",
+      "options": {
+        "monthly": "Mensalmente",
+        "daily": "Diariamente",
+        "weekly": "Semanalmente",
+        "yearly": "Anualmente"
+      }
+    },
+    "installments": {
+      "label": "Parcelas",
+      "helperMessage": "no mínimo 2"
+    },
+    "cancel": "Cancelar"
+  },
+  "newTransaction": { "title": "Nova transação", "submit": "Criar transação" },
+  "editTransaction": {
+    "title": "Editar transação",
+    "submit": "Salvar alterações"
   }
 }

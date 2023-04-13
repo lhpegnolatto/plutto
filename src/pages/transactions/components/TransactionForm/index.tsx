@@ -9,11 +9,12 @@ import { CategorySelect } from "components/CategorySelect";
 import { TransactionFormData, useTransactionForm } from "./hook";
 import { routes } from "constants/routes";
 import {
-  fixedTransactionPeriodOptions,
-  transactionRepeatTypeOptions,
+  transactionFrequencyOptions,
+  transactionPurposesOptions,
+  transactionRecurrenceOptions,
 } from "./data";
-import { transactionTypesOptions } from "constants/transactionTypes";
 import { PaymentMethodSelect } from "components/PaymentMethodSelect";
+import { useTranslations } from "next-intl";
 
 interface TransactionFormProps {
   submitButtonText: string;
@@ -43,16 +44,18 @@ export function TransactionForm({
     recurrence,
   } = useTransactionForm({ onSubmit, defaultValues });
 
+  const t = useTranslations("transactionForm");
+
   return (
     <Form.Root onSubmit={handleOnSubmit} mt="10">
       <Form.Grid>
         <Form.Item colSpan={{ base: 12, lg: 6 }}>
           <Form.Field
-            label="Description"
+            label={t("description.label")}
             errorMessage={errors["description"]?.message?.toString()}
           >
             <Input
-              placeholder="Type your transaction description"
+              placeholder={t("description.placeholder")}
               autoFocus
               {...register("description", formValidations["description"])}
             />
@@ -60,8 +63,13 @@ export function TransactionForm({
         </Form.Item>
         <Form.Item colSpan={{ base: 12, md: 6 }}>
           <Form.Field
-            label="Transacted at"
+            label={t("transactedAt.label")}
             errorMessage={errors["transactedAt"]?.message?.toString()}
+            helperMessage={
+              recurrence === "installment_based"
+                ? t("transactedAt.helperMessage")
+                : ""
+            }
           >
             <Input
               type="datetime-local"
@@ -71,14 +79,13 @@ export function TransactionForm({
         </Form.Item>
         <Form.Item colSpan={{ base: 12, md: 6, lg: 4 }}>
           <Form.Field
-            label="Purpose"
+            label={t("purpose.label")}
             errorMessage={errors["purpose"]?.message?.toString()}
           >
             <Select
               name="purpose"
               control={control}
-              options={transactionTypesOptions}
-              placeholder="Select the transaction purpose"
+              options={transactionPurposesOptions}
               components={tagSelectComponents}
               rules={formValidations["purpose"]}
               onChange={onPurposeChange}
@@ -87,7 +94,7 @@ export function TransactionForm({
         </Form.Item>
         <Form.Item colSpan={{ base: 12, md: 6, lg: 4 }}>
           <Form.Field
-            label="Category"
+            label={t("category.label")}
             errorMessage={errors["category"]?.message?.toString()}
           >
             <CategorySelect
@@ -95,14 +102,14 @@ export function TransactionForm({
               control={control}
               setValue={setValue}
               getValues={getValues}
-              placeholder="Select the category"
+              placeholder={t("category.placeholder")}
               rules={formValidations["category"]}
             />
           </Form.Field>
         </Form.Item>
         <Form.Item colSpan={{ base: 12, md: 6, lg: 4 }}>
           <Form.Field
-            label="Payment method"
+            label={t("paymentMethod.label")}
             errorMessage={errors["paymentMethod"]?.message?.toString()}
             isDisabled={purpose === "revenue"}
           >
@@ -111,7 +118,7 @@ export function TransactionForm({
               control={control}
               setValue={setValue}
               getValues={getValues}
-              placeholder="Select the payment method"
+              placeholder={t("paymentMethod.placeholder")}
               rules={formValidations["paymentMethod"]}
               isDisabled={purpose === "revenue"}
             />
@@ -124,13 +131,13 @@ export function TransactionForm({
           }}
         >
           <Form.Field
-            label="Recurrence"
+            label={t("recurrence.label")}
             errorMessage={errors["recurrence"]?.message?.toString()}
           >
             <Select
               name="recurrence"
               control={control}
-              options={transactionRepeatTypeOptions}
+              options={transactionRecurrenceOptions}
               rules={formValidations["recurrence"]}
               onChange={onRecurrenceChange}
             />
@@ -145,13 +152,13 @@ export function TransactionForm({
             }}
           >
             <Form.Field
-              label="Frequency"
+              label={t("frequency.label")}
               errorMessage={errors["frequency"]?.message?.toString()}
             >
               <Select
                 name="frequency"
                 control={control}
-                options={fixedTransactionPeriodOptions}
+                options={transactionFrequencyOptions}
                 rules={formValidations["frequency"]}
               />
             </Form.Field>
@@ -160,9 +167,9 @@ export function TransactionForm({
         {recurrence === "installment_based" && (
           <Form.Item colSpan={{ base: 12, md: 3 }}>
             <Form.Field
-              label="Installments"
+              label={t("installments.label")}
               errorMessage={errors["installments"]?.message?.toString()}
-              helperMessage="minimum is 2"
+              helperMessage={t("installments.helperMessage")}
             >
               <Input
                 {...register("installments", formValidations["installments"])}
@@ -177,15 +184,17 @@ export function TransactionForm({
           }}
         >
           <Form.Field
-            label="Amount"
+            label={t("amount.label")}
             errorMessage={errors["amount"]?.message?.toString()}
             helperMessage={
-              recurrence === "installment_based" ? "per installment" : ""
+              recurrence === "installment_based"
+                ? t("amount.helperMessage")
+                : ""
             }
           >
             <CurrencyInput
               name="amount"
-              placeholder="$0.00"
+              placeholder={t("amount.placeholder", { value: 0 })}
               control={control}
               rules={formValidations["amount"]}
             />
@@ -200,7 +209,7 @@ export function TransactionForm({
           variant="shadow"
           isDisabled={isSubmitting}
         >
-          Cancel
+          {t("cancel")}
         </Button>
 
         <Button type="submit" colorScheme="green" isLoading={isSubmitting}>

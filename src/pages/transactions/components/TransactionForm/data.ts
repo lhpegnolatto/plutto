@@ -1,12 +1,31 @@
-export const transactionRepeatTypeOptions = [
-  { label: "Unique", value: "unique" },
-  { label: "Fixed periodic", value: "fixed_periodic" },
-  { label: "Installments based", value: "installment_based" },
+export const transactionRecurrenceOptions = [
+  { label: "transactionForm.recurrence.options.unique", value: "unique" },
+  {
+    label: "transactionForm.recurrence.options.fixedPeriodic",
+    value: "fixed_periodic",
+  },
+  {
+    label: "transactionForm.recurrence.options.installmentsBased",
+    value: "installment_based",
+  },
 ];
 
-export const fixedTransactionPeriodOptions = [
-  { label: "Monthly", value: "monthly" },
-  { label: "Daily", value: "daily" },
-  { label: "Weekly", value: "weekly" },
-  { label: "Yearly", value: "yearly" },
+export const transactionFrequencyOptions = [
+  { label: "transactionForm.frequency.options.monthly", value: "monthly" },
+  { label: "transactionForm.frequency.options.daily", value: "daily" },
+  { label: "transactionForm.frequency.options.weekly", value: "weekly" },
+  { label: "transactionForm.frequency.options.yearly", value: "yearly" },
+];
+
+export const transactionPurposesOptions = [
+  {
+    label: "transactionForm.purpose.options.expense",
+    value: "expense",
+    colorScheme: "red",
+  },
+  {
+    label: "transactionForm.purpose.options.revenue",
+    value: "revenue",
+    colorScheme: "green",
+  },
 ];

@@ -32,7 +32,9 @@ function FormField({
       </FormLabel>
       {children}
       {helperMessage && (
-        <FormHelperText position="absolute">{helperMessage}</FormHelperText>
+        <FormHelperText position="absolute" bottom="-5">
+          {helperMessage}
+        </FormHelperText>
       )}
     </FormControl>
   );
