@@ -14,7 +14,6 @@ import {
   Skeleton,
   Stack,
   Stat,
-  StatHelpText,
   StatLabel,
   StatNumber,
   Tag,
@@ -48,7 +47,7 @@ const Transactions: NextPageWithLayout = () => {
     onDelete,
     isDeleting,
     getTransactionRecurrenceColumn,
-    getSummaryValuePercentage,
+    savedMoneyPercentage,
     isFiltersModalOpen,
     onFiltersModalOpen,
     onFiltersModalClose,
@@ -61,6 +60,13 @@ const Transactions: NextPageWithLayout = () => {
 
   const format = useFormatter();
   const t = useTranslations("transactions");
+
+  const savedMoneyStatusColor =
+    savedMoneyPercentage >= 0.1
+      ? "green.400"
+      : savedMoneyPercentage >= 0.05
+      ? "yellow.400"
+      : "red.400";
 
   return (
     <Box as="main">
@@ -107,15 +113,18 @@ const Transactions: NextPageWithLayout = () => {
             <CardBody>
               <Stat>
                 <StatLabel>{t("summary.savedMoney")}</StatLabel>
-                <StatNumber>
+                <StatNumber display="flex" alignItems="center">
                   {format.number(purposesSummary.savedMoneyAmount, "currency")}
+
+                  <Text
+                    display="inline"
+                    ml="2"
+                    fontSize="sm"
+                    color={savedMoneyStatusColor}
+                  >
+                    ({format.number(savedMoneyPercentage, "percent")})
+                  </Text>
                 </StatNumber>
-                <StatHelpText>
-                  {format.number(
-                    getSummaryValuePercentage(purposesSummary.savedMoneyAmount),
-                    "percent"
-                  )}
-                </StatHelpText>
               </Stat>
             </CardBody>
           </Card>
@@ -146,7 +155,7 @@ const Transactions: NextPageWithLayout = () => {
         </Skeleton>
       </Stack>
 
-      <Flex as="ul" gap="3" flexDirection="column">
+      <Flex as="ul" gap="3" mt="12" flexDirection="column">
         {transactions.map((transaction, index) => {
           const {
             id,
@@ -166,7 +175,12 @@ const Transactions: NextPageWithLayout = () => {
           return (
             <Fragment key={id}>
               {monthText && (
-                <Text fontSize="md" mt="12" mb="3" color="gray.400">
+                <Text
+                  fontSize="md"
+                  mt={index === 0 ? "0" : "12"}
+                  mb="3"
+                  color="gray.400"
+                >
                   {monthText}
                 </Text>
               )}
@@ -313,7 +327,7 @@ const Transactions: NextPageWithLayout = () => {
         })}
         {!isTransactionsLoading && transactions.length === 0 && (
           <Card py="4" px="6" w="full" alignItems="center">
-            <Text fontSize="md">{"You don't have any transaction yet :("}</Text>
+            <Text fontSize="md">{t("items.empty")}</Text>
           </Card>
         )}
         {isTransactionsLoading && (

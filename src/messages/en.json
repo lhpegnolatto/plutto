@@ -89,7 +89,8 @@
       "actions": {
         "edit": "Edit",
         "delete": "Delete"
-      }
+      },
+      "empty": "We not found transactions :("
     }
   }
 }

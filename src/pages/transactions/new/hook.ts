@@ -6,6 +6,8 @@ import { Database } from "types/supabase.types";
 import { routes } from "constants/routes";
 import { getDateTimeInputDefaultValue } from "utils/getDateTimeInputDefaultValue";
 import { TransactionFormData } from "../components/TransactionForm/hook";
+import { queryKeys } from "constants/queryKeys";
+import { useQueryClient } from "react-query";
 
 type Purpose = "expense" | "revenue";
 
@@ -30,6 +32,8 @@ export function useNewTransaction() {
 
   const supabaseClient = useSupabaseClient<Database>();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const onSubmit = useCallback(
     async ({
@@ -57,11 +61,14 @@ export function useNewTransaction() {
         installments: installments ? parseInt(installments) : null,
       });
 
+      queryClient.invalidateQueries(queryKeys.TRANSACTIONS);
+      queryClient.invalidateQueries(queryKeys.PURPOSES_SUMMARY);
+
       router.push(routes.TRANSACTIONS);
 
       setIsSubmitting(false);
     },
-    [router, supabaseClient]
+    [queryClient, router, supabaseClient]
   );
 
   return {

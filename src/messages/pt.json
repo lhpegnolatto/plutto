@@ -89,7 +89,8 @@
       "actions": {
         "edit": "Editar",
         "delete": "Deletar"
-      }
+      },
+      "empty": "Não encontramos transações :("
     }
   }
 }

@@ -165,9 +165,13 @@ export function useTransactions() {
     return monthText !== previousMonthText ? monthText : "";
   }
 
-  function getSummaryValuePercentage(value: number) {
-    return ((value / purposesSummary.revenuesAmount) * 100) / 100;
-  }
+  const savedMoneyPercentage =
+    purposesSummary.savedMoneyAmount === 0 ||
+    purposesSummary.revenuesAmount === 0
+      ? 0
+      : (100 * purposesSummary.savedMoneyAmount) /
+        purposesSummary.revenuesAmount /
+        100;
 
   return {
     transactions,
@@ -177,7 +181,7 @@ export function useTransactions() {
     onDelete,
     isDeleting,
     getTransactionRecurrenceColumn,
-    getSummaryValuePercentage,
+    savedMoneyPercentage,
     isFiltersModalOpen,
     onFiltersModalOpen,
     onFiltersModalClose,
