@@ -194,7 +194,6 @@ export function TransactionForm({
           >
             <CurrencyInput
               name="amount"
-              placeholder={t("amount.placeholder", { value: 0 })}
               control={control}
               rules={formValidations["amount"]}
             />

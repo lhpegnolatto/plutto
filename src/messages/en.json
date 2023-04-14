@@ -127,7 +127,6 @@
     },
     "amount": {
       "label": "Amount",
-      "placeholder": "{value, number, currency}",
       "helperMessage": "per installment"
     },
     "frequency": {

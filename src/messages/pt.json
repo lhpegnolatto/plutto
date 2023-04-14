@@ -127,7 +127,6 @@
     },
     "amount": {
       "label": "Valor",
-      "placeholder": "{value, number, currency}",
       "helperMessage": "por parcela"
     },
     "frequency": {
