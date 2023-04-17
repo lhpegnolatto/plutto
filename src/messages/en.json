@@ -8,6 +8,10 @@
     "goals": "Goals - (coming soon)",
     "growing": "Growing - (coming soon)"
   },
+  "userMenu": {
+    "toggleTheme": "Toggle theme",
+    "signOut": "Sign out"
+  },
   "home": {
     "title": "Welcome {userName}!",
     "subtitle": "Let's see a summary of your transactions",

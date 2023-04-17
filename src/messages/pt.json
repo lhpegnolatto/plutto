@@ -8,6 +8,10 @@
     "goals": "Metas - (em breve)",
     "growing": "Aprendendo - (em breve)"
   },
+  "userMenu": {
+    "toggleTheme": "Alternar tema",
+    "signOut": "Sair"
+  },
   "home": {
     "title": "Olá {userName}!",
     "subtitle": "Aqui vai um resumo sobre suas transações :)",

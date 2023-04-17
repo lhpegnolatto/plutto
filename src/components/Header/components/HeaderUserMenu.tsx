@@ -17,6 +17,7 @@ import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { useAppLoaderContext } from "contexts/AppLoaderContext";
 import { routes } from "constants/routes";
+import { useTranslations } from "next-intl";
 
 export function HeaderUserMenu() {
   const router = useRouter();
@@ -43,6 +44,8 @@ export function HeaderUserMenu() {
     onOpen: onMenuOpen,
     onClose: onMenuClose,
   } = useDisclosure();
+
+  const t = useTranslations("userMenu");
 
   return (
     <Menu isLazy isOpen={isMenuOpen} onClose={onMenuClose} onOpen={onMenuOpen}>
@@ -92,10 +95,10 @@ export function HeaderUserMenu() {
           }
           onClick={toggleColorMode}
         >
-          Toggle theme
+          {t("toggleTheme")}
         </MenuItem>
         <MenuItem icon={<Icon as={FiLogOut} boxSize="4" />} onClick={signOut}>
-          Sign out
+          {t("signOut")}
         </MenuItem>
       </MenuList>
     </Menu>
