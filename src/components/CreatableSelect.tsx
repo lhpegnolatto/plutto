@@ -70,6 +70,15 @@ export const CreatableSelect = forwardRef<
         }}
         useBasicStyles={useBasicStyles}
         selectedOptionStyle={selectedOptionStyle}
+        chakraStyles={{
+          placeholder: (provided) => ({
+            ...provided,
+            whiteSpace: "nowrap",
+            width: "calc(100% - 20px)",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }),
+        }}
         {...props}
         value={selectValue}
       />
