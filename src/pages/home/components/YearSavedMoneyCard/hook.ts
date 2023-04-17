@@ -14,8 +14,22 @@ type PurposesSummary = {
 
 export function useYearSavedMoneyCard() {
   const today = new Date();
-  const endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-  const startDate = new Date(today.getFullYear(), today.getMonth() - 12, 1);
+  const endDate = new Date(
+    today.getFullYear(),
+    today.getMonth() + 1,
+    0,
+    23,
+    59,
+    59
+  );
+  const startDate = new Date(
+    today.getFullYear(),
+    today.getMonth() - 12,
+    1,
+    0,
+    0,
+    0
+  );
 
   const supabaseClient = useSupabaseClient<Database>();
 
