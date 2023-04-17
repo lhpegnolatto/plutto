@@ -14,6 +14,7 @@ import { FormData, formValidations, useCategoryDrawerForm } from "./hook";
 
 import { Form } from "components/Form";
 import { Select, tagSelectComponents } from "components/Select";
+import { useTranslations } from "next-intl";
 
 interface CategoryDrawerProps {
   onClose: (createdCategoryId?: string) => void;
@@ -38,11 +39,13 @@ export function CategoryDrawerForm({
     isSubmitting,
   } = useCategoryDrawerForm({ onClose, defaultValues, categoryId });
 
+  const t = useTranslations("categoryForm");
+
   return (
     <>
       <Flex mt="6" mb="10" alignItems="center">
         <IconButton
-          aria-label="Go back for categories list"
+          aria-label={t("actions.goBack")}
           icon={<Icon as={HiArrowLeft} />}
           size="sm"
           mr="4"
@@ -50,26 +53,26 @@ export function CategoryDrawerForm({
         />
 
         <Text fontSize="md" fontWeight="bold">
-          {categoryId ? "Editing a category" : "Creating a new category"}
+          {categoryId ? t("editTitle") : t("newTitle")}
         </Text>
       </Flex>
 
       <Form.Root>
         <Form.Field
-          label="Title"
+          label={t("fields.title.label")}
           size="sm"
           errorMessage={errors["title"]?.message?.toString()}
         >
           <Input
             ref={titleInputMergedRefs}
-            placeholder="Type your category title"
+            placeholder={t("fields.title.placeholder")}
             size="sm"
             autoFocus
             {...titleInputProps}
           />
         </Form.Field>
         <Form.Field
-          label="Color"
+          label={t("fields.color.label")}
           mt="6"
           size="sm"
           errorMessage={errors["color"]?.message?.toString()}
@@ -78,7 +81,7 @@ export function CategoryDrawerForm({
             name="color"
             control={control}
             options={colorsOptions}
-            placeholder="Select your category color"
+            placeholder={t("fields.color.placeholder")}
             components={tagSelectComponents}
             size="sm"
             rules={formValidations["color"]}
@@ -92,14 +95,14 @@ export function CategoryDrawerForm({
           onClick={() => onClose()}
           disabled={isSubmitting}
         >
-          Cancel
+          {t("actions.cancel")}
         </Button>
         <Button
           colorScheme="brand"
           onClick={handleSubmit(async (data) => onSubmit(data))}
           isLoading={isSubmitting}
         >
-          {categoryId ? "Save" : "Create"}
+          {categoryId ? t("actions.editSubmit") : t("actions.newSubmit")}
         </Button>
       </ButtonGroup>
     </>

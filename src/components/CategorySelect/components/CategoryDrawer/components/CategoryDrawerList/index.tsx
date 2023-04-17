@@ -19,6 +19,7 @@ import { HiOutlinePencil, HiOutlineTrash, HiXMark } from "react-icons/hi2";
 
 import { colorsOptions } from "../../data";
 import { useCategoryDrawerList } from "./hook";
+import { useTranslations } from "next-intl";
 
 type CategoryListItem = {
   id: string;
@@ -49,19 +50,21 @@ export function CategoryDrawerList({
 }: CategoryDrawerListProps) {
   const { isDeleting, onDelete } = useCategoryDrawerList({ onDeleteCategory });
 
+  const t = useTranslations("categoriesList");
+
   return (
     <>
       <Flex mt="6" mb="10" alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
           <IconButton
-            aria-label="Close modal"
+            aria-label={t("actions.close")}
             icon={<Icon as={HiXMark} />}
             size="sm"
             mr="4"
             onClick={() => onClose()}
           />
           <Text fontSize="md" fontWeight="bold" mr="4">
-            List of categories
+            {t("title")}
           </Text>
         </Flex>
 
@@ -70,7 +73,7 @@ export function CategoryDrawerList({
           size="sm"
           colorScheme="brand"
         >
-          Create new
+          {t("actions.new")}
         </Button>
       </Flex>
 
@@ -78,8 +81,8 @@ export function CategoryDrawerList({
         <Table variant="simple" size="sm">
           <Thead>
             <Tr>
-              <Th>Title</Th>
-              <Th>Color</Th>
+              <Th>{t("table.headers.title")}</Th>
+              <Th>{t("table.headers.color")}</Th>
               <Th w="1px" />
             </Tr>
           </Thead>
@@ -95,7 +98,7 @@ export function CategoryDrawerList({
                 <Td>
                   <Flex justifyContent="space-between">
                     <IconButton
-                      aria-label="Edit category"
+                      aria-label={t("table.actions.edit")}
                       icon={<Icon as={HiOutlinePencil} />}
                       size="xs"
                       colorScheme="blue"
@@ -108,7 +111,7 @@ export function CategoryDrawerList({
                     >
                       {(onClick) => (
                         <IconButton
-                          aria-label="Delete category"
+                          aria-label={t("table.actions.delete")}
                           icon={<Icon as={HiOutlineTrash} />}
                           size="xs"
                           colorScheme="red"
@@ -131,7 +134,7 @@ export function CategoryDrawerList({
                     justifyContent="center"
                     fontSize="md"
                   >
-                    {"You don't have any category yet :("}
+                    {t("table.empty")}
                   </Flex>
                 </Td>
               </Tr>

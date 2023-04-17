@@ -9,6 +9,7 @@ import { tagSelectComponents } from "components/Select";
 import { CategoryDrawer } from "./components/CategoryDrawer";
 
 import { useCategorySelect } from "./hook";
+import { useTranslations } from "next-intl";
 
 interface CategorySelectProps
   extends Omit<CreatableSelectProps, "onCreateOption" | "options"> {
@@ -35,6 +36,8 @@ export function CategorySelect({
     onDeleteCategory,
   } = useCategorySelect({ setValue, name, getValues });
 
+  const t = useTranslations("categorySelect");
+
   return (
     <Box position="relative">
       <Button
@@ -49,7 +52,7 @@ export function CategorySelect({
         textDecoration="none !important"
         isDisabled={isDisabled}
       >
-        manage
+        {t("actions.manage")}
       </Button>
 
       <CreatableSelect
@@ -57,7 +60,9 @@ export function CategorySelect({
         name={name}
         ref={finalFocusRef}
         onCreateOption={handleOnDrawerOpen}
-        formatCreateLabel={(inputValue) => `Create "${inputValue}" category`}
+        formatCreateLabel={(inputValue) =>
+          t("actions.createNewLabel", { inputValue })
+        }
         components={tagSelectComponents}
         isLoading={isCategoriesLoading}
         options={categories.map(({ id, title, color }) => ({

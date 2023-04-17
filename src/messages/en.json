@@ -148,5 +148,49 @@
     "title": "New transaction",
     "submit": "Create transaction"
   },
-  "editTransaction": { "title": "Edit transaction", "submit": "Save changes" }
+  "editTransaction": { "title": "Edit transaction", "submit": "Save changes" },
+  "categorySelect": {
+    "actions": {
+      "manage": "manage",
+      "createNewLabel": "Create {inputValue} category"
+    }
+  },
+  "categoriesList": {
+    "actions": {
+      "new": "Create new",
+      "close": "Close categories modal"
+    },
+    "title": "List of categories",
+    "table": {
+      "headers": {
+        "title": "Title",
+        "color": "Color"
+      },
+      "actions": {
+        "edit": "Edit category",
+        "delete": "Delete category"
+      },
+      "empty": "We not found categories :("
+    }
+  },
+  "categoryForm": {
+    "actions": {
+      "goBack": "Go back to categories list",
+      "cancel": "Cancel",
+      "newSubmit": "Create",
+      "editSubmit": "Save"
+    },
+    "newTitle": "Creating new category",
+    "editTitle": "Editing category",
+    "fields": {
+      "title": {
+        "label": "Title",
+        "placeholder": "Type your category title here"
+      },
+      "color": {
+        "label": "Color",
+        "placeholder": "Select your category color here"
+      }
+    }
+  }
 }

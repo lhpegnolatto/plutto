@@ -148,5 +148,49 @@
   "editTransaction": {
     "title": "Editar transação",
     "submit": "Salvar alterações"
+  },
+  "categorySelect": {
+    "actions": {
+      "manage": "gerenciar",
+      "createNewLabel": "Criar a categoria {inputValue}"
+    }
+  },
+  "categoriesList": {
+    "actions": {
+      "new": "Criar nova",
+      "close": "Fechar"
+    },
+    "title": "Lista de categorias",
+    "table": {
+      "headers": {
+        "title": "Nome",
+        "color": "Cor"
+      },
+      "actions": {
+        "edit": "Editar categoria",
+        "delete": "Deletar categoria"
+      },
+      "empty": "Não encontramos categorias :("
+    }
+  },
+  "categoryForm": {
+    "actions": {
+      "goBack": "Voltar para a lista de categorias",
+      "cancel": "Cancelar",
+      "newSubmit": "Criar",
+      "editSubmit": "Salvar"
+    },
+    "newTitle": "Criando nova categoria",
+    "editTitle": "Editando categoria",
+    "fields": {
+      "title": {
+        "label": "Nome",
+        "placeholder": "Digite o nome da sua categoria aqui"
+      },
+      "color": {
+        "label": "Cor",
+        "placeholder": "Selecione a cor da sua categoria aqui"
+      }
+    }
   }
 }
