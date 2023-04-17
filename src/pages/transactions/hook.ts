@@ -45,8 +45,24 @@ export function useTransactions() {
   const currentFilters = useRef<TransactionsFilters>(
     (() => {
       const today = new Date();
-      const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-      const endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+      const startDate = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        1,
+        0,
+        0,
+        0
+      );
+      const endDate = new Date(
+        today.getFullYear(),
+        today.getMonth() + 1,
+        0,
+        23,
+        59,
+        59
+      );
+
+      console.log({ startDate, endDate });
 
       return { startDate, endDate };
     })()
@@ -94,8 +110,6 @@ export function useTransactions() {
   const onFiltersChange = useCallback(
     (newFilters: TransactionsFilters) => {
       currentFilters.current = newFilters;
-      // refetchTransactions();
-
       onFiltersModalClose();
     },
     [onFiltersModalClose]
