@@ -8,6 +8,7 @@ import {
   useDisclosure,
   Button,
 } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { ReactNode, useRef } from "react";
 
 interface ConfirmationAlertDialogProps {
@@ -21,12 +22,14 @@ interface ConfirmationAlertDialogProps {
 export function ConfirmationAlertDialog({
   children,
   onConfirm,
-  confirmButtonText = "Confirm",
-  title = "Are you sure?",
-  description = "You can't undo this action afterwards.",
+  confirmButtonText,
+  title,
+  description,
 }: ConfirmationAlertDialogProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
+
+  const t = useTranslations("confirmationAlertDialog");
 
   return (
     <>
@@ -40,17 +43,17 @@ export function ConfirmationAlertDialog({
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              {title}
+              {title || t("title")}
             </AlertDialogHeader>
 
-            <AlertDialogBody>{description}</AlertDialogBody>
+            <AlertDialogBody>{description || t("description")}</AlertDialogBody>
 
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={onClose}>
-                Cancel
+                {t("cancel")}
               </Button>
               <Button colorScheme="red" onClick={onConfirm} ml={3}>
-                {confirmButtonText}
+                {confirmButtonText || t("confirm")}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

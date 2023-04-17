@@ -111,7 +111,7 @@ export function PaymentMethodDrawerList({
                     />
                     <ConfirmationAlertDialog
                       onConfirm={() => onDelete(id)}
-                      confirmButtonText="Delete"
+                      confirmButtonText={t("table.actions.confirmDelete")}
                     >
                       {(onClick) => (
                         <IconButton

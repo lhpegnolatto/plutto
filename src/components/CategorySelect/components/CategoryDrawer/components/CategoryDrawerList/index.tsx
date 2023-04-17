@@ -107,7 +107,7 @@ export function CategoryDrawerList({
                     />
                     <ConfirmationAlertDialog
                       onConfirm={() => onDelete(id)}
-                      confirmButtonText="Delete"
+                      confirmButtonText={t("table.actions.confirmDelete")}
                     >
                       {(onClick) => (
                         <IconButton

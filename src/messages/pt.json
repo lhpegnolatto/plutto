@@ -172,7 +172,8 @@
       },
       "actions": {
         "edit": "Editar categoria",
-        "delete": "Deletar categoria"
+        "delete": "Deletar categoria",
+        "confirmDelete": "Deletar"
       },
       "empty": "Não encontramos categorias :("
     }
@@ -216,7 +217,8 @@
       },
       "actions": {
         "edit": "Editar forma de pagamento",
-        "delete": "Deletar forma de pagamento"
+        "delete": "Deletar forma de pagamento",
+        "confirmDelete": "Deletar"
       },
       "empty": "Não encontramos formas de pagamento :("
     }
@@ -240,5 +242,11 @@
         "placeholder": "Selecione a cor da sua forma de pagamento aqui"
       }
     }
+  },
+  "confirmationAlertDialog": {
+    "title": "Você tem certeza?",
+    "description": "Você não poderá desfazer essa ação.",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
   }
 }

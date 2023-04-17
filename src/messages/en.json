@@ -172,7 +172,8 @@
       },
       "actions": {
         "edit": "Edit category",
-        "delete": "Delete category"
+        "delete": "Delete category",
+        "confirmDelete": "Delete"
       },
       "empty": "We not found categories :("
     }
@@ -216,7 +217,8 @@
       },
       "actions": {
         "edit": "Edit payment method",
-        "delete": "Delete payment method"
+        "delete": "Delete payment method",
+        "confirmDelete": "Delete"
       },
       "empty": "We not found payment methods :("
     }
@@ -240,5 +242,11 @@
         "placeholder": "Select your payment method color here"
       }
     }
+  },
+  "confirmationAlertDialog": {
+    "title": "Are you sure?",
+    "description": "You can't undo this action afterwards.",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   }
 }
