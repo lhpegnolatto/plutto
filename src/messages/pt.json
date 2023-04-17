@@ -192,5 +192,49 @@
         "placeholder": "Selecione a cor da sua categoria aqui"
       }
     }
+  },
+  "paymentMethodSelect": {
+    "actions": {
+      "manage": "gerenciar",
+      "createNewLabel": "Criar a forma de pagamento {inputValue}"
+    }
+  },
+  "paymentMethodsList": {
+    "actions": {
+      "new": "Criar nova",
+      "close": "Fechar"
+    },
+    "title": "Lista de formas de pagamento",
+    "table": {
+      "headers": {
+        "title": "Nome",
+        "color": "Cor"
+      },
+      "actions": {
+        "edit": "Editar forma de pagamento",
+        "delete": "Deletar forma de pagamento"
+      },
+      "empty": "Não encontramos formas de pagamento :("
+    }
+  },
+  "paymentMethodForm": {
+    "actions": {
+      "goBack": "Voltar para a lista de formas de pagamento",
+      "cancel": "Cancelar",
+      "newSubmit": "Criar",
+      "editSubmit": "Salvar"
+    },
+    "newTitle": "Criando nova forma de pagamento",
+    "editTitle": "Editando forma de pagamento",
+    "fields": {
+      "title": {
+        "label": "Nome",
+        "placeholder": "Digite o nome da sua forma de pagamento aqui"
+      },
+      "color": {
+        "label": "Cor",
+        "placeholder": "Selecione a cor da sua forma de pagamento aqui"
+      }
+    }
   }
 }

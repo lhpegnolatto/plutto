@@ -19,6 +19,7 @@ import { HiOutlinePencil, HiOutlineTrash, HiXMark } from "react-icons/hi2";
 
 import { colorsOptions } from "../../data";
 import { usePaymentMethodDrawerList } from "./hook";
+import { useTranslations } from "next-intl";
 
 type PaymentMethodListItem = {
   id: string;
@@ -51,19 +52,21 @@ export function PaymentMethodDrawerList({
     onDeletePaymentMethod,
   });
 
+  const t = useTranslations("paymentMethodsList");
+
   return (
     <>
       <Flex mt="6" mb="10" alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
           <IconButton
-            aria-label="Close modal"
+            aria-label={t("actions.close")}
             icon={<Icon as={HiXMark} />}
             size="sm"
             mr="4"
             onClick={() => onClose()}
           />
           <Text fontSize="md" fontWeight="bold" mr="4">
-            List of payment methods
+            {t("title")}
           </Text>
         </Flex>
 
@@ -72,7 +75,7 @@ export function PaymentMethodDrawerList({
           size="sm"
           colorScheme="brand"
         >
-          Create new
+          {t("actions.new")}
         </Button>
       </Flex>
 
@@ -80,8 +83,8 @@ export function PaymentMethodDrawerList({
         <Table variant="simple" size="sm">
           <Thead>
             <Tr>
-              <Th>Title</Th>
-              <Th>Color</Th>
+              <Th>{t("table.headers.title")}</Th>
+              <Th>{t("table.headers.color")}</Th>
               <Th w="1px" />
             </Tr>
           </Thead>
@@ -97,7 +100,7 @@ export function PaymentMethodDrawerList({
                 <Td>
                   <Flex justifyContent="space-between">
                     <IconButton
-                      aria-label="Edit payment method"
+                      aria-label={t("table.actions.edit")}
                       icon={<Icon as={HiOutlinePencil} />}
                       size="xs"
                       colorScheme="blue"
@@ -112,7 +115,7 @@ export function PaymentMethodDrawerList({
                     >
                       {(onClick) => (
                         <IconButton
-                          aria-label="Delete payment method"
+                          aria-label={t("table.actions.delete")}
                           icon={<Icon as={HiOutlineTrash} />}
                           size="xs"
                           colorScheme="red"
@@ -135,7 +138,7 @@ export function PaymentMethodDrawerList({
                     justifyContent="center"
                     fontSize="md"
                   >
-                    {"You don't have any payment method yet :("}
+                    {t("table.empty")}
                   </Flex>
                 </Td>
               </Tr>

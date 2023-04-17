@@ -9,6 +9,7 @@ import { tagSelectComponents } from "components/Select";
 import { PaymentMethodDrawer } from "./components/PaymentMethodDrawer";
 
 import { usePaymentMethodSelect } from "./hook";
+import { useTranslations } from "next-intl";
 
 interface PaymentMethodSelectProps
   extends Omit<CreatableSelectProps, "onCreateOption" | "options"> {
@@ -35,6 +36,8 @@ export function PaymentMethodSelect({
     onDeletePaymentMethod,
   } = usePaymentMethodSelect({ setValue, name, getValues });
 
+  const t = useTranslations("paymentMethodSelect");
+
   return (
     <Box position="relative">
       <Button
@@ -49,7 +52,7 @@ export function PaymentMethodSelect({
         textDecoration="none !important"
         isDisabled={isDisabled}
       >
-        manage
+        {t("actions.manage")}
       </Button>
 
       <CreatableSelect
@@ -58,7 +61,7 @@ export function PaymentMethodSelect({
         ref={finalFocusRef}
         onCreateOption={handleOnDrawerOpen}
         formatCreateLabel={(inputValue) =>
-          `Create "${inputValue}" payment method`
+          t("actions.createNewLabel", { inputValue })
         }
         components={tagSelectComponents}
         isLoading={isPaymentMethodsLoading}
