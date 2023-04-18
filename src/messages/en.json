@@ -76,9 +76,21 @@
     "filters": {
       "title": "Filter your transactions",
       "submit": "Submit filters",
-      "startDate": "Start from",
-      "endDate": "To",
-      "close": "Close filters"
+      "close": "Close filters",
+      "fields": {
+        "startDate": {
+          "label": "Start from",
+          "validations": {
+            "required": "is required"
+          }
+        },
+        "endDate": {
+          "label": "To",
+          "validations": {
+            "required": "is required"
+          }
+        }
+      }
     },
     "items": {
       "recurrence": {
@@ -100,26 +112,41 @@
   "transactionForm": {
     "description": {
       "label": "Description",
-      "placeholder": "Type your description here"
+      "placeholder": "Type your description here",
+      "validations": {
+        "required": "is required"
+      }
     },
     "transactedAt": {
       "label": "Transacted at",
-      "helperMessage": "the date of first installment"
+      "helperMessage": "the date of first installment",
+      "validations": {
+        "required": "is required"
+      }
     },
     "purpose": {
       "label": "Purpose",
       "options": {
         "expense": "Expense",
         "revenue": "Revenue"
+      },
+      "validations": {
+        "required": "is required"
       }
     },
     "category": {
       "label": "Category",
-      "placeholder": "Select a category here"
+      "placeholder": "Select a category here",
+      "validations": {
+        "required": "is required"
+      }
     },
     "paymentMethod": {
       "label": "Payment method",
-      "placeholder": "Select a payment method here"
+      "placeholder": "Select a payment method here",
+      "validations": {
+        "required": "is required"
+      }
     },
     "recurrence": {
       "label": "Recurrence",
@@ -127,11 +154,17 @@
         "unique": "Unique",
         "fixedPeriodic": "Fixed periodic",
         "installmentsBased": "Installments based"
+      },
+      "validations": {
+        "required": "is required"
       }
     },
     "amount": {
       "label": "Amount",
-      "helperMessage": "per installment"
+      "helperMessage": "per installment",
+      "validations": {
+        "required": "is required"
+      }
     },
     "frequency": {
       "label": "Frequency",
@@ -140,11 +173,18 @@
         "daily": "Daily",
         "weekly": "Weekly",
         "yearly": "Yearly"
+      },
+      "validations": {
+        "required": "is required"
       }
     },
     "installments": {
       "label": "Installments",
-      "helperMessage": "minimum is 2"
+      "helperMessage": "minimum is 2",
+      "validations": {
+        "required": "is required",
+        "invalid": "is invalid"
+      }
     },
     "cancel": "Cancel"
   },
@@ -190,11 +230,17 @@
     "fields": {
       "title": {
         "label": "Title",
-        "placeholder": "Type your category title here"
+        "placeholder": "Type your category title here",
+        "validations": {
+          "required": "is required"
+        }
       },
       "color": {
         "label": "Color",
-        "placeholder": "Select your category color here"
+        "placeholder": "Select your category color here",
+        "validations": {
+          "required": "is required"
+        }
       }
     }
   },
@@ -235,11 +281,17 @@
     "fields": {
       "title": {
         "label": "Title",
-        "placeholder": "Type your payment method title here"
+        "placeholder": "Type your payment method title here",
+        "validations": {
+          "required": "is required"
+        }
       },
       "color": {
         "label": "Color",
-        "placeholder": "Select your payment method color here"
+        "placeholder": "Select your payment method color here",
+        "validations": {
+          "required": "is required"
+        }
       }
     }
   },

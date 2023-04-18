@@ -18,11 +18,11 @@ import { useEffect, useCallback } from "react";
 import { Form } from "components/Form";
 import { getDateTimeInputDefaultValue } from "utils/getDateTimeInputDefaultValue";
 import { useTranslations } from "next-intl";
+import { getTranslatedErrorMessage } from "utils/getTranslatedErrorMessage";
 
 const formValidations = {
-  startDate: { required: "is required" },
-  endDate: { required: "is required" },
-  categories: { required: "is required" },
+  startDate: { required: "fields.startDate.validations.required" },
+  endDate: { required: "fields.endDate.validations.required" },
 };
 
 export type TransactionsFilters = {
@@ -47,7 +47,7 @@ export function FiltersModal({
   onFiltersChange,
   ...rest
 }: FiltersModalProps) {
-  const t = useTranslations("transactions");
+  const t = useTranslations("transactions.filters");
 
   const getDefaultValues = useCallback(() => {
     const startDateInputValue = getDateTimeInputDefaultValue(
@@ -103,19 +103,19 @@ export function FiltersModal({
           >
             <Flex alignItems="center">
               <IconButton
-                aria-label={t("filters.close")}
+                aria-label={t("close")}
                 icon={<Icon as={HiXMark} />}
                 size="sm"
                 mr="4"
                 onClick={() => onClose()}
               />
               <Text fontSize="md" fontWeight="bold" mr="4">
-                {t("filters.title")}
+                {t("title")}
               </Text>
             </Flex>
 
             <Button size="sm" colorScheme="brand" onClick={onSubmit}>
-              {t("filters.submit")}
+              {t("submit")}
             </Button>
           </Flex>
 
@@ -123,8 +123,11 @@ export function FiltersModal({
             <Form.Grid>
               <Form.Item colSpan={{ base: 12, md: 6 }}>
                 <Form.Field
-                  label={t("filters.startDate")}
-                  errorMessage={errors["startDate"]?.message?.toString()}
+                  label={t("fields.startDate.label")}
+                  errorMessage={getTranslatedErrorMessage(
+                    t,
+                    errors["startDate"]?.message?.toString()
+                  )}
                 >
                   <Input
                     type="datetime-local"
@@ -134,8 +137,11 @@ export function FiltersModal({
               </Form.Item>
               <Form.Item colSpan={{ base: 12, md: 6 }}>
                 <Form.Field
-                  label={t("filters.endDate")}
-                  errorMessage={errors["endDate"]?.message?.toString()}
+                  label={t("fields.endDate.label")}
+                  errorMessage={getTranslatedErrorMessage(
+                    t,
+                    errors["endDate"]?.message?.toString()
+                  )}
                 >
                   <Input
                     type="datetime-local"

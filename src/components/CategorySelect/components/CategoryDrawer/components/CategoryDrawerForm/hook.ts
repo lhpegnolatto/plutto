@@ -24,8 +24,8 @@ export const formDefaultValues = {
 };
 
 export const formValidations = {
-  title: { required: "is required" },
-  color: { required: "is required" },
+  title: { required: "fields.title.validations.required" },
+  color: { required: "fields.color.validations.required" },
 };
 
 export function useCategoryDrawerForm({

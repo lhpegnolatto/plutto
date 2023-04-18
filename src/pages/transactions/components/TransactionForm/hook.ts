@@ -51,21 +51,22 @@ export function useTransactionForm({
   const [recurrence, purpose] = watch(["recurrence", "purpose"]);
 
   const formValidations = {
-    description: { required: "is required" },
-    transactedAt: { required: "is required" },
-    purpose: { required: "is required" },
-    category: { required: "is required" },
+    description: { required: "description.validations.required" },
+    transactedAt: { required: "transactedAt.validations.required" },
+    purpose: { required: "purpose.validations.required" },
+    category: { required: "category.validations.required" },
     paymentMethod: {
       validate: {
         required: (value: string) => {
-          if (!value && purpose === "expense") return "is required";
+          if (!value && purpose === "expense")
+            return "paymentMethod.validations.required";
           return true;
         },
       },
     },
-    recurrence: { required: "is required" },
+    recurrence: { required: "recurrence.validations.required" },
     amount: {
-      required: "is required",
+      required: "amount.validations.required",
     },
     frequency: {
       validate: {
@@ -75,7 +76,7 @@ export function useTransactionForm({
             (recurrence === "installment_based" ||
               recurrence === "fixed_periodic")
           )
-            return "is required";
+            return "frequency.validations.required";
           return true;
         },
       },
@@ -84,7 +85,7 @@ export function useTransactionForm({
       validate: {
         required: (value: string) => {
           if (!value && recurrence === "installment_based")
-            return "is required";
+            return "installments.validations.required";
           return true;
         },
         min: (value: string) => {
@@ -94,7 +95,7 @@ export function useTransactionForm({
             (isNaN(numericValue) || numericValue < 2) &&
             recurrence === "installment_based"
           )
-            return "is invalid";
+            return "installments.validations.invalid";
           return true;
         },
       },

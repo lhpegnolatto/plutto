@@ -76,9 +76,21 @@
     "filters": {
       "title": "Filtre suas transações",
       "submit": "Aplicar filtros",
-      "startDate": "A partir de",
-      "endDate": "Até",
-      "close": "Fechar filtros"
+      "close": "Fechar filtros",
+      "fields": {
+        "startDate": {
+          "label": "A partir de",
+          "validations": {
+            "required": "é obrigatório"
+          }
+        },
+        "endDate": {
+          "label": "Até",
+          "validations": {
+            "required": "é obrigatório"
+          }
+        }
+      }
     },
     "items": {
       "recurrence": {
@@ -100,26 +112,41 @@
   "transactionForm": {
     "description": {
       "label": "Descrição",
-      "placeholder": "Digite sua descrição aqui"
+      "placeholder": "Digite sua descrição aqui",
+      "validations": {
+        "required": "é obrigatório"
+      }
     },
     "transactedAt": {
       "label": "Data da transação",
-      "helperMessage": "considere a data da primeira parcela"
+      "helperMessage": "considere a data da primeira parcela",
+      "validations": {
+        "required": "é obrigatória"
+      }
     },
     "purpose": {
       "label": "Finalidade",
       "options": {
         "expense": "Despesa",
         "revenue": "Receita"
+      },
+      "validations": {
+        "required": "é obrigatória"
       }
     },
     "category": {
       "label": "Categoria",
-      "placeholder": "Selecione uma categoria aqui"
+      "placeholder": "Selecione uma categoria aqui",
+      "validations": {
+        "required": "é obrigatória"
+      }
     },
     "paymentMethod": {
       "label": "Forma de pagamento",
-      "placeholder": "Selecione uma forma de pagamento aqui"
+      "placeholder": "Selecione uma forma de pagamento aqui",
+      "validations": {
+        "required": "é obrigatória"
+      }
     },
     "recurrence": {
       "label": "Recorrência",
@@ -127,11 +154,17 @@
         "unique": "Única",
         "fixedPeriodic": "Fixada periodicamente",
         "installmentsBased": "Parcelado"
+      },
+      "validations": {
+        "required": "é obrigatória"
       }
     },
     "amount": {
       "label": "Valor",
-      "helperMessage": "por parcela"
+      "helperMessage": "por parcela",
+      "validations": {
+        "required": "é obrigatório"
+      }
     },
     "frequency": {
       "label": "Frequência",
@@ -140,11 +173,18 @@
         "daily": "Diariamente",
         "weekly": "Semanalmente",
         "yearly": "Anualmente"
+      },
+      "validations": {
+        "required": "é obrigatória"
       }
     },
     "installments": {
       "label": "Parcelas",
-      "helperMessage": "no mínimo 2"
+      "helperMessage": "no mínimo 2",
+      "validations": {
+        "required": "são obrigatórias",
+        "invalid": "estão inválidas"
+      }
     },
     "cancel": "Cancelar"
   },
@@ -190,11 +230,17 @@
     "fields": {
       "title": {
         "label": "Nome",
-        "placeholder": "Digite o nome da sua categoria aqui"
+        "placeholder": "Digite o nome da sua categoria aqui",
+        "validations": {
+          "required": "é obrigatório"
+        }
       },
       "color": {
         "label": "Cor",
-        "placeholder": "Selecione a cor da sua categoria aqui"
+        "placeholder": "Selecione a cor da sua categoria aqui",
+        "validations": {
+          "required": "é obrigatória"
+        }
       }
     }
   },
@@ -235,11 +281,17 @@
     "fields": {
       "title": {
         "label": "Nome",
-        "placeholder": "Digite o nome da sua forma de pagamento aqui"
+        "placeholder": "Digite o nome da sua forma de pagamento aqui",
+        "validations": {
+          "required": "é obrigatório"
+        }
       },
       "color": {
         "label": "Cor",
-        "placeholder": "Selecione a cor da sua forma de pagamento aqui"
+        "placeholder": "Selecione a cor da sua forma de pagamento aqui",
+        "validations": {
+          "required": "é obrigatória"
+        }
       }
     }
   },

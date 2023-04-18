@@ -15,6 +15,7 @@ import {
 } from "./data";
 import { PaymentMethodSelect } from "components/PaymentMethodSelect";
 import { useTranslations } from "next-intl";
+import { getTranslatedErrorMessage } from "utils/getTranslatedErrorMessage";
 
 interface TransactionFormProps {
   submitButtonText: string;
@@ -52,7 +53,10 @@ export function TransactionForm({
         <Form.Item colSpan={{ base: 12, lg: 6 }}>
           <Form.Field
             label={t("description.label")}
-            errorMessage={errors["description"]?.message?.toString()}
+            errorMessage={getTranslatedErrorMessage(
+              t,
+              errors["description"]?.message?.toString()
+            )}
           >
             <Input
               placeholder={t("description.placeholder")}
@@ -64,7 +68,10 @@ export function TransactionForm({
         <Form.Item colSpan={{ base: 12, md: 6 }}>
           <Form.Field
             label={t("transactedAt.label")}
-            errorMessage={errors["transactedAt"]?.message?.toString()}
+            errorMessage={getTranslatedErrorMessage(
+              t,
+              errors["transactedAt"]?.message?.toString()
+            )}
             helperMessage={
               recurrence === "installment_based"
                 ? t("transactedAt.helperMessage")
@@ -80,7 +87,10 @@ export function TransactionForm({
         <Form.Item colSpan={{ base: 12, md: 6, lg: 4 }}>
           <Form.Field
             label={t("purpose.label")}
-            errorMessage={errors["purpose"]?.message?.toString()}
+            errorMessage={getTranslatedErrorMessage(
+              t,
+              errors["purpose"]?.message?.toString()
+            )}
           >
             <Select
               name="purpose"
@@ -95,7 +105,10 @@ export function TransactionForm({
         <Form.Item colSpan={{ base: 12, md: 6, lg: 4 }}>
           <Form.Field
             label={t("category.label")}
-            errorMessage={errors["category"]?.message?.toString()}
+            errorMessage={getTranslatedErrorMessage(
+              t,
+              errors["category"]?.message?.toString()
+            )}
           >
             <CategorySelect
               name="category"
@@ -110,7 +123,10 @@ export function TransactionForm({
         <Form.Item colSpan={{ base: 12, md: 6, lg: 4 }}>
           <Form.Field
             label={t("paymentMethod.label")}
-            errorMessage={errors["paymentMethod"]?.message?.toString()}
+            errorMessage={getTranslatedErrorMessage(
+              t,
+              errors["paymentMethod"]?.message?.toString()
+            )}
             isDisabled={purpose === "revenue"}
           >
             <PaymentMethodSelect
@@ -132,7 +148,10 @@ export function TransactionForm({
         >
           <Form.Field
             label={t("recurrence.label")}
-            errorMessage={errors["recurrence"]?.message?.toString()}
+            errorMessage={getTranslatedErrorMessage(
+              t,
+              errors["recurrence"]?.message?.toString()
+            )}
           >
             <Select
               name="recurrence"
@@ -153,7 +172,10 @@ export function TransactionForm({
           >
             <Form.Field
               label={t("frequency.label")}
-              errorMessage={errors["frequency"]?.message?.toString()}
+              errorMessage={getTranslatedErrorMessage(
+                t,
+                errors["frequency"]?.message?.toString()
+              )}
             >
               <Select
                 name="frequency"
@@ -168,7 +190,10 @@ export function TransactionForm({
           <Form.Item colSpan={{ base: 12, md: 3 }}>
             <Form.Field
               label={t("installments.label")}
-              errorMessage={errors["installments"]?.message?.toString()}
+              errorMessage={getTranslatedErrorMessage(
+                t,
+                errors["installments"]?.message?.toString()
+              )}
               helperMessage={t("installments.helperMessage")}
             >
               <Input
@@ -185,7 +210,10 @@ export function TransactionForm({
         >
           <Form.Field
             label={t("amount.label")}
-            errorMessage={errors["amount"]?.message?.toString()}
+            errorMessage={getTranslatedErrorMessage(
+              t,
+              errors["amount"]?.message?.toString()
+            )}
             helperMessage={
               recurrence === "installment_based"
                 ? t("amount.helperMessage")

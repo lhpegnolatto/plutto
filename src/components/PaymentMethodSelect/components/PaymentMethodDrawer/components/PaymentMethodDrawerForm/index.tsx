@@ -15,6 +15,7 @@ import { FormData, formValidations, usePaymentMethodDrawerForm } from "./hook";
 import { Form } from "components/Form";
 import { Select, tagSelectComponents } from "components/Select";
 import { useTranslations } from "next-intl";
+import { getTranslatedErrorMessage } from "utils/getTranslatedErrorMessage";
 
 interface PaymentMethodDrawerProps {
   onClose: (createdPaymentMethodId?: string) => void;
@@ -61,7 +62,10 @@ export function PaymentMethodDrawerForm({
         <Form.Field
           label={t("fields.title.label")}
           size="sm"
-          errorMessage={errors["title"]?.message?.toString()}
+          errorMessage={getTranslatedErrorMessage(
+            t,
+            errors["title"]?.message?.toString()
+          )}
         >
           <Input
             ref={titleInputMergedRefs}
@@ -75,7 +79,10 @@ export function PaymentMethodDrawerForm({
           label={t("fields.color.label")}
           mt="6"
           size="sm"
-          errorMessage={errors["color"]?.message?.toString()}
+          errorMessage={getTranslatedErrorMessage(
+            t,
+            errors["color"]?.message?.toString()
+          )}
         >
           <Select
             name="color"
