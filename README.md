@@ -9,11 +9,9 @@
   <p align="center">
     A simple personal finance helper for organizing and planning expenses.
     <br />
-    <a href="#"><strong>Explore the docs »</strong></a>
+    <a href="https://plutto.com.br"><strong>Explore the app »</strong></a>
     <br />
     <br />
-    <a href="https://plutto.com.br">Use Plutto</a>
-    ·
     <a href="https://github.com/lhpegnolatto/plutto/issues">Report Bug</a>
     ·
     <a href="https://github.com/lhpegnolatto/plutto/issues">Request Feature</a>
