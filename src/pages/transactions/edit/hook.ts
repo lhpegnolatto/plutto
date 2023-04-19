@@ -9,6 +9,7 @@ import { useQuery, useQueryClient } from "react-query";
 import { getTransaction } from "services/transactions/get";
 import { useAppLoaderContext } from "contexts/AppLoaderContext";
 import { queryKeys } from "constants/queryKeys";
+import { putTransaction } from "services/transactions/put";
 
 export function useNewTransaction() {
   const router = useRouter();
@@ -57,20 +58,19 @@ export function useNewTransaction() {
       if (transactionId && typeof transactionId === "string") {
         setIsSubmitting(true);
 
-        await supabaseClient
-          .from("transactions")
-          .update({
-            description,
-            transacted_at: new Date(transactedAt).toISOString(),
-            purpose,
-            category_id: category,
-            payment_method_id: paymentMethod,
-            recurrence,
-            amount: parseFloat(amount),
-            frequency,
-            installments: installments ? parseInt(installments) : null,
-          })
-          .eq("id", transactionId);
+        const payload = {
+          description,
+          transacted_at: new Date(transactedAt).toISOString(),
+          purpose,
+          category_id: category,
+          payment_method_id: paymentMethod,
+          recurrence,
+          amount: parseFloat(amount),
+          frequency,
+          installments: installments ? parseInt(installments) : null,
+        };
+
+        await putTransaction(supabaseClient, { payload, transactionId });
 
         queryClient.invalidateQueries(queryKeys.TRANSACTIONS);
         queryClient.invalidateQueries(queryKeys.PURPOSES_SUMMARY);

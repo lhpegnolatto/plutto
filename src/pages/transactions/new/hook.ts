@@ -8,6 +8,7 @@ import { getDateTimeInputDefaultValue } from "utils/getDateTimeInputDefaultValue
 import { TransactionFormData } from "../components/TransactionForm/hook";
 import { queryKeys } from "constants/queryKeys";
 import { useQueryClient } from "react-query";
+import { postTransaction } from "services/transactions/post";
 
 type Purpose = "expense" | "revenue";
 
@@ -49,7 +50,7 @@ export function useNewTransaction() {
     }: TransactionFormData) => {
       setIsSubmitting(true);
 
-      await supabaseClient.from("transactions").insert({
+      const payload = {
         description,
         transacted_at: new Date(transactedAt).toISOString(),
         purpose,
@@ -59,7 +60,9 @@ export function useNewTransaction() {
         amount: parseFloat(amount),
         frequency,
         installments: installments ? parseInt(installments) : null,
-      });
+      };
+
+      await postTransaction(supabaseClient, { payload });
 
       queryClient.invalidateQueries(queryKeys.TRANSACTIONS);
       queryClient.invalidateQueries(queryKeys.PURPOSES_SUMMARY);

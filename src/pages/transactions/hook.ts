@@ -10,6 +10,7 @@ import { queryKeys } from "constants/queryKeys";
 import { useDisclosure } from "@chakra-ui/react";
 import { TransactionsFilters } from "./components/FiltersModal";
 import { useFormatter, useTranslations } from "next-intl";
+import { deleteTransaction } from "services/transactions/delete";
 
 export type TransactionItem = {
   id: string;
@@ -73,12 +74,8 @@ export function useTransactions() {
   const supabaseClient = useSupabaseClient<Database>();
 
   const { mutateAsync: onDelete, isLoading: isDeleting } = useMutation(
-    async (transactionId: string) => {
-      await supabaseClient
-        .from("transactions")
-        .delete()
-        .match({ id: transactionId });
-    },
+    async (transactionId: string) =>
+      await deleteTransaction(supabaseClient, { transactionId }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(queryKeys.TRANSACTIONS);
