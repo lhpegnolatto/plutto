@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 import { useAppLoaderContext } from "contexts/AppLoaderContext";
 import { routes } from "constants/routes";
+import { getAuthSession } from "services/auth/getSession";
+import { SignInProvider, signIn } from "services/auth/signIn";
 
 export function useSignIn() {
   const router = useRouter();
@@ -12,23 +14,11 @@ export function useSignIn() {
   const { isAppLoading, setIsAppLoading } = useAppLoaderContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleSignIn(provider: "github" | "google" | "facebook") {
+  async function handleSignIn(provider: SignInProvider) {
     setIsAppLoading(true);
     setIsSubmitting(true);
 
-    const hasEnglishLocalePath = router.locale === "en";
-    const localePathPrefix = hasEnglishLocalePath ? "/en" : "";
-
-    await supabaseClient.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${
-          process.env.NEXT_PUBLIC_SITE_URL ??
-          process.env.NEXT_PUBLIC_VERCEL_URL ??
-          "http://localhost:3000"
-        }${localePathPrefix}`,
-      },
-    });
+    await signIn(supabaseClient, { provider, locale: router.locale || "" });
   }
 
   useEffect(() => {
@@ -36,9 +26,7 @@ export function useSignIn() {
       setIsSubmitting(false);
       setIsAppLoading(true);
 
-      const {
-        data: { session },
-      } = await supabaseClient.auth.getSession();
+      const session = await getAuthSession(supabaseClient);
 
       setIsAppLoading(false);
 

@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import { useAppLoaderContext } from "contexts/AppLoaderContext";
 import { routes } from "constants/routes";
 import { useTranslations } from "next-intl";
+import { signOut } from "services/auth/signOut";
 
 export function HeaderUserMenu() {
   const router = useRouter();
@@ -29,10 +30,10 @@ export function HeaderUserMenu() {
 
   const { setIsAppLoading } = useAppLoaderContext();
 
-  async function signOut() {
+  async function handleSignOut() {
     setIsAppLoading(true);
 
-    await supabaseClient.auth.signOut();
+    signOut(supabaseClient);
 
     router.push(routes.SIGN_IN);
   }
@@ -97,7 +98,10 @@ export function HeaderUserMenu() {
         >
           {t("toggleTheme")}
         </MenuItem>
-        <MenuItem icon={<Icon as={FiLogOut} boxSize="4" />} onClick={signOut}>
+        <MenuItem
+          icon={<Icon as={FiLogOut} boxSize="4" />}
+          onClick={handleSignOut}
+        >
           {t("signOut")}
         </MenuItem>
       </MenuList>

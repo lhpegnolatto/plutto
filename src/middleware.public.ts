@@ -2,6 +2,7 @@ import { createMiddlewareSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { routes } from "constants/routes";
+import { getAuthSession } from "services/auth/getSession";
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
@@ -20,9 +21,7 @@ export async function middleware(req: NextRequest) {
 
   const supabaseClient = createMiddlewareSupabaseClient({ req, res });
 
-  const {
-    data: { session },
-  } = await supabaseClient.auth.getSession();
+  const session = await getAuthSession(supabaseClient);
 
   if (session) {
     if (req.nextUrl.pathname === "/") {
