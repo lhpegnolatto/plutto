@@ -4,6 +4,8 @@ import { queryKeys } from "constants/queryKeys";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
+import { postPaymentMethod } from "services/paymentMethods/post";
+import { putPaymentMethod } from "services/paymentMethods/put";
 
 import { Database } from "types/supabase.types";
 
@@ -51,25 +53,30 @@ export function usePaymentMethodDrawerForm({
   const supabaseClient = useSupabaseClient<Database>();
   const queryClient = useQueryClient();
 
+  async function onPostSubmit({ title, color }: FormData) {
+    const data = await postPaymentMethod(supabaseClient, {
+      payload: { title, color },
+    });
+
+    onClose(data?.id);
+  }
+
+  async function onPutSubmit({ title, color }: FormData) {
+    if (!paymentMethodId) {
+      return;
+    }
+
+    await putPaymentMethod(supabaseClient, {
+      payload: { title, color },
+      paymentMethodId,
+    });
+
+    onClose();
+  }
+
   const { mutateAsync: onSubmit, isLoading: isSubmitting } = useMutation(
-    async ({ title, color }: FormData) => {
-      if (paymentMethodId) {
-        await supabaseClient
-          .from("payment_methods")
-          .update({ title, color })
-          .eq("id", paymentMethodId);
-
-        onClose();
-      } else {
-        const { data } = await supabaseClient
-          .from("payment_methods")
-          .insert({ title, color })
-          .select("id, title, color")
-          .maybeSingle();
-
-        onClose(data?.id);
-      }
-    },
+    async (data: FormData) =>
+      paymentMethodId ? onPutSubmit(data) : onPostSubmit(data),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(queryKeys.PAYMENT_METHODS);

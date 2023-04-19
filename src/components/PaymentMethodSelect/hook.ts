@@ -9,6 +9,7 @@ import { Option } from "components/CreatableSelect";
 
 import { Database } from "types/supabase.types";
 import { queryKeys } from "constants/queryKeys";
+import { getAllPaymentMethods } from "services/paymentMethods/getAll";
 
 interface UsePaymentMethodSelectProps {
   setValue: UseFormSetValue<any>;
@@ -61,13 +62,7 @@ export function usePaymentMethodSelect({
   const { isLoading: isPaymentMethodsLoading, data: paymentMethods = [] } =
     useQuery(
       queryKeys.PAYMENT_METHODS,
-      async () => {
-        const { data } = await supabaseClient
-          .from("payment_methods")
-          .select("id, title, color");
-
-        return data || [];
-      },
+      async () => await getAllPaymentMethods(supabaseClient),
       {
         staleTime: 1000 * 60, // 1 minute
       }

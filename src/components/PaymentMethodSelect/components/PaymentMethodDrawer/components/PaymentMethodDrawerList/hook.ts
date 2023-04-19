@@ -1,6 +1,7 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { queryKeys } from "constants/queryKeys";
 import { useMutation, useQueryClient } from "react-query";
+import { deletePaymentMethod } from "services/paymentMethods/delete";
 
 import { Database } from "types/supabase.types";
 
@@ -16,10 +17,7 @@ export function usePaymentMethodDrawerList({
 
   const { mutateAsync: onDelete, isLoading: isDeleting } = useMutation(
     async (paymentMethodId: string) => {
-      await supabaseClient
-        .from("payment_methods")
-        .delete()
-        .match({ id: paymentMethodId });
+      await deletePaymentMethod(supabaseClient, { paymentMethodId });
 
       onDeletePaymentMethod(paymentMethodId);
     },
