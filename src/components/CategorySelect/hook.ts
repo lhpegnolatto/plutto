@@ -9,6 +9,7 @@ import { Option } from "components/CreatableSelect";
 
 import { Database } from "types/supabase.types";
 import { queryKeys } from "constants/queryKeys";
+import { getAllCategories } from "services/categories/getAll";
 
 interface UseCategorySelectProps {
   setValue: UseFormSetValue<any>;
@@ -60,13 +61,7 @@ export function useCategorySelect({
 
   const { isLoading: isCategoriesLoading, data: categories = [] } = useQuery(
     queryKeys.CATEGORIES,
-    async () => {
-      const { data } = await supabaseClient
-        .from("categories")
-        .select("id, title, color");
-
-      return data || [];
-    },
+    async () => await getAllCategories(supabaseClient),
     {
       staleTime: 1000 * 60, // 1 minute
     }

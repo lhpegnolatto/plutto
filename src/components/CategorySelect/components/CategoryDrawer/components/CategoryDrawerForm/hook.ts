@@ -4,6 +4,8 @@ import { queryKeys } from "constants/queryKeys";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
+import { postCategory } from "services/categories/post";
+import { putCategory } from "services/categories/put";
 
 import { Database } from "types/supabase.types";
 
@@ -51,25 +53,30 @@ export function useCategoryDrawerForm({
   const supabaseClient = useSupabaseClient<Database>();
   const queryClient = useQueryClient();
 
+  async function onPostSubmit({ title, color }: FormData) {
+    const data = await postCategory(supabaseClient, {
+      payload: { title, color },
+    });
+
+    onClose(data?.id);
+  }
+
+  async function onPutSubmit({ title, color }: FormData) {
+    if (!categoryId) {
+      return;
+    }
+
+    await putCategory(supabaseClient, {
+      payload: { title, color },
+      categoryId,
+    });
+
+    onClose();
+  }
+
   const { mutateAsync: onSubmit, isLoading: isSubmitting } = useMutation(
-    async ({ title, color }: FormData) => {
-      if (categoryId) {
-        await supabaseClient
-          .from("categories")
-          .update({ title, color })
-          .eq("id", categoryId);
-
-        onClose();
-      } else {
-        const { data } = await supabaseClient
-          .from("categories")
-          .insert({ title, color })
-          .select("id, title, color")
-          .maybeSingle();
-
-        onClose(data?.id);
-      }
-    },
+    async (data: FormData) =>
+      categoryId ? onPutSubmit(data) : onPostSubmit(data),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(queryKeys.CATEGORIES);

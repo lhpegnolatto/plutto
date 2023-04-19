@@ -1,6 +1,7 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { queryKeys } from "constants/queryKeys";
 import { useMutation, useQueryClient } from "react-query";
+import { deleteCategory } from "services/categories/delete";
 
 import { Database } from "types/supabase.types";
 
@@ -16,10 +17,7 @@ export function useCategoryDrawerList({
 
   const { mutateAsync: onDelete, isLoading: isDeleting } = useMutation(
     async (categoryId: string) => {
-      await supabaseClient
-        .from("categories")
-        .delete()
-        .match({ id: categoryId });
+      deleteCategory(supabaseClient, { categoryId });
 
       onDeleteCategory(categoryId);
     },
