@@ -6,7 +6,8 @@ export async function getAllCategories(
 ) {
   const { data } = await supabaseClient
     .from("categories")
-    .select("id, title, color");
+    .select("id, title, color")
+    .limit(100);
 
   return data || [];
 }

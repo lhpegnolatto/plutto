@@ -25,7 +25,7 @@ import { FiFilter } from "react-icons/fi";
 import { NextPageWithLayout } from "pages/_app.public";
 
 import { addRouteParam, routes } from "constants/routes";
-import { useTransactions } from "./hook";
+import { REGISTERS_PER_PAGE, useTransactions } from "./hook";
 import {
   HiArrowTrendingDown,
   HiArrowTrendingUp,
@@ -37,6 +37,7 @@ import { FiltersModal } from "./components/FiltersModal";
 import { Fragment } from "react";
 import { getStaticMessageProps } from "utils/getStaticMessagesProps";
 import { useFormatter, useTranslations } from "next-intl";
+import { Pagination } from "components/Pagination";
 
 const Transactions: NextPageWithLayout = () => {
   const {
@@ -54,6 +55,9 @@ const Transactions: NextPageWithLayout = () => {
     currentFilters,
     onFiltersChange,
     getTransactionMonth,
+    currentPage,
+    onPageChange,
+    totalCountOfRegisters,
   } = useTransactions();
 
   const actionButtonsSize = useBreakpointValue({ base: "sm", md: "xs" });
@@ -340,6 +344,13 @@ const Transactions: NextPageWithLayout = () => {
           </>
         )}
       </Flex>
+
+      <Pagination
+        currentPage={currentPage}
+        totalCountOfRegisters={totalCountOfRegisters}
+        onPageChange={onPageChange}
+        registersPerPage={REGISTERS_PER_PAGE}
+      />
     </Box>
   );
 };

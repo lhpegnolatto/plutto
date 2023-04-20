@@ -11,6 +11,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import { TransactionsFilters } from "./components/FiltersModal";
 import { useFormatter, useTranslations } from "next-intl";
 import { deleteTransaction } from "services/transactions/delete";
+import { usePagination } from "hooks/usePagination";
 
 export type TransactionItem = {
   id: string;
@@ -28,11 +29,18 @@ export type TransactionItem = {
   occurred_at?: string;
 };
 
+type TransactionsResponse = {
+  items: TransactionItem[];
+  count: number;
+};
+
 type PurposesSummary = {
   expensesAmount: number;
   revenuesAmount: number;
   savedMoneyAmount: number;
 };
+
+export const REGISTERS_PER_PAGE = 50;
 
 export function useTransactions() {
   const format = useFormatter();
@@ -63,8 +71,6 @@ export function useTransactions() {
         59
       );
 
-      console.log({ startDate, endDate });
-
       return { startDate, endDate };
     })()
   );
@@ -84,6 +90,10 @@ export function useTransactions() {
     }
   );
 
+  const { currentPage, onPageChange, indexesRange } = usePagination({
+    registersPerPage: REGISTERS_PER_PAGE,
+  });
+
   function getFiltersQueryKey() {
     const startDateAsString = currentFilters.current.startDate.toISOString();
     const endDateAsString = currentFilters.current.endDate.toISOString();
@@ -91,18 +101,25 @@ export function useTransactions() {
     return `${startDateAsString}-${endDateAsString}`;
   }
 
-  const { data: transactions = [], isLoading: isTransactionsLoading } =
-    useQuery<TransactionItem[]>(
-      [queryKeys.TRANSACTIONS, getFiltersQueryKey()],
-      async () =>
-        await getAllTransactions(supabaseClient, {
-          startDate: currentFilters.current.startDate.toISOString(),
-          endDate: currentFilters.current.endDate.toISOString(),
-        }),
-      {
-        staleTime: 1000 * 60, // 1 minute
-      }
-    );
+  const {
+    data: { items: transactions, count: totalCountOfRegisters } = {
+      items: [],
+      count: 0,
+    },
+    isLoading: isTransactionsLoading,
+  } = useQuery<TransactionsResponse>(
+    [queryKeys.TRANSACTIONS, getFiltersQueryKey(), currentPage],
+    async () =>
+      await getAllTransactions(supabaseClient, {
+        startDate: currentFilters.current.startDate.toISOString(),
+        endDate: currentFilters.current.endDate.toISOString(),
+        from: indexesRange.from,
+        to: indexesRange.to,
+      }),
+    {
+      staleTime: 1000 * 60, // 1 minute
+    }
+  );
 
   const onFiltersChange = useCallback(
     (newFilters: TransactionsFilters) => {
@@ -199,5 +216,8 @@ export function useTransactions() {
     currentFilters,
     onFiltersChange,
     getTransactionMonth,
+    currentPage,
+    onPageChange,
+    totalCountOfRegisters,
   };
 }

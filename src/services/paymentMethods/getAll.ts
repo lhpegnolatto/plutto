@@ -6,7 +6,8 @@ export async function getAllPaymentMethods(
 ) {
   const { data } = await supabaseClient
     .from("payment_methods")
-    .select("id, title, color");
+    .select("id, title, color")
+    .limit(100);
 
   return data || [];
 }

@@ -4,24 +4,28 @@ import { Database } from "types/supabase.types";
 type GetAllTransactionsOptions = {
   startDate: string;
   endDate: string;
+  from: number;
+  to: number;
 };
 
 export async function getAllTransactions(
   supabaseClient: SupabaseClient<Database>,
   options: GetAllTransactionsOptions
 ) {
-  const { startDate, endDate } = options;
+  const { startDate, endDate, from, to } = options;
 
-  const { data } = await supabaseClient
-    .rpc("transactions_filters", {
-      start_date: startDate,
-      end_date: endDate,
-    })
-    .select(
-      "id, description, purpose, amount, ended_at, category_title, category_color, payment_method_title, payment_method_color, recurrence, installment_label, frequency, occurred_at"
+  const { data, count } = await supabaseClient
+    .rpc(
+      "transactions_filters",
+      {
+        start_date: startDate,
+        end_date: endDate,
+      },
+      { count: "exact" }
     )
+    .select("*")
     .order("occurred_at", { ascending: false })
-    .limit(50);
+    .range(from, to);
 
   if (data) {
     const transactions = data.map((transaction) => ({
@@ -29,8 +33,8 @@ export async function getAllTransactions(
       occurred_at: transaction.occurred_at,
     }));
 
-    return transactions;
+    return { items: transactions, count: count || 0 };
   }
 
-  return [];
+  return { items: [], count: 0 };
 }
